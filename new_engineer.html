@@ -109,108 +109,63 @@
         <!-- Page Content  -->
         <div id="content" class="mt-5">
 
-            <h4>New Ticket Template</h4>
+            <h4>New Engineer</h4>
             <hr>
-            <h5>Ticket Information</h5>
+            <h5>New Engineer Information</h5>
 
         	<form class="mt-4">
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="ticket_assigned_to">Ticket Assigned To</label>
-                  <select id="inputState" class="form-control">
-                    <option selected>-None-</option>
-                    <option>...</option>
-                  </select>
+                  <label for="firstname">First Name</label>
+                  <input type="text" class="form-control" placeholder="First Name">
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="ticket_status">Ticket Status</label>
-                  <select id="inputState" class="form-control">
-                    <option selected>-None-</option>
-                    <option>...</option>
-                  </select>
+                  <label for="lastname">Last Name</label>
+                    <input type="text" class="form-control" placeholder="Last Name">
                 </div>
               </div>
               <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <label for="client_name">Client Name</label>
-                    <select id="inputState" class="form-control">
-                      <option selected>-None-</option>
-                      <option>...</option>
-                    </select>
+                <div class="form-group col-md-6">
+                  <label for="email">Email Address</label>
+                  <input type="email" class="form-control" placeholder="Email Address">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="address">Physical Address</label>
+                    <input type="email" class="form-control" placeholder="Physical Address">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="phoneNumber">Phone Number</label>
+                    <input type="text" class="form-control" placeholder="Phone Number">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="expertise">Engineers Expertise</label>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                        <label class="custom-control-label" for="customCheck1">ATM</label>
+                      </div>
+                    </div>
+                    <div class="col-md-4">  
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck2">
+                        <label class="custom-control-label" for="customCheck2">AIRPORT</label>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck3">
+                        <label class="custom-control-label" for="customCheck3">TELECOM SITE</label>
+                      </div>
+                    </div>
                   </div>
-                  <div class="form-group col-md-6">
-                    <label for="ticket_id">Ticket Site ID</label>
-                    <select id="inputState" class="form-control">
-                      <option selected>-None-</option>
-                      <option>...</option>
-                    </select>
                   </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="inputCity">PO Number</label>
-                  <input type="text" class="form-control" placeholder="Site ID">
                 </div>
-                <div class="form-group col-md-6">
-                  <label for="inputZip">Work Order Type</label>
-                  <select id="inputState" class="form-control">
-                    <option selected>-None-</option>
-                    <option>...</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-12">
-                  <label for="reason">Reason for Tickets</label>
-                  <textarea class="form-control" cols="30" rows="2"></textarea>
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="inputCity">Planned Visit Date</label>
-                  <input type="date" class="form-control">
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="inputZip">Actual Visit Date</label>
-                  <input type="date" class="form-control">
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-12">
-                  <label for="reason">Ticket Root Cause</label>
-                  <textarea class="form-control" cols="30" rows="2"></textarea>
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-12">
-                  <label for="reason">Action taken</label>
-                  <textarea class="form-control" cols="30" rows="2"></textarea>
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-2">
-                  <label for="inputCity">Dispatch Time</label>
-                  <input type="time" class="form-control">
-                </div>
-                <div class="form-group col-md-2">
-                  <label for="inputZip">Arrival Time</label>
-                  <input type="time" class="form-control">
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="inputZip">Starting Time</label>
-                  <input type="time" class="form-control">
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="inputZip">Completion Time</label>
-                  <input type="time" class="form-control">
-                </div>
-                <div class="form-group col-md-2">
-                  <label for="inputZip">Return Time</label>
-                  <input type="time" class="form-control">
-                </div>
-              </div>
-              <div class="form-row mt-3">
-                   <div class="form-group col-md-3">
+                
+                <div class="form-row mt-4">
+                  <div class="form-group col-md-3">
                     <button type="submit" class="btn btn-success btn-block">Submit</button>
                   </div>
                   <div class="form-group col-md-3">
@@ -219,6 +174,8 @@
                   <div class="form-group col-md-3">
                     <button type="submit" class="btn btn-secondary btn-block">Cancel</button>
                   </div>
+                </div>
+
               </div>
             </form>
 

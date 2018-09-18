@@ -109,21 +109,18 @@
         <!-- Page Content  -->
         <div id="content" class="mt-5">
 
-            <h4>New Ticket Template</h4>
+            <h4>New Work Order</h4>
             <hr>
-            <h5>Ticket Information</h5>
+            <h5>New Work Order Information</h5>
 
         	<form class="mt-4">
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="ticket_assigned_to">Ticket Assigned To</label>
-                  <select id="inputState" class="form-control">
-                    <option selected>-None-</option>
-                    <option>...</option>
-                  </select>
+                  <label for="inputEmail4">Account Name</label>
+                  <input type="email" class="form-control" placeholder="Account Name">
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="ticket_status">Ticket Status</label>
+                  <label for="inputPassword4">Client</label>
                   <select id="inputState" class="form-control">
                     <option selected>-None-</option>
                     <option>...</option>
@@ -132,27 +129,21 @@
               </div>
               <div class="form-row">
                   <div class="form-group col-md-6">
-                    <label for="client_name">Client Name</label>
-                    <select id="inputState" class="form-control">
-                      <option selected>-None-</option>
-                      <option>...</option>
-                    </select>
+                    <label for="inputAddress">Unit ID</label>
+                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="ticket_id">Ticket Site ID</label>
-                    <select id="inputState" class="form-control">
-                      <option selected>-None-</option>
-                      <option>...</option>
-                    </select>
+                    <label for="inputAddress2">Product Name</label>
+                    <input type="text" class="form-control" id="inputAddress2" placeholder="Product Name">
                   </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="inputCity">PO Number</label>
+                  <label for="inputCity">Site ID</label>
                   <input type="text" class="form-control" placeholder="Site ID">
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="inputZip">Work Order Type</label>
+                  <label for="inputZip">Site Region</label>
                   <select id="inputState" class="form-control">
                     <option selected>-None-</option>
                     <option>...</option>
@@ -160,63 +151,26 @@
                 </div>
               </div>
               <div class="form-row">
-                <div class="form-group col-md-12">
-                  <label for="reason">Reason for Tickets</label>
-                  <textarea class="form-control" cols="30" rows="2"></textarea>
-                </div>
-              </div>
-              <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="inputCity">Planned Visit Date</label>
-                  <input type="date" class="form-control">
+                  <label for="inputCity">Categories</label>
+                  <select id="inputState" class="form-control">
+                    <option selected>-None-</option>
+                    <option>...</option>
+                  </select>
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="inputZip">Actual Visit Date</label>
-                  <input type="date" class="form-control">
+                  <label for="inputZip">Classification</label>
+                  <select id="inputState" class="form-control">
+                    <option selected>-None-</option>
+                    <option>...</option>
+                  </select>
                 </div>
               </div>
               <div class="form-row">
-                <div class="form-group col-md-12">
-                  <label for="reason">Ticket Root Cause</label>
-                  <textarea class="form-control" cols="30" rows="2"></textarea>
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-12">
-                  <label for="reason">Action taken</label>
-                  <textarea class="form-control" cols="30" rows="2"></textarea>
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-2">
-                  <label for="inputCity">Dispatch Time</label>
-                  <input type="time" class="form-control">
-                </div>
-                <div class="form-group col-md-2">
-                  <label for="inputZip">Arrival Time</label>
-                  <input type="time" class="form-control">
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="inputZip">Starting Time</label>
-                  <input type="time" class="form-control">
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="inputZip">Completion Time</label>
-                  <input type="time" class="form-control">
-                </div>
-                <div class="form-group col-md-2">
-                  <label for="inputZip">Return Time</label>
-                  <input type="time" class="form-control">
-                </div>
-              </div>
-              <div class="form-row mt-3">
-                   <div class="form-group col-md-3">
-                    <button type="submit" class="btn btn-success btn-block">Submit</button>
+                  <div class="form-group col-md-2">
+                    <button type="submit" class="btn btn-info btn-block">Save</button>
                   </div>
-                  <div class="form-group col-md-3">
-                    <button type="submit" class="btn btn-info btn-block">Submit & Add New</button>
-                  </div>
-                  <div class="form-group col-md-3">
+                  <div class="form-group col-md-2">
                     <button type="submit" class="btn btn-secondary btn-block">Cancel</button>
                   </div>
               </div>
