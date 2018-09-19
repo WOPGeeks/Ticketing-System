@@ -20,7 +20,7 @@
         <div class="collapse navbar-collapse" id="navbarColor03">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">TICKETS <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ url_for('dashboard') }}">TICKETS <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">CUSTOMERS</a>
@@ -32,7 +32,7 @@
                     <a class="nav-link" href="#">REPORT</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">OPEN TICKETS</a>
+                    <a class="nav-link" href="{{ url_for('new_ticket') }}">OPEN TICKETS</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -85,7 +85,9 @@
                         <li>
                             <a href="{{ url_for('new_equipment') }}">Add New Equipment</a>
                         </li>
-
+                        <li>
+                            <a href="{{ url_for('new_workorder') }}">Add New Work Order</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="mt-2 mb-2">
@@ -121,51 +123,51 @@
             <h4>New Engineer</h4>
             <hr>
             <h5>New Engineer Information</h5>
-
-            <form class="mt-4">
+            {% include '_messages.html' %}
+            <form class="mt-4" action="/add_engineer" method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label class="text-info" for="firstname">First Name</label>
-                        <input type="text" class="form-control" placeholder="First Name">
+                        <input type="text" name="engineer_first_name" class="form-control" placeholder="First Name">
                     </div>
                     <div class="form-group col-md-6">
                         <label class="text-info" for="lastname">Last Name</label>
-                        <input type="text" class="form-control" placeholder="Last Name">
+                        <input type="text" name="engineer_last_name" class="form-control" placeholder="Last Name">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label class="text-info" for="email">Email Address</label>
-                        <input type="email" class="form-control" placeholder="Email Address">
+                        <input type="email" name="engineer_email" class="form-control" placeholder="Email Address">
                     </div>
                     <div class="form-group col-md-6">
                         <label class="text-info" for="address">Physical Address</label>
-                        <input type="email" class="form-control" placeholder="Physical Address">
+                        <input type="text" name="engineer_address" class="form-control" placeholder="Physical Address">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label class="text-info" for="phoneNumber">Phone Number</label>
-                        <input type="text" class="form-control" placeholder="Phone Number">
+                        <input type="text" name="engineer_phone" class="form-control" placeholder="Phone Number">
                     </div>
                     <div class="form-group col-md-6">
                         <label class="text-info" for="expertise">Engineers Expertise</label>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                    <input type="checkbox" name="engineer_field_ATM" class="custom-control-input" id="customCheck1">
                                     <label class="custom-control-label text-info" for="customCheck1">ATM</label>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                    <input type="checkbox" name="engineer_field_AIR" class="custom-control-input" id="customCheck2">
                                     <label class="custom-control-label text-info" for="customCheck2">AIRPORT</label>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                    <input type="checkbox" name="engineer_field_TEL" class="custom-control-input" id="customCheck3">
                                     <label class="custom-control-label text-info" for="customCheck3">TELECOM SITE</label>
                                 </div>
                             </div>

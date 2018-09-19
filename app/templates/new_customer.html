@@ -20,7 +20,7 @@
         <div class="collapse navbar-collapse" id="navbarColor03">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">TICKETS <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ url_for('dashboard') }}">TICKETS <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">CUSTOMERS</a>
@@ -32,7 +32,7 @@
                     <a class="nav-link" href="#">REPORT</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">OPEN TICKETS</a>
+                    <a class="nav-link" href="{{ url_for('new_ticket') }}">OPEN TICKETS</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -85,7 +85,9 @@
                         <li>
                             <a href="{{ url_for('new_equipment') }}">Add New Equipment</a>
                         </li>
-
+                        <li>
+                            <a href="{{ url_for('new_workorder') }}">Add New Work Order</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="mt-2 mb-2">
@@ -121,32 +123,32 @@
             <h4>New Customer</h4>
             <hr>
             <h5>New Customer Information</h5>
-
-            <form class="mt-4">
+            {% include '_messages.html'%}
+            <form class="mt-4" action="/add_client" method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label class="text-info" for="name">Customer Name</label>
-                        <input type="email" class="form-control" placeholder="Customer Name">
+                        <input name="customer_name" type="text" class="form-control" placeholder="Customer Name">
                     </div>
                     <div class="form-group col-md-6">
                         <label class="text-info" for="product">Customer Product</label>
-                        <input type="email" class="form-control" placeholder="Customer Product">
+                        <input name="customer_product" type="text" class="form-control" placeholder="Customer Product">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label class="text-info" for="address">Customer Address</label>
-                        <input type="text" class="form-control" id="inputAddress" placeholder="Customer Address">
+                        <input name="customer_address" type="text" class="form-control" id="inputAddress" placeholder="Customer Address">
                     </div>
                     <div class="form-group col-md-6">
                         <label class="text-info" for="phone">Customer Phone</label>
-                        <input type="text" class="form-control" id="inputAddress2" placeholder="Customer Phone">
+                        <input name="customer_phone" type="text" class="form-control" id="inputAddress2" placeholder="Customer Phone">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label class="text-info" for="address">Customer Email</label>
-                        <input type="email" class="form-control" placeholder="Customer Email Address">
+                        <input name="customer_email" type="email" class="form-control" placeholder="Customer Email Address">
                     </div>
                 </div>
                 <div class="form-row mt-4">
