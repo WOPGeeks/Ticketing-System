@@ -30,3 +30,12 @@ def login():
         flash('No User Found', 'danger')
         return render_template('index.html')
 
+@app.route('/new_ticket')
+def new_ticket():
+    return render_template('new_ticket.html')
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
+
