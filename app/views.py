@@ -38,4 +38,24 @@ def new_ticket():
 def dashboard():
     return render_template('dashboard.html')
 
+@app.route('/client')
+def new_customer():
+    return render_template('new_customer.html')
+
+@app.route('/user')
+def new_users():
+    return render_template('new_users.html')
+
+@app.route('/engineer')
+def new_engineer():
+    return render_template('new_engineer.html')
+
+@app.route('/equipment')
+def new_equipment():
+    return render_template('new_equipment.html')
+
+@app.route('/workorder')
+def new_workorder():
+    return render_template('new_workorder.html')
+
 

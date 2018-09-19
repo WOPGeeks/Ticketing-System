@@ -58,20 +58,41 @@
         </div>
     </nav>
 
-
     <!-- Side -->
     <div class="wrapper">
         <!-- Sidebar  -->
         <nav id="sidebar">
             <ul class="list-unstyled components">
                 <li class="mt-2 mb-2">
-                    <a href="#"><i class="fas fa-building"></i> The Headquarter</a>
+                    <a href="#"><i class="fas fa-building"></i> Entries</a>
+                </li>
+                <li class="active mt-2 mb-2" data-spy="scroll">
+                    <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fas fa-folder-open"></i> New</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu1">
+                        <li>
+                            <a href="{{ url_for('new_users') }}">Add New User</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('new_ticket') }}">Add New Ticket</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('new_customer') }}">Add New Client</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('new_engineer') }}">Add New Engineer</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('new_equipment') }}">Add New Equipment</a>
+                        </li>
+
+                    </ul>
                 </li>
                 <li class="mt-2 mb-2">
-                    <a href="#"><i class="fas fa-wifi"></i> Team Feeds</a>
+                    <a href="#"><i class="fas fa-wifi"></i> Ticket Feeds</a>
                 </li>
-                <li class="active mt-2 mb-2">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-folder-open"></i> Views</a>
+
+                <li class="active mt-2 mb-2" data-spy="scroll">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fas fa-folder-open"></i> Views</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
                         <li>
                             <a href="#">All Tickets</a>
@@ -86,23 +107,9 @@
                             <a href="#">Overdue Tickets</a>
                         </li>
                         <li>
-                            <a href="#">SLA Tickets</a>
+                            <a href="#">SLA Violated Tickets</a>
                         </li>
-                        <li>
-                            <a href="#">Shared Tickets</a>
-                        </li>
-                        <li>
-                            <a href="#">Spam Tickets</a>
-                        </li>
-                        <li>
-                            <a href="#">Tickets for Review</a>
-                        </li>
-                        <li>
-                            <a href="#">Customer Tickets</a>
-                        </li>
-                        <li>
-                            <a href="#">Unassigned Tickets</a>
-                        </li>
+
                     </ul>
                 </li>
             </ul>
