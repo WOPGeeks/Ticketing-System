@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title> Zubacz Uganda | New Engineer</title>
+    <title> Zubacz Uganda | Edit Users</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -112,7 +112,6 @@
                         <li>
                             <a href="#">SLA Violated Tickets</a>
                         </li>
-
                     </ul>
                 </li>
             </ul>
@@ -120,96 +119,84 @@
         <!-- Page Content  -->
         <div id="content" class="mt-5">
 
-            <h4>New Engineer
+            <h4>Edit User
                 <div class="btn-group pull-right">
 
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <a class="pull-left">Our Engineers</a>
+                            <a class="pull-left">System Users</a>
                             </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="{{url_for('all_engineers')}}">All Engineers</a>
-                        <a class="dropdown-item" href="{{url_for('all_admin_users')}}">ATM Experts</a>
-                        <a class="dropdown-item" href="{{url_for('all_ordinary_users')}}">AIRPORT Experts</a>
-                        <a class="dropdown-item" href="{{url_for('all_ordinary_users')}}">TELECOM SITES Experts</a>
-
+                        <a class="dropdown-item" href="{{url_for('all_users')}}">All Users</a>
+                        <a class="dropdown-item" href="{{url_for('all_admin_users')}}">Admin Users</a>
+                        <a class="dropdown-item" href="{{url_for('all_ordinary_users')}}">Ordinary Users</a>
                     </div>
                 </div>
             </h4>
+
             <hr>
-            <h5>New Engineer Information</h5>
-            {% include '_messages.html' %}
-            <form class="mt-4" action="/add_engineer" method="POST">
+            <h5>User's New Information</h5>
+
+
+            {% include '_messages.html'%}
+
+            <form class="mt-4" action="/edit_user/{{allTheUsers[0]}}" method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label class="text-info" for="firstname">First Name</label>
-                        <input type="text" name="engineer_first_name" class="form-control" placeholder="First Name">
+                        <input type="text" value="{{allTheUsers[1]}}" name="user_first_name_edit" class="form-control" placeholder="First Name" required>
                     </div>
                     <div class="form-group col-md-6">
                         <label class="text-info" for="lastname">Last Name</label>
-                        <input type="text" name="engineer_last_name" class="form-control" placeholder="Last Name">
+                        <input type="text" value="{{allTheUsers[2]}}" name="user_last_name_edit" class="form-control" placeholder="Last Name" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label class="text-info" for="email">Email Address</label>
-                        <input type="email" name="engineer_email" class="form-control" placeholder="Email Address">
+                        <input type="email" value="{{allTheUsers[4]}}" name="user_email_edit" class="form-control" id="inputAddress" placeholder="Email Address" required>
                     </div>
                     <div class="form-group col-md-6">
                         <label class="text-info" for="address">Physical Address</label>
-                        <input type="text" name="engineer_address" class="form-control" placeholder="Physical Address">
+                        <input type="text" value="{{allTheUsers[8]}}" name="user_address_edit" class="form-control" id="inputAddress2" placeholder="Physical Address">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label class="text-info" for="phoneNumber">Phone Number</label>
-                        <input type="text" name="engineer_phone" class="form-control" placeholder="Phone Number">
+                        <input type="text" value="{{allTheUsers[6]}}" name="user_phone_edit" class="form-control" placeholder="Phone Number" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label class="text-info" for="expertise">Engineers Expertise</label>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="engineer_field_ATM" class="custom-control-input" id="customCheck1">
-                                    <label class="custom-control-label text-info" for="customCheck1">ATM</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="engineer_field_AIR" class="custom-control-input" id="customCheck2">
-                                    <label class="custom-control-label text-info" for="customCheck2">AIRPORT</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="engineer_field_TEL" class="custom-control-input" id="customCheck3">
-                                    <label class="custom-control-label text-info" for="customCheck3">TELECOM SITE</label>
-                                </div>
-                            </div>
-                        </div>
+                        <label class="text-info" for="username">Username</label>
+                        <input type="text" value="{{allTheUsers[3]}}" name="user_name_edit" class="form-control" placeholder="Username" required>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="text-info" for="inputCity">Password</label>
+                        <input type="password" name="user_password_edit" class="form-control" placeholder="Password" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="text-info" for="inputZip">Confirm Password</label>
+                        <input type="password" name="user_confirm_password_edit" class="form-control" placeholder="Confirm Password" required>
+                    </div>
+                </div>
+                <div class="form-row mt-2">
+                    <div class="form-group col-md-3">
+                        <button type="submit" href="" class="btn btn-success btn-block">Save Changes</button>
+                    </div>
 
-                <div class="form-row mt-4">
                     <div class="form-group col-md-3">
-                        <button type="submit" class="btn btn-success btn-block">Submit</button>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <button type="submit" class="btn btn-info btn-block">Submit & Add New</button>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <button type="submit" class="btn btn-secondary btn-block">Cancel</button>
+                        <button type="submit" href="{{url_for('dashboard')}}" class="btn btn-secondary btn-block">Cancel</button>
                     </div>
                 </div>
+            </form>
+
+            <hr>
 
         </div>
-        </form>
-
-        <hr>
-
-    </div>
     </div>
 
-
+    <script src="{{ url_for('static',filename='scripts/javascripts.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>

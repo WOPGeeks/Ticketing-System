@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title> Zubacz Uganda | Dasboard</title>
+    <title> Zubacz Uganda | New Client</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -120,7 +120,20 @@
         <!-- Page Content  -->
         <div id="content" class="mt-5">
 
-            <h4>New Customer</h4>
+            <h4>New Customer
+                <div class="btn-group pull-right">
+
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="pull-left">Our Clients</a>
+                        </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="{{url_for('all_clients')}}">All Clients</a>
+                        <a class="dropdown-item" href="{{url_for('all_admin_users')}}">ATM Clients</a>
+                        <a class="dropdown-item" href="{{url_for('all_ordinary_users')}}">AIRPORT Clients</a>
+                        <a class="dropdown-item" href="{{url_for('all_ordinary_users')}}">TELECOM SITES Clients</a>
+                    </div>
+                </div>
+            </h4>
             <hr>
             <h5>New Customer Information</h5>
             {% include '_messages.html'%}

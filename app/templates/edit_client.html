@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title> Zubacz Uganda | New Engineer</title>
+    <title> Zubacz Uganda | Edit Client</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -120,75 +120,50 @@
         <!-- Page Content  -->
         <div id="content" class="mt-5">
 
-            <h4>New Engineer
+            <h4>Edit Customer
                 <div class="btn-group pull-right">
 
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <a class="pull-left">Our Engineers</a>
-                            </button>
+                        <a class="pull-left">Our Clients</a>
+                        </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="{{url_for('all_engineers')}}">All Engineers</a>
-                        <a class="dropdown-item" href="{{url_for('all_admin_users')}}">ATM Experts</a>
-                        <a class="dropdown-item" href="{{url_for('all_ordinary_users')}}">AIRPORT Experts</a>
-                        <a class="dropdown-item" href="{{url_for('all_ordinary_users')}}">TELECOM SITES Experts</a>
-
+                        <a class="dropdown-item" href="{{url_for('all_clients')}}">All Clients</a>
+                        <a class="dropdown-item" href="{{url_for('all_admin_users')}}">ATM Clients</a>
+                        <a class="dropdown-item" href="{{url_for('all_ordinary_users')}}">AIRPORT Clients</a>
+                        <a class="dropdown-item" href="{{url_for('all_ordinary_users')}}">TELECOM SITES Clients</a>
                     </div>
                 </div>
             </h4>
             <hr>
-            <h5>New Engineer Information</h5>
-            {% include '_messages.html' %}
-            <form class="mt-4" action="/add_engineer" method="POST">
+            <h5>Edit Customer Information</h5>
+            {% include '_messages.html'%}
+            <form class="mt-4" action="/edit_client/{{allTheClients[0]}}" method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label class="text-info" for="firstname">First Name</label>
-                        <input type="text" name="engineer_first_name" class="form-control" placeholder="First Name">
+                        <label class="text-info" for="name">Customer Name</label>
+                        <input name="customer_name_edit" value="{{allTheClients[1]}}" type="text" class="form-control" placeholder="Customer Name">
                     </div>
                     <div class="form-group col-md-6">
-                        <label class="text-info" for="lastname">Last Name</label>
-                        <input type="text" name="engineer_last_name" class="form-control" placeholder="Last Name">
+                        <label class="text-info" for="product">Customer Product</label>
+                        <input name="customer_product_edit" value="{{allTheClients[2]}}" type="text" class="form-control" placeholder="Customer Product">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label class="text-info" for="email">Email Address</label>
-                        <input type="email" name="engineer_email" class="form-control" placeholder="Email Address">
+                        <label class="text-info" for="address">Customer Address</label>
+                        <input name="customer_address_edit" value="{{allTheClients[3]}}" type="text" class="form-control" id="inputAddress" placeholder="Customer Address">
                     </div>
                     <div class="form-group col-md-6">
-                        <label class="text-info" for="address">Physical Address</label>
-                        <input type="text" name="engineer_address" class="form-control" placeholder="Physical Address">
+                        <label class="text-info" for="phone">Customer Phone</label>
+                        <input name="customer_phone_edit" value="{{allTheClients[5]}}" type="text" class="form-control" id="inputAddress2" placeholder="Customer Phone">
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label class="text-info" for="phoneNumber">Phone Number</label>
-                        <input type="text" name="engineer_phone" class="form-control" placeholder="Phone Number">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="text-info" for="expertise">Engineers Expertise</label>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="engineer_field_ATM" class="custom-control-input" id="customCheck1">
-                                    <label class="custom-control-label text-info" for="customCheck1">ATM</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="engineer_field_AIR" class="custom-control-input" id="customCheck2">
-                                    <label class="custom-control-label text-info" for="customCheck2">AIRPORT</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="engineer_field_TEL" class="custom-control-input" id="customCheck3">
-                                    <label class="custom-control-label text-info" for="customCheck3">TELECOM SITE</label>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="form-group col-md-12">
+                        <label class="text-info" for="address">Customer Email</label>
+                        <input name="customer_email_edit" value="{{allTheClients[4]}}" type="email" class="form-control" placeholder="Customer Email Address">
                     </div>
                 </div>
-
                 <div class="form-row mt-4">
                     <div class="form-group col-md-3">
                         <button type="submit" class="btn btn-success btn-block">Submit</button>
@@ -200,13 +175,11 @@
                         <button type="submit" class="btn btn-secondary btn-block">Cancel</button>
                     </div>
                 </div>
+            </form>
+
+            <hr>
 
         </div>
-        </form>
-
-        <hr>
-
-    </div>
     </div>
 
 

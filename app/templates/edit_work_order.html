@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title> Zubacz Uganda | New Engineer</title>
+    <title> Zubacz Uganda | Edit WorkOrder</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -88,6 +88,7 @@
                         <li>
                             <a href="{{ url_for('new_workorder') }}">Add New Work Order</a>
                         </li>
+
                     </ul>
                 </li>
                 <li class="mt-2 mb-2">
@@ -120,93 +121,48 @@
         <!-- Page Content  -->
         <div id="content" class="mt-5">
 
-            <h4>New Engineer
+            <h4>Edit Work Order
                 <div class="btn-group pull-right">
 
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <a class="pull-left">Our Engineers</a>
-                            </button>
+                        <a class="pull-left">System Users</a>
+                        </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="{{url_for('all_engineers')}}">All Engineers</a>
-                        <a class="dropdown-item" href="{{url_for('all_admin_users')}}">ATM Experts</a>
-                        <a class="dropdown-item" href="{{url_for('all_ordinary_users')}}">AIRPORT Experts</a>
-                        <a class="dropdown-item" href="{{url_for('all_ordinary_users')}}">TELECOM SITES Experts</a>
+                        <a class="dropdown-item" href="{{url_for('all_work_orders')}}">All Work Orders</a>
+                        <a class="dropdown-item" href="{{url_for('all_work_orders_completed')}}">All Work Orders Completed</a>
+                        <a class="dropdown-item" href="{{url_for('all_work_orders_pending')}}">All Work Orders Pending</a>
 
                     </div>
                 </div>
             </h4>
             <hr>
-            <h5>New Engineer Information</h5>
-            {% include '_messages.html' %}
-            <form class="mt-4" action="/add_engineer" method="POST">
+            <h5>The Work Order Information
+
+            </h5>
+            {% include '_messages.html'%}
+
+            <form class="mt-4" action="/edit_the_work_order/{{allTheOrders[1]}}" method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label class="text-info" for="firstname">First Name</label>
-                        <input type="text" name="engineer_first_name" class="form-control" placeholder="First Name">
+                        <label class="text-info" for="inputEmail4">Work Order Type</label>
+                        <input type="text" name="work_order_type_edit" value="{{allTheOrders[0]}}" class="form-control" placeholder="Account Name">
                     </div>
-                    <div class="form-group col-md-6">
-                        <label class="text-info" for="lastname">Last Name</label>
-                        <input type="text" name="engineer_last_name" class="form-control" placeholder="Last Name">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label class="text-info" for="email">Email Address</label>
-                        <input type="email" name="engineer_email" class="form-control" placeholder="Email Address">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="text-info" for="address">Physical Address</label>
-                        <input type="text" name="engineer_address" class="form-control" placeholder="Physical Address">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label class="text-info" for="phoneNumber">Phone Number</label>
-                        <input type="text" name="engineer_phone" class="form-control" placeholder="Phone Number">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="text-info" for="expertise">Engineers Expertise</label>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="engineer_field_ATM" class="custom-control-input" id="customCheck1">
-                                    <label class="custom-control-label text-info" for="customCheck1">ATM</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="engineer_field_AIR" class="custom-control-input" id="customCheck2">
-                                    <label class="custom-control-label text-info" for="customCheck2">AIRPORT</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="engineer_field_TEL" class="custom-control-input" id="customCheck3">
-                                    <label class="custom-control-label text-info" for="customCheck3">TELECOM SITE</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
 
-                <div class="form-row mt-4">
-                    <div class="form-group col-md-3">
-                        <button type="submit" class="btn btn-success btn-block">Submit</button>
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <button type="submit" href="/edit_the_work_order/{{allTheOrders[1]}}" class="btn btn-info btn-block">Save</button>
                     </div>
-                    <div class="form-group col-md-3">
-                        <button type="submit" class="btn btn-info btn-block">Submit & Add New</button>
-                    </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-2">
                         <button type="submit" class="btn btn-secondary btn-block">Cancel</button>
                     </div>
                 </div>
+            </form>
+
+            <hr>
 
         </div>
-        </form>
-
-        <hr>
-
-    </div>
     </div>
 
 

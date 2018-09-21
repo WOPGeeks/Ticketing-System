@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title> Zubacz Uganda | Dasboard</title>
+    <title> Zubacz Uganda | New WorkOrder</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -121,63 +121,33 @@
         <!-- Page Content  -->
         <div id="content" class="mt-5">
 
-            <h4>New Work Order</h4>
-            <hr>
-            <h5>New Work Order Information</h5>
+            <h4>New Work Order
+                <div class="btn-group pull-right">
 
-            <form class="mt-4">
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label class="text-info" for="inputEmail4">Account Name</label>
-                        <input type="email" class="form-control" placeholder="Account Name">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="text-info" for="inputPassword4">Client</label>
-                        <select id="inputState" class="form-control">
-                    <option selected>-None-</option>
-                    <option>...</option>
-                  </select>
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="pull-left">System Users</a>
+                        </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="{{url_for('all_work_orders')}}">All Work Orders</a>
+                        <a class="dropdown-item" href="{{url_for('all_work_orders_completed')}}">All Work Orders Completed</a>
+                        <a class="dropdown-item" href="{{url_for('all_work_orders_pending')}}">All Work Orders Pending</a>
                     </div>
                 </div>
+            </h4>
+            <hr>
+            <h5>New Work Order Information
+
+            </h5>
+            {% include '_messages.html'%}
+            <form class="mt-4" action="/add_work_order" method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label class="text-info" for="inputAddress">Unit ID</label>
-                        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                        <label class="text-info" for="inputEmail4">Work Order Type</label>
+                        <input type="text" name="work_order_type" class="form-control" placeholder="Work Order Type">
                     </div>
-                    <div class="form-group col-md-6">
-                        <label class="text-info" for="inputAddress2">Product Name</label>
-                        <input type="text" class="form-control" id="inputAddress2" placeholder="Product Name">
-                    </div>
+
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label class="text-info" for="inputCity">Site ID</label>
-                        <input type="text" class="form-control" placeholder="Site ID">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="text-info" for="inputZip">Site Region</label>
-                        <select id="inputState" class="form-control">
-                    <option selected>-None-</option>
-                    <option>...</option>
-                  </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label class="text-info" for="inputCity">Categories</label>
-                        <select id="inputState" class="form-control">
-                    <option selected>-None-</option>
-                    <option>...</option>
-                  </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="text-info" for="inputZip">Classification</label>
-                        <select id="inputState" class="form-control">
-                    <option selected>-None-</option>
-                    <option>...</option>
-                  </select>
-                    </div>
-                </div>
+
                 <div class="form-row">
                     <div class="form-group col-md-2">
                         <button type="submit" class="btn btn-info btn-block">Save</button>

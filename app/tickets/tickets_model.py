@@ -3,7 +3,7 @@ from flask import flash
 
 
 dbInstance = DatabaseConnectivity()
-class Users:
+class Tickets:
     def add_user(self,first_name,last_name,email,address,user_phone,username,password):
         try:
             conn = dbInstance.connectToDatabase()
@@ -92,3 +92,37 @@ class Users:
             return self.theUser
         except:
             flash('Error retrieving user from database','danger')
+
+    def get_work_order_types(self):
+        try:
+            conn = dbInstance.connectToDatabase()
+            cur = conn.cursor()
+            sql = """SELECT work_order_type FROM work_orders"""
+            cur.execute(sql)
+            self.theTypes = cur.fetchall()
+            return self.theTypes
+        except:
+            flash('Error retrieving work order types from database','danger')
+
+    def get_engineers(self):
+        try:
+            conn = dbInstance.connectToDatabase()
+            cur = conn.cursor()
+            sql = """SELECT CONCAT(engineer_first_name, ' ', engineer_last_name) FROM engineers"""
+            cur.execute(sql)
+            self.theTypes = cur.fetchall()
+            return self.theTypes
+        except:
+            flash('Error retrieving engineers from database','danger')
+
+    def get_clients(self):
+        try:
+            conn = dbInstance.connectToDatabase()
+            cur = conn.cursor()
+            sql = """SELECT customer_name FROM customers"""
+            cur.execute(sql)
+            self.theTypes = cur.fetchall()
+            return self.theTypes
+        except:
+            flash('Error retrieving customers from database','danger')
+

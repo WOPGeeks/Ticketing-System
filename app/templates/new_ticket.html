@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title> Zubacz Uganda | Dasboard</title>
+    <title> Zubacz Uganda | New Ticket</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -130,14 +130,18 @@
                         <label class="text-info" for="ticket_assigned_to">Ticket Assigned To</label>
                         <select id="inputState" class="form-control">
                     <option selected>-None-</option>
-                    <option>...</option>
+                    {% for eachEngineer in theEngineers%}
+                    <option>{{eachEngineer[0]}}</option>
+                    {% endfor%}
                   </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label class="text-info" for="ticket_status">Ticket Status</label>
                         <select id="inputState" class="form-control">
                     <option selected>-None-</option>
-                    <option>...</option>
+                    <option>Open</option>
+                    <option>Closed</option>
+                    <option>Unassigned</option>
                   </select>
                     </div>
                 </div>
@@ -146,27 +150,28 @@
                         <label class="text-info" for="client_name">Client Name</label>
                         <select id="inputState" class="form-control">
                       <option selected>-None-</option>
-                      <option>...</option>
+                      {% for eachClient in theClients%}
+                      <option>{{eachClient[0]}}</option>
+                      {% endfor%}
                     </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label class="text-info" for="ticket_id">Ticket Site ID</label>
-                        <select id="inputState" class="form-control">
-                      <option selected>-None-</option>
-                      <option>...</option>
-                    </select>
+                        <input type="text" class="form-control" placeholder="Site ID">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label class="text-info" for="inputCity">PO Number</label>
-                        <input type="text" class="form-control" placeholder="Site ID">
+                        <input type="text" class="form-control" placeholder="PO Number">
                     </div>
                     <div class="form-group col-md-6">
                         <label class="text-info" for="inputZip">Work Order Type</label>
                         <select id="inputState" class="form-control">
                     <option selected>-None-</option>
-                    <option>...</option>
+                    {% for eachWorkOrderType in theWorkOrderTypes%}
+                    <option>{{eachWorkOrderType[0]}}</option>
+                    {% endfor%}
                   </select>
                     </div>
                 </div>
