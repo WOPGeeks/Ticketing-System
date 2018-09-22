@@ -6,5 +6,5 @@ dbInstance.create_users_table()
 # dbInstance.create_default_user()
 
 if __name__ == '__main__':
-    app.secret_key='mysecretkey'
+    app.secret_key = 'mysecretkeyghjngdssdfghjhdfhghhsffdtrdddvdvbggdsewwessaae'
     app.run(debug=True, port=8080)
