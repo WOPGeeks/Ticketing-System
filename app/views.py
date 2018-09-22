@@ -29,11 +29,12 @@ def login():
 
     conn = dbInstance.connectToDatabase()
     cur =conn.cursor()
-    result = cur.execute("SELECT * from users WHERE user_name=%s", [username])
+    result = cur.execute("SELECT user_name,user_password from users WHERE user_name=%s", [username])
 
-    if result:
-        data = cur.fetchone()
-        password = data[5]
+    data = cur.fetchone()
+    usernameDB = data[0]
+    if usernameDB = username:
+        password = data[1]
         if sha256_crypt.verify(password_candidate,password):
             return render_template('dashboard.html')
             
