@@ -16,7 +16,7 @@ ordersInstance = WorkOrders()
 ticketInstance = Tickets()
 
 app = Flask(__name__)
-
+app.secret_key = 'mysecretkeyghjngdssdfghjhdfhghhsffdtrdddvdvbggdsewwessaae'
 
 @app.route('/login')
 def index():
