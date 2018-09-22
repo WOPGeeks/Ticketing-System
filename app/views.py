@@ -33,7 +33,7 @@ def login():
 
     data = cur.fetchone()
     usernameDB = data[0]
-    if usernameDB = username:
+    if usernameDB == username:
         password = data[1]
         if sha256_crypt.verify(password_candidate,password):
             return render_template('dashboard.html')
