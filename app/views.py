@@ -31,7 +31,7 @@ def login():
     cur =conn.cursor()
     result = cur.execute("SELECT * from users WHERE user_name=%s", [username])
 
-    if result >0:
+    if result:
         data = cur.fetchone()
         password = data[5]
         if sha256_crypt.verify(password_candidate,password):
