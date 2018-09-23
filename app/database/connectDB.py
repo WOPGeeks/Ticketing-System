@@ -3,28 +3,28 @@ from flask import jsonify
 
 class DatabaseConnectivity:
 # Using MySQL Database
-    def connectToDatabase(self):
-        try:
-            import MySQLdb
-            self.conn = MySQLdb.connect(host='localhost', user='root', password='mysql', db='tickets')
-            print("Connected Successfully")
-            return self.conn
-            
-        except:
-            print('Cannot connect to database')
-            return jsonify({'Message' : 'Cannot connect to database'})
-
-# Using PostgreSQL Database
     # def connectToDatabase(self):
-    #     connectionString = "dbname='dvongibre1dlc' user='icnkxihfghzzbr' password='36fcebf5fe408a4816adef83c47233bb31bcd2436a6f0715322c04c783c82805' host='ec2-54-83-27-165.compute-1.amazonaws.com' port='5432'"
     #     try:
-    #         self.conn = psycopg2.connect(connectionString)
-    #         print("Connection established")
+    #         import MySQLdb
+    #         self.conn = MySQLdb.connect(host='localhost', user='root', password='mysql', db='tickets')
+    #         print("Connected Successfully")
     #         return self.conn
             
     #     except:
     #         print('Cannot connect to database')
     #         return jsonify({'Message' : 'Cannot connect to database'})
+
+# Using PostgreSQL Database
+    def connectToDatabase(self):
+        connectionString = "dbname='d2q82jh8ooum09' user='nbdhugbosrnhca' password='8e782659b6c340b9ddcf207c6928ee721ea755173af11facf95349c3b768da08' host='ec2-174-129-18-98.compute-1.amazonaws.com' port='5432'"
+        try:
+            self.conn = psycopg2.connect(connectionString)
+            print("Connection established")
+            return self.conn
+            
+        except:
+            print('Cannot connect to database')
+            return jsonify({'Message' : 'Cannot connect to database'})
         
 
     def create_tickets_table(self):
