@@ -3,28 +3,28 @@ from flask import jsonify
 
 class DatabaseConnectivity:
 # Using MySQL Database
-    # def connectToDatabase(self):
-        # try:
-        #     import MySQLdb
-        #     self.conn = MySQLdb.connect(host='localhost', user='root', password='mysql', db='tickets')
-        #     print("Connected Successfully")
-        #     return self.conn
-            
-        # except:
-        #     print('Cannot connect to database')
-        #     return jsonify({'Message' : 'Cannot connect to database'})
-
-# Using PostgreSQL Database
     def connectToDatabase(self):
-        connectionString = "dbname='dvongibre1dlc' user='icnkxihfghzzbr' password='36fcebf5fe408a4816adef83c47233bb31bcd2436a6f0715322c04c783c82805' host='ec2-54-83-27-165.compute-1.amazonaws.com' port='5432'"
         try:
-            self.conn = psycopg2.connect(connectionString)
-            print("Connection established")
+            import MySQLdb
+            self.conn = MySQLdb.connect(host='localhost', user='root', password='mysql', db='tickets')
+            print("Connected Successfully")
             return self.conn
             
         except:
             print('Cannot connect to database')
             return jsonify({'Message' : 'Cannot connect to database'})
+
+# Using PostgreSQL Database
+    # def connectToDatabase(self):
+    #     connectionString = "dbname='dvongibre1dlc' user='icnkxihfghzzbr' password='36fcebf5fe408a4816adef83c47233bb31bcd2436a6f0715322c04c783c82805' host='ec2-54-83-27-165.compute-1.amazonaws.com' port='5432'"
+    #     try:
+    #         self.conn = psycopg2.connect(connectionString)
+    #         print("Connection established")
+    #         return self.conn
+            
+    #     except:
+    #         print('Cannot connect to database')
+    #         return jsonify({'Message' : 'Cannot connect to database'})
         
 
     def create_tickets_table(self):
@@ -45,7 +45,7 @@ class DatabaseConnectivity:
         sqlcommandforUsers =(
             """
             CREATE TABLE IF NOT EXISTS users(user_id SERIAL PRIMARY KEY, user_first_name VARCHAR(250), user_last_name VARCHAR(250),
-              user_name VARCHAR(250),user_email VARCHAR(250), user_password VARCHAR(100), user_phone VARCHAR(250), user_status smallint, user_address VARCHAR(250))
+              user_name VARCHAR(250),user_email VARCHAR(250), user_password VARCHAR(100), user_phone VARCHAR(250), user_status smallint DEFAULT 0, user_address VARCHAR(250))
             """
         )
         self.conn = self.connectToDatabase()

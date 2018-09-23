@@ -38,10 +38,11 @@ def login():
         if sha256_crypt.verify(password_candidate,password):
             return render_template('dashboard.html')
             
-        flash('Invalid Password', 'danger')
-        return render_template('index.html')
+        else:
+            flash('Invalid Password', 'danger')
+            return render_template('index.html')
     else:
-        flash('No User Found', 'danger')
+        flash('{} is not registered'.format(username), 'danger')
         return render_template('index.html')
 
 @app.route('/new_ticket')
