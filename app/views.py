@@ -18,10 +18,6 @@ ticketInstance = Tickets()
 app = Flask(__name__)
 app.secret_key = 'mysecretkeyghjngdssdfghjhdfhghhsffdtrdddvdvbggdsewwessaae'
 
-@app.route('/')
-def home():
-    return render_template('index.html')
-
 @app.route('/login')
 def index():
     return render_template('index.html')
