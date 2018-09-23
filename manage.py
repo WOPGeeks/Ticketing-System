@@ -3,7 +3,9 @@ from app.database.connectDB import DatabaseConnectivity
 
 dbInstance = DatabaseConnectivity()
 dbInstance.create_users_table()
-# dbInstance.create_default_user()
+dbInstance.create_clients_table()
+dbInstance.create_work_orders_table()
+dbInstance.create_engineers_table()
 
 if __name__ == '__main__':
     app.secret_key = 'mysecretkeyghjngdssdfghjhdfhghhsffdtrdddvdvbggdsewwessaae'
