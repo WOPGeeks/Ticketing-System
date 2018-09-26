@@ -162,6 +162,13 @@ a.article:hover {
     width: 100%;
 }
 
+/*Ticket details*/
+.ticket-details {
+    font-size: 12px;
+    color: #000;
+}
+
+
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
