@@ -61,7 +61,11 @@ class Tickets:
             DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp)>0 
             THEN CONCAT('Expired at',' ',ticket_overdue_time) ELSE 
             CONCAT('Shall expire at ', ticket_overdue_time) END AS Overdue,
-            ticket_status, ticket_priority from tickets
+            CASE WHEN ticket_status='Closed' 
+            THEN CONCAT(ticket_status,' (',ticket_closing_time,')') 
+            
+            ELSE ticket_status END AS Ticket,
+            ticket_priority from tickets
             """
 
 
