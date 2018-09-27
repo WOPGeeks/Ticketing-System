@@ -31,7 +31,7 @@ class DatabaseConnectivity:
         sqlcommandforQuestions =(
             """
             CREATE TABLE IF NOT EXISTS tickets(ticket_id SERIAL PRIMARY KEY, ticket_assigned_to VARCHAR(250),
-             ticket_status VARCHAR(250), ticket_opening_time DATETIME DEFAULT CURRENT_TIMESTAMP,ticket_closing_time DATETIME,ticket_overdue_time DATETIME,
+             ticket_status VARCHAR(250), ticket_opening_time DATETIME,ticket_closing_time DATETIME,ticket_overdue_time DATETIME,
              ticket_client VARCHAR(200), ticket_po_number VARCHAR(200),ticket_wo_type VARCHAR(200),ticket_reason VARCHAR(250),
              ticket_client_visit_note VARCHAR(200),ticket_planned_visit_date DATE,ticket_actual_visit_date DATE,
              ticket_priority VARCHAR(100),ticket_root_cause ticket_VARCHAR(250),ticket_action_taken VARCHAR(250),

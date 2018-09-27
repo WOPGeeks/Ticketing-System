@@ -5,7 +5,7 @@ import datetime
 
 dbInstance = DatabaseConnectivity()
 class Tickets:
-    def add_ticket(self,ticket_assigned_to,
+    def add_ticket(self,ticket_assigned_to,ticket_opening_time,
     ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
     ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,ticket_client_visit_note,
     ticket_priority,ticket_root_cause,
@@ -14,14 +14,14 @@ class Tickets:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
             sql = """
-            INSERT INTO tickets(ticket_assigned_to,
+            INSERT INTO tickets(ticket_assigned_to,ticket_opening_time,
             ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
             ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,ticket_client_visit_note,
             ticket_priority,ticket_root_cause,
             ticket_action_taken,ticket_pending_reason,ticket_additional_note,ticket_site_id) VALUES(
-            %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
             """
-            cur.execute(sql,(ticket_assigned_to,
+            cur.execute(sql,(ticket_assigned_to,ticket_opening_time,
             ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
             ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,ticket_client_visit_note,
             ticket_priority,ticket_root_cause,
