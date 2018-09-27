@@ -76,7 +76,7 @@ def add_ticket():
     ticket_additional_note = request.form['ticket_additional_note']
     ticket_site_id = request.form['ticket_site_id']
 
-    ticketInstance.add_ticket(ticket_assigned_to,
+    ticketInstance.add_ticket(ticket_assigned_to,ticket_opening_time,
     ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
     ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,ticket_client_visit_note,
     ticket_priority,ticket_root_cause,
