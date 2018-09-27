@@ -6,6 +6,8 @@ from app.engineers.engineers_models import Engineers
 from app.workorders.work_orders_model import WorkOrders
 from app.tickets.tickets_model import Tickets
 from passlib.hash import sha256_crypt
+import datetime
+from datetime import timedelta
 
 
 dbInstance = DatabaseConnectivity()
@@ -36,7 +38,8 @@ def login():
     if usernameDB == username:
         password = data[1]
         if sha256_crypt.verify(password_candidate,password):
-            return render_template('dashboard.html')
+            allTheTickets = ticketInstance.view_all_tickets()
+            return render_template('dashboard.html', allTheTickets=allTheTickets)
             
         else:
             flash('Invalid Password', 'danger')
@@ -52,9 +55,88 @@ def new_ticket():
     theWorkOrderTypes = ticketInstance.get_work_order_types()
     return render_template('new_ticket.html',theWorkOrderTypes=theWorkOrderTypes, theEngineers=theEngineers, theClients=theClients)
 
+@app.route('/add_ticket', methods=['POST'])
+def add_ticket():
+    ticket_assigned_to = request.form['ticket_assigned_to']
+    ticket_status =  request.form['ticket_status']
+    hours_to_add = request.form['hours_to_add']
+    ticket_overdue_time =  datetime.datetime.now() + timedelta(hours=int(hours_to_add))
+    ticket_client =  request.form['ticket_client']
+    ticket_po_number = request.form['ticket_po_number']
+    ticket_wo_type = request.form['ticket_wo_type']
+    ticket_reason = request.form['ticket_reason']
+    ticket_client_visit_note = "Just for test...no client visited site"
+    ticket_planned_visit_date = request.form['ticket_planned_visit_date']
+    ticket_actual_visit_date = request.form['ticket_actual_visit_date']
+    ticket_priority = request.form['ticket_priority']
+    ticket_root_cause = request.form['ticket_root_cause']
+    ticket_action_taken = request.form['ticket_action_taken']
+    ticket_pending_reason = request.form['ticket_pending_reason']
+    ticket_additional_note = request.form['ticket_additional_note']
+    ticket_site_id = request.form['ticket_site_id']
+
+    ticketInstance.add_ticket(ticket_assigned_to,
+    ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
+    ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,ticket_client_visit_note,
+    ticket_priority,ticket_root_cause,
+    ticket_action_taken,ticket_pending_reason,ticket_additional_note,ticket_site_id)
+    theClients = ticketInstance.get_clients()
+    theEngineers = ticketInstance.get_engineers()
+    theWorkOrderTypes = ticketInstance.get_work_order_types()
+    return render_template('new_ticket.html',theWorkOrderTypes=theWorkOrderTypes, theEngineers=theEngineers, theClients=theClients)
+
+@app.route('/edit_the_ticket/<int:ticket_id>', methods=['GET'])
+def get_ticket_details_for_edit(ticket_id):
+    theReturnedTicket = ticketInstance.get_ticket_by_Id(ticket_id)
+    return render_template('edit_ticket.html', allTheTickets=theReturnedTicket)
+
+
+@app.route('/edit_ticket/<int:ticket_id>', methods=['POST'])
+def edit_ticket(ticket_id):
+    ticket_assigned_to = request.form['ticket_assigned_to']
+    ticket_status =  request.form['ticket_status']
+    hours_to_add = request.form['hours_to_add']
+    current_ticket_overdue_time = ticketInstance.get_ticket_overdue_time_by_Id(ticket_id)
+    ticket_overdue_time =  current_ticket_overdue_time[0] + timedelta(hours=int(hours_to_add))
+    ticket_client =  request.form['ticket_client']
+    ticket_po_number = request.form['ticket_po_number']
+    ticket_wo_type = request.form['ticket_wo_type']
+    ticket_reason = request.form['ticket_reason']
+    ticket_client_visit_note = "Just for test...no client visited site"
+    ticket_planned_visit_date = request.form['ticket_planned_visit_date']
+    ticket_actual_visit_date = request.form['ticket_actual_visit_date']
+    ticket_priority = request.form['ticket_priority']
+    ticket_root_cause = request.form['ticket_root_cause']
+    ticket_action_taken = request.form['ticket_action_taken']
+    ticket_pending_reason = request.form['ticket_pending_reason']
+    ticket_additional_note = request.form['ticket_additional_note']
+    ticket_site_id = request.form['ticket_site_id']
+    if ticket_status == "Closed":
+        ticket_closing_time = datetime.datetime.now()
+    else:
+        ticket_closing_time = None
+
+    ticketInstance.edit_ticket(ticket_assigned_to,
+    ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
+    ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,ticket_client_visit_note,
+    ticket_priority,ticket_root_cause,
+    ticket_action_taken,ticket_pending_reason,ticket_additional_note,ticket_site_id,ticket_closing_time,ticket_id)
+    theClients = ticketInstance.get_clients()
+    theEngineers = ticketInstance.get_engineers()
+    theWorkOrderTypes = ticketInstance.get_work_order_types()
+    return render_template('new_ticket.html',theWorkOrderTypes=theWorkOrderTypes, theEngineers=theEngineers, theClients=theClients)
+
+
+@app.route('/view_all_tickets', methods=['GET'])
+def view_all_tickets():
+    allTheTickets = ticketInstance.view_all_tickets()
+    return render_template('dashboard.html', allTheTickets=allTheTickets)
+
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    allTheTickets = ticketInstance.view_all_tickets()
+    return render_template('dashboard.html', allTheTickets=allTheTickets)
+
 
 @app.route('/client')
 def new_customer():
@@ -232,7 +314,7 @@ def delete_client(client_id):
 
 @app.route('/the_client/<int:client_id>', methods=['GET'])
 def get_client_by_Id(client_id):
-    theReturnedClient = custInstance.get_user_by_Id(client_id)
+    theReturnedClient = custInstance.get_client_by_Id(client_id)
     return render_template('new_customer.html', allTheClients=theReturnedClient)
 
 @app.route('/edit_the_client/<int:client_id>', methods=['GET'])
@@ -267,7 +349,7 @@ def delete_engineer(engineer_id):
 
 @app.route('/the_engineer/<int:engineer_id>', methods=['GET'])
 def get_engineer_by_Id(engineer_id):
-    theReturnedEngineer = custInstance.get_user_by_Id(engineer_id)
+    theReturnedEngineer = engineersInstance.get_engineer_by_Id(engineer_id)
     return render_template('new_engineer.html', allTheEngineers=theReturnedEngineer)
 
 @app.route('/edit_the_engineer/<int:engineer_id>', methods=['GET'])
@@ -303,3 +385,57 @@ def edit_engineer(engineer_id):
     engineersInstance.edit_an_engineer(engineer_id,engineer_first_name,engineer_last_name,engineer_address,engineer_phone,engineer_email,engineer_field_ATM_Value,engineer_field_AIR_Value,engineer_field_TEL_Value)
     theReturnedEngineers = engineersInstance.get_all_engineers()
     return render_template('view_engineers.html', allTheEngineers=theReturnedEngineers)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # if "Open" not in allTheTickets[4] and "Closed" not in allTheTickets[4]:
+    #     print(allTheTickets[4])
+    #     myDays = float(allTheTickets[4])/1440
+    #     daysRem = float(allTheTickets[4])%1440
+    #     myHours = int(daysRem/60)
+    #     minutes = int(daysRem%60)
+    #     if myDays>0:
+    #         if myHours>0:
+
+    #             if minutes>0:
+    #                 allTheTickets[4] = "Overdue (Late By {} Days {} Hours {} Minutes".format(myDays,myHours,minutes) 
+    #             else:
+    #                 allTheTickets[4] = "Overdue (Late By {} Days {} Hours".format(myDays,myHours) 
+
+    #         else:
+    #             if minutes>0:
+    #                 allTheTickets[4] = "Overdue (Late By {} Days {} Minutes".format(myDays,minutes) 
+    #             else:
+    #                 allTheTickets[4] = "Overdue (Late By {} Days".format(myDays) 
+
+
+    #     else:
+
+    #         if myHours>0:
+
+    #             if minutes>0:
+    #                 allTheTickets[4] = "Overdue (Late By {} Days {} Hours {} Minutes".format(myDays,myHours,minutes) 
+    #             else:
+    #                 allTheTickets[4] = "Overdue (Late By {} Days {} Hours".format(myDays,myHours) 
+
+    #         else:
+    #             if minutes>0:
+    #                 allTheTickets[4] = "Overdue (Late By {} Days {} Minutes".format(myDays,minutes) 
+    #             else:
+    #                 allTheTickets[4] = "Overdue (Late By {} Days".format(myDays) 
+
+    # else:
+    #     allTheTickets[4] = allTheTickets[4]

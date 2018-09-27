@@ -1,67 +1,94 @@
 from app.database.connectDB import DatabaseConnectivity
 from flask import flash
+import datetime
 
 
 dbInstance = DatabaseConnectivity()
 class Tickets:
-    def add_user(self,first_name,last_name,email,address,user_phone,username,password):
+    def add_ticket(self,ticket_assigned_to,
+    ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
+    ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,ticket_client_visit_note,
+    ticket_priority,ticket_root_cause,
+    ticket_action_taken,ticket_pending_reason,ticket_additional_note,ticket_site_id):
         try:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
-            cur.execute("INSERT INTO users(user_first_name,user_last_name,user_email,user_address,user_phone,user_name,user_password) VALUES(%s,%s,%s,%s,%s,%s,%s)",(first_name,last_name,email,address,user_phone,username,password))
+            sql = """
+            INSERT INTO tickets(ticket_assigned_to,
+            ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
+            ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,ticket_client_visit_note,
+            ticket_priority,ticket_root_cause,
+            ticket_action_taken,ticket_pending_reason,ticket_additional_note,ticket_site_id) VALUES(
+            %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            """
+            cur.execute(sql,(ticket_assigned_to,
+            ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
+            ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,ticket_client_visit_note,
+            ticket_priority,ticket_root_cause,
+            ticket_action_taken,ticket_pending_reason,ticket_additional_note,ticket_site_id))
             conn.commit()
-            flash('User Added Successfully','success')
+            flash('Ticket Opened Successfully','success')
         except:
-            flash('Error submiting the data to database','danger')
+            flash('Error submiting the data to database, the Statement is: {}'.format(ticket_overdue_time),'danger')
 
-    def view_all_users(self):
+    def view_all_tickets(self):
         try:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
-            sql = """SELECT user_first_name,user_last_name,user_email,user_name,
-            CASE WHEN user_status =1 THEN 'Admin' WHEN user_status=0 THEN 'Ordinary' ELSE 'Unknown' END AS Status,user_id FROM users
-            """
-            cur.execute(sql)
-            self.theUsers = cur.fetchall()
-            return self.theUsers
-        except:
-            flash('Error retrieving users from database','danger')
+            sql = """SELECT ticket_id,ticket_reason,ticket_assigned_to,ticket_client,
+            CASE WHEN TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>0 
+            THEN CONCAT('Expired at ','',ticket_overdue_time) ELSE 
+            CONCAT('Expires at ','',ticket_overdue_time) END AS Overdue,
+            CASE WHEN ticket_status='Closed' 
+            THEN CONCAT(ticket_status,' (',ticket_closing_time,')') 
+            WHEN ticket_status='Open' AND TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>0 AND TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())<60 
+            THEN CONCAT('Overdue ','( Late By ',TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW()),' Minutes)') 
+            
+            WHEN ticket_status='Open' AND TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>59 AND TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())<1440 
+            THEN CONCAT('Overdue ','( Late By ',TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW()),' Hours ',TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())%60, ' Minutes)')
 
-    def view_all_admin_users(self):
-        try:
-            conn = dbInstance.connectToDatabase()
-            cur = conn.cursor()
-            sql = """SELECT user_first_name,user_last_name,user_email,user_name,
-            CASE WHEN user_status =1 THEN 'Admin' WHEN user_status=0 THEN 'Ordinary' ELSE 'Unknown' END AS Status, user_id FROM users WHERE user_status=1
-            """
-            cur.execute(sql)
-            self.theUsers = cur.fetchall()
-            return self.theUsers
-        except:
-            flash('Error retrieving users from database','danger')
-    def view_all_ordinary_users(self):
-        try:
-            conn = dbInstance.connectToDatabase()
-            cur = conn.cursor()
-            sql = """SELECT user_first_name,user_last_name,user_email,user_name,
-            CASE WHEN user_status =1 THEN 'Admin' WHEN user_status=0 THEN 'Ordinary' ELSE 'Unknown' END AS Status,user_id FROM users WHERE user_status=0
-            """
-            cur.execute(sql)
-            self.theUsers = cur.fetchall()
-            return self.theUsers
-        except:
-            flash('Error retrieving users from database','danger')
+            WHEN ticket_status='Open' AND TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>1439 
+            THEN CONCAT('Overdue ','( Late By ',TIMESTAMPDIFF(DAY,ticket_overdue_time,NOW()),' Days ',TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())%24, ' Hours ',TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())%60, ' Minutes)')
 
-    def get_no_user(self):
+
+            ELSE ticket_status END AS Ticket, ticket_priority from tickets
+            """
+
+            cur.execute(sql)
+            self.theTickets = cur.fetchall()
+            return self.theTickets
+        except:
+            flash('Error retrieving tickets from database','danger')
+
+    def edit_ticket(self,ticket_assigned_to,
+    ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
+    ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,ticket_client_visit_note,
+    ticket_priority,ticket_root_cause,
+    ticket_action_taken,ticket_pending_reason,ticket_additional_note,ticket_site_id,ticket_closing_time,ticket_id):
         try:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
-            sql = """SELECT * FROM users WHERE user_id IS NULL"""
-            cur.execute(sql)
-            self.theUsers = cur.fetchall()
-            return self.theUsers
+            sql = """
+            UPDATE tickets SET ticket_assigned_to=%s,
+            ticket_status=%s,ticket_overdue_time=%s,ticket_planned_visit_date=%s,ticket_actual_visit_date=%s,
+            ticket_client=%s,ticket_po_number=%s,ticket_wo_type=%s,ticket_reason=%s,ticket_client_visit_note=%s,
+            ticket_priority=%s,ticket_root_cause=%s,
+            ticket_action_taken=%s,ticket_pending_reason=%s,ticket_additional_note=%s,ticket_site_id=%s,ticket_closing_time=%s WHERE ticket_id=%s
+            """
+            cur.execute(sql,(ticket_assigned_to,
+            ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
+            ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,ticket_client_visit_note,
+            ticket_priority,ticket_root_cause,
+            ticket_action_taken,ticket_pending_reason,ticket_additional_note,ticket_site_id,ticket_closing_time,ticket_id))
+            conn.commit()
+            if ticket_status == "Closed":
+                flash('Ticket Closed Successfully','success')
+            else:
+                flash('Ticket Edited Successfully','success')
         except:
-            flash('Error retrieving users from database','danger')
+            flash('Error submiting the data to database, the Statement is: {}'.format(ticket_overdue_time),'danger')
+
+
     def delete_a_user(self, user_id):
         try:
             conn = dbInstance.connectToDatabase()
@@ -71,27 +98,29 @@ class Tickets:
             flash('User Deleted Successfully','success')
         except:
             flash('Error deleteing user from database','danger')
-    def edit_a_user(self, user_id,user_first_name, user_last_name,user_email,user_phone,user_address,user_name,user_password):
-        try:
-            conn = dbInstance.connectToDatabase()
-            cur = conn.cursor()
-            sql ="UPDATE users SET user_first_name=%s, user_last_name=%s,user_email=%s,user_phone=%s,user_address=%s,user_name=%s,user_password=%s WHERE user_id=%s"
-            cur.execute(sql,[user_first_name, user_last_name,user_email,user_phone,user_address,user_name,user_password,user_id])
-            conn.commit()
-            flash('User Edited Successfully','success')
-        except:
-            flash('Error deleteing user from database','danger')
 
-    def get_user_by_Id(self, user_id):
+    def get_ticket_by_Id(self, ticket_id):
         try:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
-            sql = """SELECT * FROM users WHERE user_id=%s"""
-            cur.execute(sql,[user_id])
-            self.theUser = cur.fetchone()
-            return self.theUser
+            sql = """SELECT * FROM tickets WHERE ticket_id=%s"""
+            cur.execute(sql,[ticket_id])
+            self.theTicket = cur.fetchone()
+            return self.theTicket
         except:
-            flash('Error retrieving user from database','danger')
+            flash('Error retrieving ticket from database','danger')
+
+    def get_ticket_overdue_time_by_Id(self, ticket_id):
+        try:
+            conn = dbInstance.connectToDatabase()
+            cur = conn.cursor()
+            sql = """SELECT ticket_overdue_time FROM tickets WHERE ticket_id=%s"""
+            cur.execute(sql,[ticket_id])
+            self.theTicket = cur.fetchone()
+            return self.theTicket
+        except:
+            flash('Error retrieving ticket from database','danger')
+
 
     def get_work_order_types(self):
         try:

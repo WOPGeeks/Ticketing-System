@@ -165,6 +165,39 @@ a.article:hover {
 }
 
 
+/*Ticket details*/
+
+.ticket-details-1 {
+    font-size: 16px;
+    color: #17a2b8;
+}
+
+.ticket-details-2 {
+    font-size: 12px;
+    color: #17a2b8;
+}
+
+.ticket-details-3 {
+    font-size: 12px;
+    color: #17a2b8;
+}
+
+.ticket-details-4 {
+    font-size: 12px;
+    color: #17a2b8;
+}
+
+.ticket-details-5 {
+    font-size: 12px;
+    /* color: #000; */
+}
+
+.ticket-details-6 {
+    font-size: 13px;
+    /* color: #000; */
+}
+
+
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
