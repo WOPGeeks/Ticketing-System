@@ -93,9 +93,6 @@ class Tickets:
             ELSE ticket_status END AS Ticket,
             ticket_priority from tickets
             """
-
-            DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
-            DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)
             cur.execute(sql)
             self.theTickets = cur.fetchall()
             return self.theTickets
