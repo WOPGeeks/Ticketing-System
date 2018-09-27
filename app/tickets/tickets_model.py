@@ -56,7 +56,9 @@ class Tickets:
 
             sql = """
             SELECT ticket_id,ticket_reason,ticket_assigned_to,ticket_client,
-            ticket_status,
+            CASE WHEN TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>0 
+            THEN CONCAT('Expired at ','',ticket_overdue_time) ELSE 
+            CONCAT('Expires at ','',ticket_overdue_time) END AS Overdue,
             ticket_status, ticket_priority from tickets
             """
 
