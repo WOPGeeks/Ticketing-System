@@ -56,27 +56,46 @@ class Tickets:
 
             sql = """
             SELECT ticket_id,ticket_reason,ticket_assigned_to,ticket_client,
+            
             CASE WHEN (DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
             DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)) * 60 +
             DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp)>0 
-            THEN CONCAT('Expired at',' ',ticket_overdue_time) ELSE 
-            CONCAT('Shall expire at ', ticket_overdue_time) END AS Overdue,
+            
+            THEN CONCAT('Expired at',' ',ticket_overdue_time) 
+            ELSE CONCAT('Shall expire at ', ticket_overdue_time) END AS Overdue,
+            
             CASE WHEN ticket_status='Closed' 
             THEN CONCAT(ticket_status,' (',ticket_closing_time,')') 
+            
             WHEN ticket_status='Open' AND (DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
             DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)) * 60 +
             DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp)>0 AND 
             (DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
             DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)) * 60 +
             DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp)<60 
+            
             THEN CONCAT('Overdue (Late By',(DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
             DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)) * 60 +
-            DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp),' Minutes)')  
+            DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp),' Minutes)') 
+
+            WHEN ticket_status='Open' AND (DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
+            DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)) * 60 +
+            DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp)>59 AND 
+            (DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
+            DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)) * 60 +
+            DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp)<1440 
+
+            THEN CONCAT('Overdue ','( Late By ',DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
+            DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp),' Hours ',(DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
+            DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)) * 60 +
+            DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp)%60, ' Minutes)')
+            
             ELSE ticket_status END AS Ticket,
             ticket_priority from tickets
             """
 
-
+            DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
+            DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)
             cur.execute(sql)
             self.theTickets = cur.fetchall()
             return self.theTickets
