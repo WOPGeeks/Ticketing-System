@@ -56,9 +56,9 @@ class Tickets:
 
             sql = """
             SELECT ticket_id,ticket_reason,ticket_assigned_to,ticket_client,
-            CASE WHEN TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>0 
-            THEN CONCAT('Expired at ','',ticket_overdue_time) ELSE 
-            CONCAT('Expires at ','',ticket_overdue_time) END AS Overdue,
+            (DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
+            DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)) * 60 +
+            DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp),
             ticket_status, ticket_priority from tickets
             """
 
