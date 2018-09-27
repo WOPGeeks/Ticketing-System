@@ -16,7 +16,7 @@ class DatabaseConnectivity:
 
 # Using PostgreSQL Database
     def connectToDatabase(self):
-        connectionString = "dbname='d2q82jh8ooum09' user='nbdhugbosrnhca' password='8e782659b6c340b9ddcf207c6928ee721ea755173af11facf95349c3b768da08' host='ec2-174-129-18-98.compute-1.amazonaws.com' port='5432'"
+        connectionString = "postgres://lhzxcyfuehqwcw:129faa08ef955acc4144bd7bbf2e4e697ca8faa0a4f319fa73ddeb31584fda47@ec2-54-227-241-179.compute-1.amazonaws.com:5432/d6humsp52ioadf"
         try:
             self.conn = psycopg2.connect(connectionString)
             print("Connection established")
