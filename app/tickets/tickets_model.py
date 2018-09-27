@@ -35,31 +35,23 @@ class Tickets:
         try:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
-            # sql = """
-            # SELECT ticket_id,ticket_reason,ticket_assigned_to,ticket_client,
-            # CASE WHEN TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>0 
-            # THEN CONCAT('Expired at ','',ticket_overdue_time) ELSE 
-            # CONCAT('Expires at ','',ticket_overdue_time) END AS Overdue,
-            # CASE WHEN ticket_status='Closed' 
-            # THEN CONCAT(ticket_status,' (',ticket_closing_time,')') 
-            # WHEN ticket_status='Open' AND TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>0 AND TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())<60 
-            # THEN CONCAT('Overdue ','( Late By ',TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW()),' Minutes)') 
-            
-            # WHEN ticket_status='Open' AND TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>59 AND TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())<1440 
-            # THEN CONCAT('Overdue ','( Late By ',TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW()),' Hours ',TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())%60, ' Minutes)')
-
-            # WHEN ticket_status='Open' AND TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>1439 
-            # THEN CONCAT('Overdue ','( Late By ',TIMESTAMPDIFF(DAY,ticket_overdue_time,NOW()),' Days ',TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())%24, ' Hours ',TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())%60, ' Minutes)')
-
-            # ELSE ticket_status END AS Ticket, ticket_priority from tickets
-            # """
-
             sql = """
             SELECT ticket_id,ticket_reason,ticket_assigned_to,ticket_client,
             CASE WHEN TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>0 
             THEN CONCAT('Expired at ','',ticket_overdue_time) ELSE 
             CONCAT('Expires at ','',ticket_overdue_time) END AS Overdue,
-            ticket_status, ticket_priority from tickets
+            CASE WHEN ticket_status='Closed' 
+            THEN CONCAT(ticket_status,' (',ticket_closing_time,')') 
+            WHEN ticket_status='Open' AND TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>0 AND TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())<60 
+            THEN CONCAT('Overdue ','( Late By ',TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW()),' Minutes)') 
+            
+            WHEN ticket_status='Open' AND TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>59 AND TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())<1440 
+            THEN CONCAT('Overdue ','( Late By ',TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW()),' Hours ',TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())%60, ' Minutes)')
+
+            WHEN ticket_status='Open' AND TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>1439 
+            THEN CONCAT('Overdue ','( Late By ',TIMESTAMPDIFF(DAY,ticket_overdue_time,NOW()),' Days ',TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())%24, ' Hours ',TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())%60, ' Minutes)')
+
+            ELSE ticket_status END AS Ticket, ticket_priority from tickets
             """
 
             cur.execute(sql)
