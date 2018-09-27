@@ -65,8 +65,13 @@ class Tickets:
             THEN CONCAT(ticket_status,' (',ticket_closing_time,')') 
             WHEN ticket_status='Open' AND (DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
             DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)) * 60 +
-            DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp)>0 
-            THEN 'Overdue' 
+            DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp)>0 AND 
+            (DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
+            DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)) * 60 +
+            DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp)<60 
+            THEN CONCAT('Overdue (Late By',(DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
+            DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)) * 60 +
+            DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp),' Minutes)')  
             ELSE ticket_status END AS Ticket,
             ticket_priority from tickets
             """
