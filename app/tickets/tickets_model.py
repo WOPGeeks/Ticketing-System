@@ -86,9 +86,7 @@ class Tickets:
             DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp)<1440 
 
             THEN CONCAT('Overdue ','( Late By ',DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
-            DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp),' Hours ',(DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
-            DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)) * 60 +
-            DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp)%60, ' Minutes)')
+            DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp),' Hours)')
             
             ELSE ticket_status END AS Ticket,
             ticket_priority from tickets
