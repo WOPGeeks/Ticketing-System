@@ -38,8 +38,8 @@ def login():
     if usernameDB == username:
         password = data[1]
         if sha256_crypt.verify(password_candidate,password):
-            # allTheTickets = ticketInstance.view_all_tickets()
-            return render_template('dashboard.html')
+            allTheTickets = ticketInstance.view_all_tickets()
+            return render_template('dashboard.html', allTheTickets=allTheTickets)
             
         else:
             flash('Invalid Password', 'danger')
