@@ -34,7 +34,7 @@ class DatabaseConnectivity:
              ticket_status VARCHAR(250), ticket_opening_time TIMESTAMP,ticket_closing_time TIMESTAMP,ticket_overdue_time TIMESTAMP,
              ticket_client VARCHAR(200), ticket_po_number VARCHAR(200),ticket_wo_type VARCHAR(200),ticket_reason VARCHAR(250),
              ticket_client_visit_note VARCHAR(200),ticket_planned_visit_date DATE,ticket_actual_visit_date DATE,
-             ticket_priority VARCHAR(100),ticket_root_cause ticket_VARCHAR(250),ticket_action_taken VARCHAR(250),
+             ticket_priority VARCHAR(100),ticket_root_cause VARCHAR(250),ticket_action_taken VARCHAR(250),
              ticket_pending_reason VARCHAR(250),ticket_dispatch_time TIME,ticket_arrival_time TIME,ticket_start_time TIME,
              ticket_complete_time TIME,ticket_return_time TIME,ticket_additional_note VARCHAR(250),ticket_site_id VARCHAR(200))
              """
