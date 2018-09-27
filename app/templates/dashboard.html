@@ -123,7 +123,35 @@
 
             <h5><i class="fas fa-star"></i> All Tickets</h5>
 
-            <hr> {% for eachTicket in allTheTickets %}
+            <hr>
+
+            <div class="row">
+                <div class="col-md-1">
+                    <i class="fas fa-phone text-info" style="font-size: 20px"></i>
+                </div>
+                <div class="col-md-6">
+                    <p><a class="ticket-details-1" href="#">#14 Logogo</a><br>
+                        <span class="ticket-details-2">They</span>&nbsp&nbsp
+                        <span class="ticket-details-3">Us</span>&nbsp&nbsp
+                        <span class="ticket-details-4">Me</span>&nbsp&nbsp
+                        <span id="expire-status" class="ticket-details-5">You</span></p>
+                </div>
+                <div class="col-md-2">
+                    <a href="#"><i class="fas fa-edit text-info" style="font-size: 15px"></i></a> &nbsp &nbsp
+                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt text-danger" style="font-size: 15px"></i></a>
+                </div>
+
+                <div class="col-md-1">
+                    <p id="overdue-status" style="color: red;" class="ticket-details-6">Admitted</p>
+                </div>
+
+
+            </div>
+
+            <hr>
+
+            <!-- 
+            {% for eachTicket in allTheTickets %}
 
             <div class="row">
                 <div class="col-md-1">
@@ -151,7 +179,9 @@
                 {%endif%}
             </div>
 
-            <hr> {% endfor %}
+            <hr> {% endfor %} -->
+
+
 
 
         </div>
