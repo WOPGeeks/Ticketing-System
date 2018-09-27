@@ -62,6 +62,15 @@ class Tickets:
             DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp)>0 
             
             THEN CONCAT('Expired at',' ',ticket_overdue_time) 
+
+            WHEN ticket_status='Closed' AND ((DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
+            DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)) * 60 +
+            DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp)<0 OR (DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
+            DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)) * 60 +
+            DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp)>0) 
+            
+            THEN CONCAT('Would expire at',' ',ticket_overdue_time) 
+
             ELSE CONCAT('Shall expire at ', ticket_overdue_time) END AS Overdue,
             
             CASE WHEN ticket_status='Closed' 
