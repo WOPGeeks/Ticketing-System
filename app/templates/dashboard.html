@@ -132,9 +132,12 @@
                 <div class="col-md-6">
                     <p><a class="ticket-details-1" href="/edit_the_ticket/{{eachTicket[0]}}">#{{eachTicket[0]}} {{eachTicket[1]}}</a><br>
                         <span class="ticket-details-2">{{eachTicket[2]}}</span>&nbsp&nbsp
-                        <span class="ticket-details-3">{{eachTicket[3]}}</span>&nbsp&nbsp
-                        <span class="ticket-details-4">{{eachTicket[4]}}</span>&nbsp&nbsp
-                        <span id="expire-status" class="ticket-details-5">{{eachTicket[5]}}</span></p>
+                        <span class="ticket-details-3">{{eachTicket[3]}}</span>&nbsp&nbsp {%if "Expired" in "{{eachTicket[4]}}"%}
+                        <span style="color: red; font-size: 13px;" class="ticket-details-4">{{eachTicket[4]}}</span>&nbsp&nbsp {% else %}
+                        <span style="color: black; font-size: 12px;" class="ticket-details-4">{{eachTicket[4]}}</span>&nbsp&nbsp {%endif%} {%if "Overdue" in "{{eachTicket[5]}}"%}
+                        <span style="color: red; font-size: 13px;" id="expire-status" class="ticket-details-5">{{eachTicket[5]}}</span> {% else %}
+                        <span style="color: black; font-size: 13px;" id="expire-status" class="ticket-details-5">{{eachTicket[5]}}</span> {%endif%}
+                    </p>
                 </div>
                 <div class="col-md-2">
                     <a href="/edit_the_ticket/{{eachTicket[0]}}"><i class="fas fa-edit text-info" style="font-size: 15px"></i></a> &nbsp &nbsp
