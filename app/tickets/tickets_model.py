@@ -74,7 +74,7 @@ class Tickets:
             DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)) * 60 +
             DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp)<60 
             
-            THEN CONCAT('Overdue (Late By',(DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
+            THEN CONCAT('Overdue (Late By ',(DATE_PART('day', now()::timestamp - ticket_overdue_time::timestamp) * 24 + 
             DATE_PART('hour', now()::timestamp - ticket_overdue_time::timestamp)) * 60 +
             DATE_PART('minute', now()::timestamp - ticket_overdue_time::timestamp),' Minutes)') 
 
