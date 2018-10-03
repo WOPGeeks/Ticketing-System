@@ -3,7 +3,6 @@ from flask import jsonify
 
 class DatabaseConnectivity:
 # Using MySQL Database
-<<<<<<< 20b73a5d409cb36509c09df4ccf90932d128efe0
     #def connectToDatabase(self):
      #   try:
       #      import MySQLdb
@@ -17,30 +16,6 @@ class DatabaseConnectivity:
 
 # Using PostgreSQL Database
     def connectToDatabase(self):
-=======
-    # def connectToDatabase(self):
-    #     try:
-    #         import MySQLdb
-    #         self.conn = MySQLdb.connect(host='localhost', user='root', password='mysql', db='tickets')
-    #         print("Connected Successfully")
-    #         return self.conn
-            
-    #     except:
-    #         print('Cannot connect to database')
-    #         return jsonify({'Message' : 'Cannot connect to database'})
-
-# Using PostgreSQL Database
-    def connectToDatabase(self):
-        connectionString = "postgres://lhzxcyfuehqwcw:129faa08ef955acc4144bd7bbf2e4e697ca8faa0a4f319fa73ddeb31584fda47@ec2-54-227-241-179.compute-1.amazonaws.com:5432/d6humsp52ioadf"
-        try:
-            self.conn = psycopg2.connect(connectionString)
-            print("Connection established")
-            return self.conn
-            
-        except:
-            print('Cannot connect to database')
-            return jsonify({'Message' : 'Cannot connect to database'})
->>>>>>> Shifting to MacBook
         
         try:
             connectionString = "postgres://lhzxcyfuehqwcw:129faa08ef955acc4144bd7bbf2e4e697ca8faa0a4f319fa73ddeb31584fda47@ec2-54-227-241-179.compute-1.amazonaws.com:5432/d6humsp52ioadf"
