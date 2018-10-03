@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title> Zubacz Uganda | New Users</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
 
     <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
@@ -143,111 +143,111 @@
 
             <form class="mt-4" action="/add_user" method="POST">
 
-                
-                        <div class="form-row">
-                                <div class="form-group col-md-4"  id="trialImages">
-                                    <label class="text-info" for="firstname">First Name</label>
-                                    <input type="text" value="{{allTheUsers[1]}}" name="user_first_name" class="form-control" placeholder="First Name" required>
-                                    <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
-                                </div>
-                                <div class="form-group col-md-4" id="trialImages">
-                                    <label class="text-info" for="lastname">Last Name</label>
-                                    <input type="text" value="{{allTheUsers[2]}}" name="user_last_name" class="form-control" placeholder="Last Name" required>
-                                    <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
-                                </div>
 
-                                <div class="form-group col-md-4" id="trialImages">
-                                        <label class="text-info" for="lastname"></label>
-                                        <div class="btn-group" role="group" aria-label="...">
-                                                <div class="btn-group">
-                                                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span>Choose User Privileges</button>
-                                                   <ul class="dropdown-menu">
-                                                     
-                                                      <li>
-                                                          <label class="dropdown-menu-item checkbox">
+                <div class="form-row">
+                    <div class="form-group col-md-4" id="trialImages">
+                        <label class="text-info" for="firstname">First Name</label>
+                        <input type="text" value="{{allTheUsers[1]}}" name="user_first_name" class="form-control" placeholder="First Name" required>
+                        <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
+                    </div>
+                    <div class="form-group col-md-4" id="trialImages">
+                        <label class="text-info" for="lastname">Last Name</label>
+                        <input type="text" value="{{allTheUsers[2]}}" name="user_last_name" class="form-control" placeholder="Last Name" required>
+                        <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
+                    </div>
+
+                    <div class="form-group col-md-4" id="trialImages">
+                        <label class="text-info" for="lastname"></label>
+                        <div class="btn-group" role="group" aria-label="...">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span>Choose User Privileges</button>
+                                <ul class="dropdown-menu">
+
+                                    <li>
+                                        <label class="dropdown-menu-item checkbox">
                                                               <input type="checkbox" />
                                                               <span class="glyphicon glyphicon-unchecked"></span>
                                                               Apple
                                                           </label>
-                                                      </li>
-                                                      <li>
-                                                          <label class="dropdown-menu-item checkbox">
+                                    </li>
+                                    <li>
+                                        <label class="dropdown-menu-item checkbox">
                                                               <input type="checkbox" />
                                                               <span class="glyphicon glyphicon-unchecked"></span>
                                                               Banana
                                                           </label>
-                                                      </li>
-                                                      <li>
-                                                          <label class="dropdown-menu-item checkbox">
+                                    </li>
+                                    <li>
+                                        <label class="dropdown-menu-item checkbox">
                                                               <input type="checkbox" />
                                                               <span class="glyphicon glyphicon-unchecked"></span>
                                                               Orange
                                                           </label>
-                                                      </li> 
-                                                       <li role="separator" class="divider"></li>               
-                                                       <li>
-                                                          <button class="btn btn-link dropdown-menu-item">
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <button class="btn btn-link dropdown-menu-item">
                                                               <span class="glyphicon glyphicon-globe"></span>
                                                               Globe
                                                           </button>
-                                                      </li>
-                                                   </ul>
-                                                </div>
-                                             </div>
-        
-
-                                </div>
+                                    </li>
+                                </ul>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-4"   id="trialImages">
-                                    <label class="text-info" for="email">Email Address</label>
-                                    <input type="email" value="{{allTheUsers[4]}}" name="user_email" class="form-control" id="inputAddress" placeholder="Email Address" required>
-                                    <i class="fa fa-envelope fa-lg fa-fw" aria-hidden="true"></i>
-                                </div>
-                                <div class="form-group col-md-4"   id="trialImages">
-                                    <label class="text-info" for="address">Physical Address</label>
-                                    <input type="text" value="{{allTheUsers[8]}}" name="user_address" class="form-control" id="inputAddress2" placeholder="Physical Address">
-                                    <i class="fa fa-home fa-lg fa-fw" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-4"   id="trialImages">
-                                    <label class="text-info" for="phoneNumber">Phone Number</label>
-                                    <input type="text" value="{{allTheUsers[6]}}" name="user_phone" class="form-control" placeholder="Phone Number" required>
-                                    <i class="fa fa-phone fa-lg fa-fw" aria-hidden="true"></i>
-                                </div>
-                                <div class="form-group col-md-4"   id="trialImages">
-                                    <label class="text-info" for="username">Username</label>
-                                    <input type="text" value="{{allTheUsers[3]}}" name="user_name" class="form-control" placeholder="Username" required>
-                                    <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-4"   id="trialImages">
-                                    <label class="text-info" for="inputCity">Password</label>
-                                    <input type="password" name="user_password" class="form-control" placeholder="Password" required>
-                                    <i class="fa fa-key fa-lg fa-fw" aria-hidden="true"></i>
-                                </div>
-                                <div class="form-group col-md-4"   id="trialImages">
-                                    <label class="text-info" for="inputZip">Confirm Password</label>
-                                    <input type="password" name="user_confirm_password" class="form-control" placeholder="Confirm Password" required>
-                                    <i class="fa fa-key fa-lg fa-fw" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                            <div class="form-row mt-2">
-                                <div class="form-group col-md-2">
-                                    <button type="submit" class="btn btn-success btn-block">Submit</button>
-                                </div>
-            
-                                <div class="form-group col-md-2">
-                                    <button type="submit" href="{{url_for('dashboard')}}" class="btn btn-secondary btn-block">Cancel</button>
-                                </div>
-                            </div>
-                    
-             
+                        </div>
 
 
-               
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4" id="trialImages">
+                        <label class="text-info" for="email">Email Address</label>
+                        <input type="email" value="{{allTheUsers[4]}}" name="user_email" class="form-control" id="inputAddress" placeholder="Email Address" required>
+                        <i class="fa fa-envelope fa-lg fa-fw" aria-hidden="true"></i>
+                    </div>
+                    <div class="form-group col-md-4" id="trialImages">
+                        <label class="text-info" for="address">Physical Address</label>
+                        <input type="text" value="{{allTheUsers[8]}}" name="user_address" class="form-control" id="inputAddress2" placeholder="Physical Address">
+                        <i class="fa fa-home fa-lg fa-fw" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4" id="trialImages">
+                        <label class="text-info" for="phoneNumber">Phone Number</label>
+                        <input type="text" value="{{allTheUsers[6]}}" name="user_phone" class="form-control" placeholder="Phone Number" required>
+                        <i class="fa fa-phone fa-lg fa-fw" aria-hidden="true"></i>
+                    </div>
+                    <div class="form-group col-md-4" id="trialImages">
+                        <label class="text-info" for="username">Username</label>
+                        <input type="text" value="{{allTheUsers[3]}}" name="user_name" class="form-control" placeholder="Username" required>
+                        <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4" id="trialImages">
+                        <label class="text-info" for="inputCity">Password</label>
+                        <input type="password" name="user_password" class="form-control" placeholder="Password" required>
+                        <i class="fa fa-key fa-lg fa-fw" aria-hidden="true"></i>
+                    </div>
+                    <div class="form-group col-md-4" id="trialImages">
+                        <label class="text-info" for="inputZip">Confirm Password</label>
+                        <input type="password" name="user_confirm_password" class="form-control" placeholder="Confirm Password" required>
+                        <i class="fa fa-key fa-lg fa-fw" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="form-row mt-2">
+                    <div class="form-group col-md-2">
+                        <button type="submit" class="btn btn-success btn-block">Submit</button>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <button type="submit" href="{{url_for('dashboard')}}" class="btn btn-secondary btn-block">Cancel</button>
+                    </div>
+                </div>
+
+
+
+
+
             </form>
             <hr>
 
