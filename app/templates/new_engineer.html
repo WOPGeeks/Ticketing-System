@@ -140,31 +140,36 @@
             {% include '_messages.html' %}
             <form class="mt-4" action="/add_engineer" method="POST">
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="firstname">First Name</label>
                         <input type="text" name="engineer_first_name" class="form-control" placeholder="First Name">
+                        <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="lastname">Last Name</label>
                         <input type="text" name="engineer_last_name" class="form-control" placeholder="Last Name">
+                        <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="email">Email Address</label>
                         <input type="email" name="engineer_email" class="form-control" placeholder="Email Address">
+                        <i class="fa fa-envelope fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="address">Physical Address</label>
                         <input type="text" name="engineer_address" class="form-control" placeholder="Physical Address">
+                        <i class="fa fa-home fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="phoneNumber">Phone Number</label>
                         <input type="text" name="engineer_phone" class="form-control" placeholder="Phone Number">
+                        <i class="fa fa-phone fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="expertise">Engineers Expertise</label>
                         <div class="row">
                             <div class="col-md-4">
@@ -192,9 +197,6 @@
                 <div class="form-row mt-4">
                     <div class="form-group col-md-2">
                         <button type="submit" class="btn btn-success btn-block">Submit</button>
-                    </div>
-                    <div class="form-group col-md-2">
-                        <button type="submit" class="btn btn-info btn-block">Submit & Add New</button>
                     </div>
                     <div class="form-group col-md-2">
                         <button type="submit" class="btn btn-secondary btn-block">Cancel</button>
