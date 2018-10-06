@@ -179,7 +179,7 @@
                                 }
                             }]
                         },
-                        legends: {
+                        legend: {
                             display: false,
                             position: 'top',
                             labels: {
@@ -189,7 +189,7 @@
                         },
                         title: {
                             display: true,
-                            fontSize: 18,
+                            fontSize: 14,
                             text: 'Running Tasks'
                         }
                     }
@@ -200,7 +200,7 @@
                     data: {
                         labels: ["ATM TASKS", "AIRPORT TASKS", "TELECOM SITE TASKS"],
                         datasets: [{
-                            label: 'Completed Tasks',
+                            label: 'Tasks Due Soon',
                             data: [12, 19, 3],
                             backgroundColor: [
                                 'rgba(255, 206, 86, 0.2)',
@@ -224,7 +224,7 @@
                             }]
                         },
                         legends: {
-                            display: true,
+                            display: false,
                             position: 'right',
                             labels: {
                                 fontColor: "#000"
@@ -233,8 +233,8 @@
                         },
                         title: {
                             display: true,
-                            fontSize: 25,
-                            text: 'Completed Tasks'
+                            fontSize: 14,
+                            text: 'Tasks Due Soon'
                         }
                     }
                 });
@@ -245,7 +245,7 @@
                     data: {
                         labels: ["ATM TASKS", "AIRPORT TASKS", "TELECOM SITE TASKS"],
                         datasets: [{
-                            label: 'Tasks Due In A Few Hours',
+                            label: 'Completed Tasks',
                             data: [12, 19, 3],
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',
@@ -278,8 +278,8 @@
                         },
                         title: {
                             display: true,
-                            fontSize: 25,
-                            text: 'Tasks Due In A Few Hours'
+                            fontSize: 14,
+                            text: 'Completed Tasks'
                         }
                     }
 
@@ -291,6 +291,7 @@
                     data: {
                         labels: ["ATM TASKS", "AIRPORT TASKS", "TELECOM SITE TASKS"],
                         datasets: [{
+                            display: false,
                             label: 'Disrespected Tasks',
                             data: [12, 19, 3],
                             backgroundColor: [
@@ -314,8 +315,8 @@
                                 }
                             }]
                         },
-                        legends: {
-                            display: true,
+                        legend: {
+                            display: false,
                             position: 'top',
                             labels: {
                                 fontColor: "#000"
@@ -324,8 +325,8 @@
                         },
                         title: {
                             display: true,
-                            fontSize: 25,
-                            text: 'Tasks Due In A Few Hours'
+                            fontSize: 14,
+                            text: 'Violated Tasks'
                         }
                     }
                 });
