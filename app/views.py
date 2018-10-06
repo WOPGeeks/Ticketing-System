@@ -94,24 +94,24 @@ def get_ticket_details_for_edit(ticket_id):
 
 @app.route('/edit_ticket/<int:ticket_id>', methods=['POST'])
 def edit_ticket(ticket_id):
-    ticket_assigned_to = request.form['ticket_assigned_to']
-    ticket_status =  request.form['ticket_status']
-    hours_to_add = request.form['hours_to_add']
+    ticket_assigned_to = request.form['ticket_assigned_to_edit']
+    ticket_status =  request.form['ticket_status_edit']
+    hours_to_add = request.form['hours_to_add_edit']
     current_ticket_overdue_time = ticketInstance.get_ticket_overdue_time_by_Id(ticket_id)
     ticket_overdue_time =  current_ticket_overdue_time[0] + timedelta(hours=int(hours_to_add))
-    ticket_client =  request.form['ticket_client']
-    ticket_po_number = request.form['ticket_po_number']
-    ticket_wo_type = request.form['ticket_wo_type']
-    ticket_reason = request.form['ticket_reason']
+    ticket_client =  request.form['ticket_client_edit']
+    ticket_po_number = request.form['ticket_po_number_edit']
+    ticket_wo_type = request.form['ticket_wo_type_edit']
+    ticket_reason = request.form['ticket_reason_edit']
     ticket_client_visit_note = "Just for test...no client visited site"
-    ticket_planned_visit_date = request.form['ticket_planned_visit_date']
-    ticket_actual_visit_date = request.form['ticket_actual_visit_date']
-    ticket_priority = request.form['ticket_priority']
-    ticket_root_cause = request.form['ticket_root_cause']
-    ticket_action_taken = request.form['ticket_action_taken']
-    ticket_pending_reason = request.form['ticket_pending_reason']
-    ticket_additional_note = request.form['ticket_additional_note']
-    ticket_site_id = request.form['ticket_site_id']
+    ticket_planned_visit_date = request.form['ticket_planned_visit_date_edit']
+    ticket_actual_visit_date = request.form['ticket_actual_visit_date_edit']
+    ticket_priority = request.form['ticket_priority_edit']
+    ticket_root_cause = request.form['ticket_root_cause_edit']
+    ticket_action_taken = request.form['ticket_action_taken_edit']
+    ticket_pending_reason = request.form['ticket_pending_reason_edit']
+    ticket_additional_note = request.form['ticket_additional_note_edit']
+    ticket_site_id = request.form['ticket_site_id_edit']
     if ticket_status == "Closed":
         ticket_closing_time = datetime.datetime.now()
     else:
@@ -137,6 +137,11 @@ def view_all_tickets():
 def dashboard():
     allTheTickets = ticketInstance.view_all_tickets()
     return render_template('dashboard.html', allTheTickets=allTheTickets)
+
+
+@app.route('/reports')
+def reports():
+    return render_template('reports.html')
 
 
 @app.route('/client')
@@ -166,7 +171,7 @@ def add_user():
     lastName = request.form['user_last_name']
     userName = request.form['user_name']
     email = request.form['user_email']
-    userAddress = request.form['user_address']
+    userAddress = request.form['user_physical_address']
     userPhone = request.form['user_phone']
     userPassword = request.form['user_password']
     encryptedPassword = sha256_crypt.encrypt(str(userPassword))
