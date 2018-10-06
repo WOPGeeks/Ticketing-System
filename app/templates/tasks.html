@@ -122,7 +122,7 @@
         <!-- Page Content  -->
         <div id="content" class="mt-5">
 
-            <h5><i class="fas fa-star"></i> Engineers Field Reports</h5>
+            <h5><i class="fas fa-star"></i> Engineers Tasks</h5>
             <hr>
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -179,6 +179,19 @@
                                 }
                             }]
                         }
+                    },
+                    legends: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            fontColor: "#000"
+                        }
+
+                    },
+                    title: {
+                        display: true,
+                        fontSize: 25,
+                        text: 'Completed Tasks'
                     }
                 });
                 var ctx1 = document.getElementById("myChart1").getContext('2d');
@@ -213,7 +226,7 @@
                     },
                     legends: {
                         display: true,
-                        position: 'top',
+                        position: 'right',
                         labels: {
                             fontColor: "#000"
                         }
