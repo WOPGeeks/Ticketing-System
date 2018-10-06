@@ -143,6 +143,10 @@ def dashboard():
 def reports():
     return render_template('reports.html')
 
+@app.route('/tasks')
+def tasks():
+    return render_template('tasks.html')
+
 
 @app.route('/client')
 def new_customer():
