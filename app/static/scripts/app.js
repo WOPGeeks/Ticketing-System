@@ -166,7 +166,7 @@ function ticket_po_number() {
 function hours_to_add() {
     alert("hdhzxkjnzj");
     const hours_to_add = document.getElementById('hours_to_add');
-    const re_hours_to_add = /^[0-9]{2,16}$/;
+    const re_hours_to_add = /^[0-9]{1,3}$/;
 
     if (!re_hours_to_add.test(hours_to_add.value)) {
         return hours_to_add.classList.add('is-invalid');

@@ -66,21 +66,15 @@ def add_ticket():
     ticket_po_number = request.form['ticket_po_number']
     ticket_wo_type = request.form['ticket_wo_type']
     ticket_reason = request.form['ticket_reason']
-    ticket_client_visit_note = "Just for test...no client visited site"
     ticket_planned_visit_date = request.form['ticket_planned_visit_date']
     ticket_actual_visit_date = request.form['ticket_actual_visit_date']
     ticket_priority = request.form['ticket_priority']
-    ticket_root_cause = request.form['ticket_root_cause']
-    ticket_action_taken = request.form['ticket_action_taken']
-    ticket_pending_reason = request.form['ticket_pending_reason']
-    ticket_additional_note = request.form['ticket_additional_note']
     ticket_site_id = request.form['ticket_site_id']
 
     ticketInstance.add_ticket(ticket_assigned_to,ticket_opening_time,
     ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
-    ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,ticket_client_visit_note,
-    ticket_priority,ticket_root_cause,
-    ticket_action_taken,ticket_pending_reason,ticket_additional_note,ticket_site_id)
+    ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,
+    ticket_priority,ticket_site_id)
     theClients = ticketInstance.get_clients()
     theEngineers = ticketInstance.get_engineers()
     theWorkOrderTypes = ticketInstance.get_work_order_types()
@@ -111,6 +105,11 @@ def edit_ticket(ticket_id):
     ticket_action_taken = request.form['ticket_action_taken_edit']
     ticket_pending_reason = request.form['ticket_pending_reason_edit']
     ticket_additional_note = request.form['ticket_additional_note_edit']
+    ticket_dispatch_time = request.form['ticket_dispatch_time']
+    ticket_arrival_time = request.form['ticket_arrival_time']
+    ticket_start_time = request.form['ticket_start_time']
+    ticket_complete_time = request.form['ticket_complete_time']
+    ticket_return_time = request.form['ticket_return_time']
     ticket_site_id = request.form['ticket_site_id_edit']
     if ticket_status == "Closed":
         ticket_closing_time = datetime.datetime.now()
@@ -121,7 +120,8 @@ def edit_ticket(ticket_id):
     ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
     ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,ticket_client_visit_note,
     ticket_priority,ticket_root_cause,
-    ticket_action_taken,ticket_pending_reason,ticket_additional_note,ticket_site_id,ticket_closing_time,ticket_id)
+    ticket_action_taken,ticket_pending_reason,ticket_additional_note,ticket_site_id,ticket_closing_time,
+    ticket_dispatch_time,ticket_arrival_time,ticket_start_time,ticket_complete_time,ticket_return_time,ticket_id)
     theClients = ticketInstance.get_clients()
     theEngineers = ticketInstance.get_engineers()
     theWorkOrderTypes = ticketInstance.get_work_order_types()

@@ -141,45 +141,185 @@
 
             <form class="mt-4" action="/edit_user/{{allTheUsers[0]}}" method="POST">
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="firstname">First Name</label>
                         <input type="text" value="{{allTheUsers[1]}}" name="user_first_name_edit" class="form-control" placeholder="First Name" required>
+                        <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="lastname">Last Name</label>
                         <input type="text" value="{{allTheUsers[2]}}" name="user_last_name_edit" class="form-control" placeholder="Last Name" required>
+                        <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="email">Email Address</label>
                         <input type="email" value="{{allTheUsers[4]}}" name="user_email_edit" class="form-control" id="inputAddress" placeholder="Email Address" required>
+                        <i class="fa fa-envelope fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="address">Physical Address</label>
                         <input type="text" value="{{allTheUsers[8]}}" name="user_address_edit" class="form-control" id="inputAddress2" placeholder="Physical Address">
+                        <i class="fa fa-home fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="phoneNumber">Phone Number</label>
                         <input type="text" value="{{allTheUsers[6]}}" name="user_phone_edit" class="form-control" placeholder="Phone Number" required>
+                        <i class="fa fa-phone fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="username">Username</label>
                         <input type="text" value="{{allTheUsers[3]}}" name="user_name_edit" class="form-control" placeholder="Username" required>
+                        <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="inputCity">Password</label>
                         <input type="password" name="user_password_edit" class="form-control" placeholder="Password" required>
+                        <i class="fa fa-key fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="inputZip">Confirm Password</label>
                         <input type="password" name="user_confirm_password_edit" class="form-control" placeholder="Confirm Password" required>
+                        <i class="fa fa-key fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
                 </div>
+
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_add_user_edit" class="custom-control-input" id="customCheck1">
+                            <label class="custom-control-label text-info" for="customCheck1">Can Add User</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_delete_user_edit" class="custom-control-input" id="customCheck2">
+                            <label class="custom-control-label text-info" for="customCheck2">Can Delete User</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_edit_user_edit" class="custom-control-input" id="customCheck3">
+                            <label class="custom-control-label text-info" for="customCheck3">Can Edit User</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_edit_his_info_edit" class="custom-control-input" id="customCheck4">
+                            <label class="custom-control-label text-info" for="customCheck4">Can Edit His/Her Info</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_open_tickets_edit" class="custom-control-input" id="customCheck5">
+                            <label class="custom-control-label text-info" for="customCheck5">Can Open Tickets</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_edit_tickets_edit" class="custom-control-input" id="customCheck6">
+                            <label class="custom-control-label text-info" for="customCheck6">Can Edit Tickets</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_delete_ticket_edit" class="custom-control-input" id="customCheck7">
+                            <label class="custom-control-label text-info" for="customCheck7">Can delete Ticket</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_view_all_tickets_edit" class="custom-control-input" id="customCheck8">
+                            <label class="custom-control-label text-info" for="customCheck8">Can View All Tickets</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_view_his_tickets_edit" class="custom-control-input" id="customCheck9">
+                            <label class="custom-control-label text-info" for="customCheck9">Can View His/Her Tickets</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_edit_his_tickets_edit" class="custom-control-input" id="customCheck10">
+                            <label class="custom-control-label text-info" for="customCheck10">Can Edit His/Her Tickets</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_view_his_tasks_edit" class="custom-control-input" id="customCheck11">
+                            <label class="custom-control-label text-info" for="customCheck11">Can View His/Her Tasks</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_view_all_tasks_edit" class="custom-control-input" id="customCheck12">
+                            <label class="custom-control-label text-info" for="customCheck12">Can View All Tasks</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_view_reports_edit" class="custom-control-input" id="customCheck13">
+                            <label class="custom-control-label text-info" for="customCheck13">Can View His/Her Reports</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_view_all_reports_edit" class="custom-control-input" id="customCheck14">
+                            <label class="custom-control-label text-info" for="customCheck14">Can View All Reports</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_add_delete_edit_clients_edit" class="custom-control-input" id="customCheck15">
+                            <label class="custom-control-label text-info" for="customCheck15">Can Add,Delete,Edit Clients</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_add_delete_edit_engineers_edit" class="custom-control-input" id="customCheck16">
+                            <label class="custom-control-label text-info" for="customCheck16">Can Add,Delete,Edit Engineers</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_add_delete_edit_equipment_edit" class="custom-control-input" id="customCheck17">
+                            <label class="custom-control-label text-info" for="customCheck17">Can Add,Delete,Edit Equipment</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_add_delete_edit_workorder_edit" class="custom-control-input" id="customCheck18">
+                            <label class="custom-control-label text-info" for="customCheck18">Can Add,Delete,Edit Work Order</label>
+                        </div>
+                    </div>
+
+                </div>
+
                 <div class="form-row mt-2">
                     <div class="form-group col-md-2">
                         <button type="submit" href="" class="btn btn-success btn-block">Save Changes</button>

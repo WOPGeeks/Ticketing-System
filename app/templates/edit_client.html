@@ -139,29 +139,34 @@
             {% include '_messages.html'%}
             <form class="mt-4" action="/edit_client/{{allTheClients[0]}}" method="POST">
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="name">Customer Name</label>
                         <input name="customer_name_edit" value="{{allTheClients[1]}}" type="text" class="form-control" placeholder="Customer Name">
+                        <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="product">Customer Product</label>
                         <input name="customer_product_edit" value="{{allTheClients[2]}}" type="text" class="form-control" placeholder="Customer Product">
+                        <i class="fa fa-school fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="address">Customer Address</label>
                         <input name="customer_address_edit" value="{{allTheClients[3]}}" type="text" class="form-control" id="inputAddress" placeholder="Customer Address">
+                        <i class="fa fa-home fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="phone">Customer Phone</label>
                         <input name="customer_phone_edit" value="{{allTheClients[5]}}" type="text" class="form-control" id="inputAddress2" placeholder="Customer Phone">
+                        <i class="fa fa-phone fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-8" id="trialImages">
                         <label class="text-info" for="address">Customer Email</label>
                         <input name="customer_email_edit" value="{{allTheClients[4]}}" type="email" class="form-control" placeholder="Customer Email Address">
+                        <i class="fa fa-envelope fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
                 </div>
                 <div class="form-row mt-4">

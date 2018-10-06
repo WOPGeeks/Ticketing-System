@@ -129,7 +129,7 @@
 
             <form class="mt-4" action="/edit_ticket/{{allTheTickets[0]}}" method="POST">
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="ticket_assigned_to">Ticket Assigned To</label>
                         <select name="ticket_assigned_to_edit" id="inputState" class="form-control">
                     
@@ -139,7 +139,7 @@
                     <option selected>{{allTheTickets[1]}}</option>
                   </select>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="ticket_status">Ticket Status</label>
                         <select id="inputState" name="ticket_status_edit" class="form-control">
                     <option selected>{{allTheTickets[2]}}</option>
@@ -151,7 +151,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="client_name">Client Name</label>
                         <select id="inputState" name="ticket_client_edit" class="form-control">
                       
@@ -161,17 +161,19 @@
                       <option selected>{{allTheTickets[6]}}</option>
                     </select>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="ticket_id">Ticket Site ID</label>
                         <input type="text" value="{{allTheTickets[23]}}" name="ticket_site_id_edit" class="form-control" placeholder="Site ID">
+                        <i class="fa fa-star fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="inputCity">PO Number</label>
                         <input type="text" value="{{allTheTickets[7]}}" name="ticket_po_number_edit" class="form-control" placeholder="PO Number">
+                        <i class="fa fa-book fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="inputZip">Work Order Type</label>
                         <select id="inputState" name="ticket_wo_type_edit" class="form-control">
                     <option selected>-None-</option>
@@ -186,91 +188,88 @@
 
                 <div class="form-row">
 
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="inputZip">Ticket Priority</label>
                         <select id="inputState" name="ticket_priority_edit" class="form-control">
-                            <option selected>High</option>
-                            <option selected>Low</option>
-                            <option selected>Unassigned</option>
+                            <option>High</option>
+                            <option>Low</option>
                             <option selected>{{allTheTickets[13]}}</option>
                         </select>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="inputCity">Ticket Expires After (Hours):</label>
-                        <input id="hours_to_add_edit" type="text" name="hours_to_add_edit" class="form-control">
+                        <input id="hours_to_add_edit" type="text" name="hours_to_add_edit" class="form-control" placeholder="Expires After (Hours)">
+                        <i class="fa fa-clock fa-lg fa-fw" aria-hidden="true"></i>
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-8" id="trialImages">
                         <label class="text-info" for="reason">Reason for Tickets</label>
-                        <textarea name="ticket_reason_edit" value="{{allTheTickets[9]}}" class="form-control" cols="30" rows="2"></textarea>
+                        <textarea name="ticket_reason_edit" class="form-control" cols="30" rows="2">{{allTheTickets[9]}}</textarea>
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="inputCity">Planned Visit Date</label>
                         <input type="date" name="ticket_planned_visit_date_edit" value="{{allTheTickets[11]}}" class="form-control">
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="inputZip">Actual Visit Date</label>
                         <input type="date" name="ticket_actual_visit_date_edit" value="{{allTheTickets[12]}}" class="form-control">
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-8" id="trialImages">
                         <label class="text-info" for="reason">Ticket Root Cause</label>
-                        <textarea name="ticket_root_cause_edit" value="{{allTheTickets[14]}}" class="form-control" cols="30" rows="2"></textarea>
+                        <textarea name="ticket_root_cause_edit" value="#" class="form-control" cols="30" rows="2">{{allTheTickets[14]}}</textarea>
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-8" id="trialImages">
                         <label class="text-info" for="reason">Action taken</label>
-                        <textarea name="ticket_action_taken_edit" value="{{allTheTickets[15]}}" class="form-control" cols="30" rows="2"></textarea>
+                        <textarea name="ticket_action_taken_edit" value="#" class="form-control" cols="30" rows="2">{{allTheTickets[15]}}</textarea>
                     </div>
                 </div>
 
                 <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-8" id="trialImages">
                         <label class="text-info" for="reason_pending">Reason why the ticket is still pending(If applicable)</label>
-                        <textarea name="ticket_pending_reason_edit" value="{{allTheTickets[16]}}" class="form-control" cols="30" rows="2"></textarea>
+                        <textarea name="ticket_pending_reason_edit" value="#" class="form-control" cols="30" rows="2">{{allTheTickets[16]}}</textarea>
                     </div>
                 </div>
 
                 <div class="form-row">
-                    <div class="form-group col-md-12">
-                        <label class="text-info" for="additional_note">Additional Note:{{allTheTickets[22]}}</label>
-                        <textarea name="ticket_additional_note_edit" value="{{allTheTickets[22]}}" class="form-control" cols="30" rows="2"></textarea>
+                    <div class="form-group col-md-8" id="trialImages">
+                        <label class="text-info" for="additional_note">Additional Note:</label>
+                        <textarea id="ticket_additional_note_edit" name="ticket_additional_note_edit" value="#" class="form-control" cols="30" rows="2">{{allTheTickets[22]}}</textarea>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-2">
                         <label class="text-info" for="inputCity">Dispatch Time</label>
-                        <input type="time" value="{{allTheTickets[17]}}" name="ticket_dispatch_time_edit" class="form-control">
+                        <input type="time" value="{{allTheTickets[17]}}" name="ticket_dispatch_time" class="form-control">
                     </div>
                     <div class="form-group col-md-2">
                         <label class="text-info" for="inputZip">Arrival Time</label>
-                        <input type="time" value="{{allTheTickets[18]}}" name="ticket_arrival_time_edit" class="form-control">
+                        <input type="time" value="{{allTheTickets[18]}}" name="ticket_arrival_time" class="form-control">
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-2">
                         <label class="text-info" for="inputZip">Starting Time</label>
-                        <input type="time" value="{{allTheTickets[19]}}" name="ticket_start_time_edit" class="form-control">
+                        <input type="time" value="{{allTheTickets[19]}}" name="ticket_start_time" class="form-control">
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-2">
                         <label class="text-info" for="inputZip">Completion Time</label>
-                        <input type="time" value="{{allTheTickets[20]}}" name="ticket_complete_time_edit" class="form-control">
+                        <input type="time" value="{{allTheTickets[20]}}" name="ticket_complete_time" class="form-control">
                     </div>
                     <div class="form-group col-md-2">
                         <label class="text-info" for="inputZip">Return Time</label>
-                        <input type="time" value="{{allTheTickets[21]}}" name="ticket_return_time_edit" class="form-control">
+                        <input type="time" value="{{allTheTickets[21]}}" name="ticket_return_time" class="form-control">
                     </div>
                 </div>
                 <div class="form-row mt-3">
                     <div class="form-group col-md-2">
                         <button type="submit" class="btn btn-success btn-block">Submit</button>
-                    </div>
-                    <div class="form-group col-md-2">
-                        <button type="submit" class="btn btn-info btn-block">Submit & Add New</button>
                     </div>
                     <div class="form-group col-md-2">
                         <button type="cancel" class="btn btn-secondary btn-block">Cancel</button>
