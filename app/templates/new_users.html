@@ -171,8 +171,8 @@
                         </div>
                     </div>
                     <div class="form-group col-md-4" id="trialImages">
-                        <label class="text-info" for="email">Physical Address</label>
-                        <input id="physical_address" type="email" value="{{allTheUsers[1]}}" name="physical_address" class="form-control" placeholder="Physical Address">
+                        <label class="text-info" for="user_physical_address">Physical Address</label>
+                        <input id="user_physical_address" type="text" value="{{allTheUsers[1]}}" name="user_physical_address" class="form-control" placeholder="Physical Address">
                         <i class="fa fa-home fa-lg fa-fw" aria-hidden="true"></i>
                         <div class="invalid-feedback">
                             Physical Address is invalid
@@ -340,9 +340,15 @@
 
                 </div>
                 <div class="form-row mt-2">
+                    {% if currentUser[9] ==1:%}
                     <div class="form-group col-md-2">
                         <button type="submit" class="btn btn-success btn-block" onclick="javascript: form.action='/add_user';">Submit</button>
                     </div>
+                    {% else:%}
+                    <div class="form-group col-md-2">
+                        <button type="submit" class="btn btn-success btn-block" onclick="javascript: form.action='/add_user';" disabled>Submit</button>
+                    </div>
+                    {% endif%}
 
                     <div class="form-group col-md-2">
                         <button type="submit" id="cancel" name="cancel" href="" class="btn btn-secondary btn-block">Cancel</button>

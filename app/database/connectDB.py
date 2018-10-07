@@ -48,8 +48,7 @@ class DatabaseConnectivity:
     def create_users_table(self):
         sqlcommandforUsers =(
             """
-            CREATE TABLE IF NOT EXISTS users(user_id SERIAL PRIMARY KEY, user_first_name VARCHAR(250), user_last_name VARCHAR(250),
-              user_name VARCHAR(250),user_email VARCHAR(250), user_password VARCHAR(100), user_phone VARCHAR(250), user_status smallint DEFAULT 0, user_address VARCHAR(250))
+            DROP TABLE users
             """
         )
         self.conn = self.connectToDatabase()

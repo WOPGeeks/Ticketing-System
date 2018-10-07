@@ -8,6 +8,10 @@ from app.tickets.tickets_model import Tickets
 from passlib.hash import sha256_crypt
 import datetime
 from datetime import timedelta
+from flask_jwt_extended import (
+    JWTManager, jwt_required, create_access_token,
+    get_jwt_identity
+)
 
 
 dbInstance = DatabaseConnectivity()
@@ -19,6 +23,22 @@ ticketInstance = Tickets()
 
 app = Flask(__name__)
 app.secret_key = 'mysecretkeyghjngdssdfghjhdfhghhsffdtrdddvdvbggdsewwessaae'
+
+app.config['JWT_SECRET_KEY'] = 'somesecretstuffsforjwt'
+jwt = JWTManager(app)
+
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(days=1)
+
+# @jwt.unauthorized_loader
+# def unauthorized_response(callback):
+#     return jsonify({
+#         'Message': 'Missing Authorization Header'
+#     }), 401
+
+@jwt.unauthorized_loader
+def unauthorized_response(callback):
+    flash('Missing Authorization Header, You Have To Login To Have Access To This Content','danger')
+    return render_template('dashboard.html')
 
 @app.route('/login')
 def index():
@@ -38,6 +58,7 @@ def login():
     if usernameDB == username:
         password = data[1]
         if sha256_crypt.verify(password_candidate,password):
+            access_token = create_access_token(identity=username)
             allTheTickets = ticketInstance.view_all_tickets()
             return render_template('dashboard.html', allTheTickets=allTheTickets)
             
@@ -154,8 +175,10 @@ def new_customer():
 
 @app.route('/user')
 def new_users():
+    current_user = get_jwt_identity()
+    can_add = usersInstance.checkIfUserCanAdd(current_user)
     theReturnedUser = usersInstance.get_no_user()
-    return render_template('new_users.html', allTheUsers=theReturnedUser)
+    return render_template('new_users.html', allTheUsers=theReturnedUser,currentUser=can_add)
 
 @app.route('/engineer')
 def new_engineer():
@@ -166,7 +189,14 @@ def new_equipment():
     return render_template('new_equipment.html')
 
 @app.route('/workorder')
+# @jwt_required
 def new_workorder():
+    # if not access_token['username'] == get_jwt_identity():
+    #     user =access_token['username']
+    #     current_user = get_jwt_identity()
+    #     print(user)
+    #     print(current_user)
+    #     return redirect(url_for('index'))
     return render_template('new_workorder.html')
 
 @app.route('/add_user', methods=['POST'])
@@ -178,8 +208,123 @@ def add_user():
     userAddress = request.form['user_physical_address']
     userPhone = request.form['user_phone']
     userPassword = request.form['user_password']
+    can_add_user = request.form.get('can_add_user')
+    if can_add_user:
+        can_add_user_value = 1
+    else:
+        can_add_user_value = 0
+
+    can_delete_user = request.form.get('can_delete_user')
+    if can_delete_user:
+        can_delete_user_value = 1
+    else:
+        can_delete_user_value = 0
+
+    can_edit_user = request.form.get('can_edit_user')
+    if can_edit_user:
+        can_edit_user_value = 1
+    else:
+        can_edit_user_value = 0
+
+    can_edit_his_info = request.form.get('can_edit_his_info')
+    if can_edit_his_info:
+        can_edit_his_info_value = 1
+    else:
+        can_edit_his_info_value = 0
+
+    can_open_tickets = request.form.get('can_open_tickets')
+    if can_open_tickets:
+        can_open_tickets_value = 1
+    else:
+        can_open_tickets_value = 0
+
+    can_edit_tickets = request.form.get('can_edit_tickets')
+    if can_edit_tickets:
+        can_edit_tickets_value = 1
+    else:
+        can_edit_tickets_value = 0
+
+    can_delete_tickets = request.form.get('can_delete_tickets')
+    if can_delete_tickets:
+        can_delete_tickets_value = 1
+    else:
+        can_delete_tickets_value = 0
+
+    can_view_all_tickets = request.form.get('can_view_all_tickets')
+    if can_view_all_tickets:
+        can_view_all_tickets_value = 1
+    else:
+        can_view_all_tickets_value = 0
+
+    can_view_his_tickets = request.form.get('can_view_his_tickets')
+    if can_view_his_tickets:
+        can_view_his_tickets_value = 1
+    else:
+        can_view_his_tickets_value = 0
+
+    can_edit_his_tickets = request.form.get('can_edit_his_tickets')
+    if can_edit_his_tickets:
+        can_edit_his_tickets_value = 1
+    else:
+        can_edit_his_tickets_value = 0
+
+    can_view_his_tasks = request.form.get('can_view_his_tasks')
+    if can_view_his_tasks:
+        can_view_his_tasks_value = 1
+    else:
+        can_view_his_tasks_value = 0
+
+    can_view_all_tasks = request.form.get('can_view_all_tasks')
+    if can_view_all_tasks:
+        can_view_all_tasks_value = 1
+    else:
+        can_view_all_tasks_value = 0
+
+    can_view_his_reports = request.form.get('can_view_his_reports')
+    if can_view_his_reports:
+        can_view_his_reports_value = 1
+    else:
+        can_view_his_reports_value = 0
+
+    can_view_all_reports = request.form.get('can_view_all_reports')
+    if can_view_all_reports:
+        can_view_all_reports_value = 1
+    else:
+        can_view_all_reports_value = 0
+
+    can_add_delete_edit_client = request.form.get('can_add_delete_edit_client')
+    if can_add_delete_edit_client:
+        can_add_delete_edit_client_value = 1
+    else:
+        can_add_delete_edit_client_value = 0
+
+    can_add_delete_edit_engineer = request.form.get('can_add_delete_edit_engineer')
+    if can_add_delete_edit_engineer:
+        can_add_delete_edit_engineer_value = 1
+    else:
+        can_add_delete_edit_engineer_value = 0
+
+
+    can_add_delete_edit_equipment = request.form.get('can_add_delete_edit_equipment')
+    if can_add_delete_edit_equipment:
+        can_add_delete_edit_equipment_value = 1
+    else:
+        can_add_delete_edit_equipment_value = 0
+
+
+    can_add_delete_edit_workorder = request.form.get('can_add_delete_edit_workorder')
+    if can_add_delete_edit_workorder:
+        can_add_delete_edit_workorder_value = 1
+    else:
+        can_add_delete_edit_workorder_value = 0
+
     encryptedPassword = sha256_crypt.encrypt(str(userPassword))
-    usersInstance.add_user(firstName,lastName,email,userAddress,userPhone,userName,encryptedPassword)
+    usersInstance.add_user(firstName,lastName,email,userAddress,userPhone,userName,encryptedPassword,
+    can_add_user_value,can_delete_user_value,can_edit_user_value,can_edit_his_info_value,
+    can_open_tickets_value,can_edit_tickets_value,can_delete_tickets_value,can_view_all_tickets_value,
+    can_view_his_tickets_value,can_edit_his_tickets_value,can_view_his_tasks_value,can_view_all_tasks_value,
+    can_view_his_reports_value,can_view_all_reports_value,can_add_delete_edit_client_value,
+    can_add_delete_edit_engineer_value,can_add_delete_edit_equipment_value,can_add_delete_edit_workorder_value)
     theReturnedUsers = usersInstance.view_all_users()
     return render_template('view_users.html', allTheUsers=theReturnedUsers)
 

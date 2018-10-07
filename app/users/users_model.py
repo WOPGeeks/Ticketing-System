@@ -4,15 +4,35 @@ from flask import flash
 
 dbInstance = DatabaseConnectivity()
 class Users:
-    def add_user(self,first_name,last_name,email,address,user_phone,username,password):
+    def add_user(self,first_name,last_name,email,address,user_phone,username,password,
+    user_can_add_user,user_can_delete_user,user_can_edit_user,user_can_edit_his_info,
+    user_can_open_tickets,user_can_edit_tickets,user_can_delete_tickets,user_can_view_all_tickets,
+    user_can_view_his_tickets,user_can_edit_his_tickets,user_can_view_his_tasks,user_can_view_all_tasks,
+    user_can_view_his_reports,user_can_view_all_reports,user_can_add_delete_edit_client,
+    user_can_add_delete_edit_engineer,user_can_add_delete_edit_equipment,user_can_add_delete_edit_workorder):
         try:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
-            cur.execute("INSERT INTO users(user_first_name,user_last_name,user_email,user_address,user_phone,user_name,user_password) VALUES(%s,%s,%s,%s,%s,%s,%s)",(first_name,last_name,email,address,user_phone,username,password))
+            sql ="""
+            INSERT INTO users(user_first_name,user_last_name,user_email,user_address,user_phone,user_name,user_password,
+            user_can_add_user,user_can_delete_user,user_can_edit_user,user_can_edit_his_info,
+            user_can_open_tickets,user_can_edit_tickets,user_can_delete_tickets,user_can_view_all_tickets,
+            user_can_view_his_tickets,user_can_edit_his_tickets,user_can_view_his_tasks,user_can_view_all_tasks,
+            user_can_view_his_reports,user_can_view_all_reports,user_can_add_delete_edit_client_info,
+            user_can_add_delete_edit_engineer_info,user_can_add_delete_edit_equipment_info,user_can_add_delete_edit_workorder_info) 
+            VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            """
+            cur.execute(sql,
+            (first_name,last_name,email,address,user_phone,username,password,
+            user_can_add_user,user_can_delete_user,user_can_edit_user,user_can_edit_his_info,
+            user_can_open_tickets,user_can_edit_tickets,user_can_delete_tickets,user_can_view_all_tickets,
+            user_can_view_his_tickets,user_can_edit_his_tickets,user_can_view_his_tasks,user_can_view_all_tasks,
+            user_can_view_his_reports,user_can_view_all_reports,user_can_add_delete_edit_client,
+            user_can_add_delete_edit_engineer,user_can_add_delete_edit_equipment,user_can_add_delete_edit_workorder))
             conn.commit()
-            flash('User Added Successfully','success')
-        except:
-            flash('Error submiting the data to database','danger')
+            flash('User {} Added Successfully'.format(first_name),'success')
+        except(Exception, psycopg2.DatabaseError) as e:
+            print(e)
 
     def view_all_users(self):
         try:
@@ -92,3 +112,16 @@ class Users:
             return self.theUser
         except:
             flash('Error retrieving user from database','danger')
+
+    def checkIfUserCanAdd(self, current_user):
+        try:
+            conn = dbInstance.connectToDatabase()
+            cur = conn.cursor()
+            sql = """SELECT * FROM users WHERE user_name=%s"""
+            cur.execute(sql,[current_user])
+            self.theUser = cur.fetchone()
+            return self.theUser
+        except:
+            flash('Error retrieving the user from database','danger')
+
+
