@@ -23,18 +23,31 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ url_for('dashboard') }}">TICKETS <span class="sr-only">(current)</span></a>
                 </li>
+                {% if currentUser[23] ==0:%}
+                <li class="nav-item">
+                    <a class="nav-link" href="/robot">CUSTOMERS</a>
+                </li>
+                {% else:%}
                 <li class="nav-item">
                     <a class="nav-link" href="/all_clients">CUSTOMERS</a>
                 </li>
+                {% endif%}
                 <li class="nav-item">
                     <a class="nav-link" href="/tasks">TASKS</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/reports">REPORT</a>
                 </li>
+
+                {% if currentUser[13] ==0:%}
+                <li class="nav-item">
+                    <a class="nav-link" href="robot">OPEN TICKETS</a>
+                </li>
+                {% else:%}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('new_ticket') }}">OPEN TICKETS</a>
                 </li>
+                {% endif%}
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
@@ -132,7 +145,8 @@
                         <li>
                             <a href="#">My Overdue Tickets</a>
                         </li>
-                        {% else:%}
+                        {% else:%} {% if currentUser[13] ==1:%}
+
                         <li>
                             <a href="#">My Tickets</a>
                         </li>
@@ -144,7 +158,7 @@
                         </li>
                         <li>
                             <a href="#">My Overdue Tickets</a>
-                        </li> {%endif%}
+                        </li>{% else:%} {%endif%} {%endif%}
 
                     </ul>
                 </li>

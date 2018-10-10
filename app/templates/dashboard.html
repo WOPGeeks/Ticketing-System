@@ -22,18 +22,32 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ url_for('dashboard') }}">TICKETS <span class="sr-only">(current)</span></a>
                 </li>
+                {% if currentUser[23] ==0:%}
+                <li class="nav-item">
+                    <a class="nav-link" href="/robot">CUSTOMERS</a>
+                </li>
+                {% else:%}
                 <li class="nav-item">
                     <a class="nav-link" href="/all_clients">CUSTOMERS</a>
                 </li>
+                {% endif%}
                 <li class="nav-item">
                     <a class="nav-link" href="/tasks">TASKS</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/reports">REPORT</a>
                 </li>
+
+                {% if currentUser[13] ==0:%}
+                <li class="nav-item">
+                    <a class="nav-link" href="robot">OPEN TICKETS</a>
+                </li>
+                {% else:%}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('new_ticket') }}">OPEN TICKETS</a>
                 </li>
+                {% endif%}
+
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
@@ -134,7 +148,8 @@
                             <a href="#">My Overdue Tickets</a>
                         </li>
 
-                        {% else:%}
+                        {% else:%} {% if currentUser[13] ==1:%}
+
                         <li>
                             <a href="#">My Tickets</a>
                         </li>
@@ -146,7 +161,7 @@
                         </li>
                         <li>
                             <a href="#">My Overdue Tickets</a>
-                        </li> {%endif%}
+                        </li>{% else:%} {%endif%} {%endif%}
 
                     </ul>
                 </li>
@@ -175,8 +190,9 @@
                     </p>
                 </div>
                 <div class="col-md-2">
-                    <a href="/edit_the_ticket/{{eachTicket[0]}}"><i class="fas fa-edit text-info" style="font-size: 15px"></i></a> &nbsp &nbsp
-                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt text-danger" style="font-size: 15px"></i></a>
+                    {% if currentUser[14] ==1:%}
+                    <a href="/edit_the_ticket/{{eachTicket[0]}}"><i class="fas fa-edit text-info" style="font-size: 15px"></i></a> &nbsp &nbsp {% else:%} {% endif%} {% if currentUser[15] ==1:%}
+                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt text-danger" style="font-size: 15px"></i></a> {% else:%} {% endif%}
                 </div>
                 {%if "High" in "eachTicket[6]": %}
                 <div class="col-md-1">
@@ -207,10 +223,11 @@
                     </p>
                 </div>
                 <div class="col-md-2">
-                    <a href="/edit_the_ticket/{{eachOfMyTicket[0]}}"><i class="fas fa-edit text-info" style="font-size: 15px"></i></a> &nbsp &nbsp
-                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt text-danger" style="font-size: 15px"></i></a>
+                    {% if currentUser[14] ==1:%}
+                    <a href="/edit_the_ticket/{{eachTicket[0]}}"><i class="fas fa-edit text-info" style="font-size: 15px"></i></a> &nbsp &nbsp {% else:%} {% endif%} {% if currentUser[15] ==1:%}
+                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt text-danger" style="font-size: 15px"></i></a> {% else:%} {% endif%}
                 </div>
-                {%if "High" in "eachOfMyTicket[6]": %}
+                {%if "High" in eachOfMyTicket[6]: %}
                 <div class="col-md-1">
                     <p id="overdue-status" style="color: green;" class="ticket-details-6">{{eachOfMyTicket[6]}}</p>
                 </div>

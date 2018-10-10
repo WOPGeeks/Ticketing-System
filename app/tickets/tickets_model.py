@@ -108,7 +108,7 @@ class Tickets:
         try:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
-            # sql = """
+            sql = """
             # SELECT ticket_id,ticket_reason,ticket_assigned_to,ticket_client,
             # CASE WHEN TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>0 
             # THEN CONCAT('Expired at ','',ticket_overdue_time) ELSE 

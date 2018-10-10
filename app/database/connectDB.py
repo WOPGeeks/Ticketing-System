@@ -108,4 +108,4 @@ class DatabaseConnectivity:
         self.cur.execute(sqlcommandforAnswers)
         self.conn.commit()
 
-   
+    
