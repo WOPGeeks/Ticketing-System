@@ -6,7 +6,6 @@ dbInstance = DatabaseConnectivity()
 # dbInstance.create_clients_table()
 # dbInstance.create_work_orders_table()
 # dbInstance.create_tickets_table()
-# dbInstance.add_column_username_to_tickets()
 
 if __name__ == '__main__':
     app.secret_key = 'mysecretkeyghjngdssdfghjhdfhghhsffdtrdddvdvbggdsewwessaae'
