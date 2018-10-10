@@ -107,3 +107,14 @@ class DatabaseConnectivity:
         self.cur = self.conn.cursor()
         self.cur.execute(sqlcommandforAnswers)
         self.conn.commit()
+
+    def add_column_username_to_tickets(self):
+        sqlcommandforAnswers =(
+            """
+            ALTER TABLE tickets ADD COLUMN username VARCHAR(100);
+            """
+        )
+        self.conn = self.connectToDatabase()
+        self.cur = self.conn.cursor()
+        self.cur.execute(sqlcommandforAnswers)
+        self.conn.commit()

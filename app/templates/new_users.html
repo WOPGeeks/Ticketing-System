@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
 
 </head>
 
@@ -59,7 +60,6 @@
         </div>
     </nav>
 
-
     <!-- Side -->
     <div class="wrapper">
         <!-- Sidebar  -->
@@ -71,24 +71,32 @@
                 <li class="active mt-2 mb-2" data-spy="scroll">
                     <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fas fa-folder-open"></i> New</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu1">
+                        {% if currentUser[9] ==0:%} {% else:%}
                         <li>
-                            <a href="#">Add New User</a>
+                            <a href="{{ url_for('new_users') }}">Add New User</a>
                         </li>
+                        {%endif%} {% if currentUser[13] ==0:%} {% else:%}
                         <li>
-                            <a href="/new_ticket">Add New Ticket</a>
+                            <a href="{{ url_for('new_ticket') }}">Add New Ticket</a>
                         </li>
+                        {%endif%} {% if currentUser[23] ==0:%} {% else:%}
                         <li>
-                            <a href="/client">Add New Client</a>
+                            <a href="{{ url_for('new_customer') }}">Add New Client</a>
                         </li>
+
+                        {%endif%} {% if currentUser[24] ==0:%} {% else:%}
                         <li>
-                            <a href="/engineer">Add New Engineer</a>
+                            <a href="{{ url_for('new_engineer') }}">Add New Engineer</a>
                         </li>
+                        {%endif%} {% if currentUser[25] ==0:%} {% else:%}
                         <li>
-                            <a href="/equipment">Add New Equipment</a>
+                            <a href="{{ url_for('new_equipment') }}">Add New Equipment</a>
                         </li>
+                        {%endif%} {% if currentUser[26] ==0:%} {% else:%}
                         <li>
-                            <a href="/workorder">Add New Work Order</a>
+                            <a href="{{ url_for('new_workorder') }}">Add New Work Order</a>
                         </li>
+                        {%endif%}
                     </ul>
                 </li>
                 <li class="mt-2 mb-2">
@@ -98,9 +106,11 @@
                 <li class="active mt-2 mb-2" data-spy="scroll">
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fas fa-folder-open"></i> Views</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
+                        {% if currentUser[16] ==1:%}
                         <li>
                             <a href="#">All Tickets</a>
                         </li>
+
                         <li>
                             <a href="#">Open Tickets</a>
                         </li>
@@ -110,9 +120,34 @@
                         <li>
                             <a href="#">Overdue Tickets</a>
                         </li>
+
                         <li>
-                            <a href="#">SLA Violated Tickets</a>
+                            <a href="#">My Tickets</a>
                         </li>
+                        <li>
+                            <a href="#">My Open Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Closed Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Overdue Tickets</a>
+                        </li>
+
+                        {% else:%}
+                        <li>
+                            <a href="#">My Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Open Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Closed Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Overdue Tickets</a>
+                        </li> {%endif%}
+
                     </ul>
                 </li>
             </ul>
@@ -174,9 +209,6 @@
                         <label class="text-info" for="user_physical_address">Physical Address</label>
                         <input id="user_physical_address" type="text" value="{{allTheUsers[1]}}" name="user_physical_address" class="form-control" placeholder="Physical Address">
                         <i class="fa fa-home fa-lg fa-fw" aria-hidden="true"></i>
-                        <div class="invalid-feedback">
-                            Physical Address is invalid
-                        </div>
                     </div>
                 </div>
                 <div class="form-row">
@@ -202,11 +234,17 @@
                         <label class="text-info" for="inputCity">Password</label>
                         <input id="user_password" type="password" name="user_password" class="form-control" placeholder="Password" required>
                         <i class="fa fa-key fa-lg fa-fw" aria-hidden="true"></i>
+                        <div class="invalid-feedback">
+                            password is invalid
+                        </div>
                     </div>
                     <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="inputZip">Confirm Password</label>
                         <input id="user_confirm_password" type="password" name="user_confirm_password" class="form-control" placeholder="Confirm Password" required>
                         <i class="fa fa-key fa-lg fa-fw" aria-hidden="true"></i>
+                        <div class="invalid-feedback">
+                            password is invalid
+                        </div>
                     </div>
                 </div>
                 <div class="form-row">
@@ -256,7 +294,7 @@
                 <div class="form-row">
                     <div class="col-md-4">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" name="can_delete_ticket" class="custom-control-input" id="customCheck7">
+                            <input type="checkbox" name="can_delete_tickets" class="custom-control-input" id="customCheck7">
                             <label class="custom-control-label text-info" for="customCheck7">Can delete Ticket</label>
                         </div>
                     </div>
@@ -340,16 +378,9 @@
 
                 </div>
                 <div class="form-row mt-2">
-                    {% if currentUser[9] ==1:%}
                     <div class="form-group col-md-2">
                         <button type="submit" class="btn btn-success btn-block" onclick="javascript: form.action='/add_user';">Submit</button>
                     </div>
-                    {% else:%}
-                    <div class="form-group col-md-2">
-                        <button type="submit" class="btn btn-success btn-block" onclick="javascript: form.action='/add_user';" disabled>Submit</button>
-                    </div>
-                    {% endif%}
-
                     <div class="form-group col-md-2">
                         <button type="submit" id="cancel" name="cancel" href="" class="btn btn-secondary btn-block">Cancel</button>
                     </div>
@@ -360,13 +391,106 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="{{ url_for('static', filename= 'scripts/app.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename= 'scripts/app.js') }}"></script> -->
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
+    <script type="text/javascript">
+        document.getElementById('user_first_name').addEventListener('blur', user_first_name);
+        document.getElementById('user_last_name').addEventListener('blur', user_last_name);
+        document.getElementById('user_email').addEventListener('blur', user_email);
+        document.getElementById('user_phone').addEventListener('blur', user_phone);
+        document.getElementById('user_name').addEventListener('blur', user_name);
+        document.getElementById('user_password').addEventListener('blur', user_password);
 
-</body>
 
-</html>
+        function user_first_name() {
+            const user_first_name = document.getElementById('user_first_name');
+            const re_user_first_name = /^[a-zA-Z\.]?[-. ]?[a-zA-Z]{2,16}$/;
+
+            if (!re_user_first_name.test(user_first_name.value)) {
+                return user_first_name.classList.add('is-invalid');
+            } else {
+                return user_first_name.classList.remove('is-invalid');
+            }
+
+        }
+
+        function user_last_name() {
+            const user_last_name = document.getElementById('user_last_name');
+            const re_user_last_name = /^[a-zA-Z\.]?[-. ]?[a-zA-Z]{2,16}$/;
+
+            if (!re_user_last_name.test(user_last_name.value)) {
+                return user_last_name.classList.add('is-invalid');
+            } else {
+                return user_last_name.classList.remove('is-invalid');
+            }
+
+        }
+
+        function user_email() {
+            const user_email = document.getElementById('user_email');
+            const re_user_email = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+
+            if (!re_user_email.test(user_email.value)) {
+                user_email.classList.add('is-invalid');
+            } else {
+                user_email.classList.remove('is-invalid');
+            }
+
+        }
+
+
+        function user_phone() {
+            const user_phone = document.getElementById('user_phone');
+            const re_user_phone = /^\+?\d{3,4}[-. ]?\d{3}[-. ]?\d{3}[-. ]?(\d{3})?$/;
+
+            if (!re_user_phone.test(user_phone.value)) {
+                user_phone.classList.add('is-invalid');
+            } else {
+                user_phone.classList.remove('is-invalid');
+            }
+        }
+
+        function user_name() {
+            const user_name = document.getElementById('user_name');
+            const re_user_name = /^[a-zA-Z\.\@]?[-. ]?[a-zA-Z]{2,16}$/;
+
+            if (!re_user_name.test(user_name.value)) {
+                return user_name.classList.add('is-invalid');
+            } else {
+                return user_name.classList.remove('is-invalid');
+            }
+
+        }
+
+        function user_password() {
+            const user_password = document.getElementById('user_password');
+            const re_user_password = /^[a-zA-Z0-9]{2,16}(\+\.\@\-)?$/;
+
+            if (!re_user_password.test(user_password.value)) {
+                return user_password.classList.add('is-invalid');
+            } else {
+                return user_password.classList.remove('is-invalid');
+            }
+
+        }
+
+        function user_confirm_password() {
+            const user_confirm_password = document.getElementById('user_confirm_password');
+            const user_password_check = document.getElementById('user_password');
+
+
+            if (user_confirm_password.value !== user_password_check.value) {
+                return user_confirm_password.classList.add('is-invalid');
+            } else {
+                return user_confirm_password.classList.remove('is-invalid');
+            }
+
+        }
+    </script>
+    < /body>
+
+        < /html>

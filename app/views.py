@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, flash, session
+from flask import Flask, render_template, request, jsonify, flash, session, g
 from app.database.connectDB import DatabaseConnectivity
 from app.users.users_model import Users
 from app.customers.customers_model import Customers
@@ -35,10 +35,12 @@ app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(days=1)
 #         'Message': 'Missing Authorization Header'
 #     }), 401
 
-@jwt.unauthorized_loader
-def unauthorized_response(callback):
-    flash('Missing Authorization Header, You Have To Login To Have Access To This Content','danger')
-    return render_template('dashboard.html')
+@app.before_request
+def before_request():
+    g.username = None
+    if 'username' in session:
+        g.username = session['username']
+
 
 @app.route('/login')
 def index():
@@ -46,6 +48,7 @@ def index():
 
 @app.route('/index', methods=['GET', 'POST'])
 def login():
+    session.pop('username', None)
     username = request.form['username']
     password_candidate = request.form['password']
 
@@ -58,9 +61,11 @@ def login():
     if usernameDB == username:
         password = data[1]
         if sha256_crypt.verify(password_candidate,password):
-            access_token = create_access_token(identity=username)
+            session['username'] = username
+            LoggedInUser = usersInstance.checkUserRights(username)
             allTheTickets = ticketInstance.view_all_tickets()
-            return render_template('dashboard.html', allTheTickets=allTheTickets)
+            myTickets = ticketInstance.view_all_tickets()
+            return render_template('dashboard.html', allTheTickets=allTheTickets,currentUser=LoggedInUser,allMyTickets=myTickets)
             
         else:
             flash('Invalid Password', 'danger')
@@ -71,13 +76,15 @@ def login():
 
 @app.route('/new_ticket')
 def new_ticket():
+    LoggedInUser = session['username']
     theClients = ticketInstance.get_clients()
     theEngineers = ticketInstance.get_engineers()
     theWorkOrderTypes = ticketInstance.get_work_order_types()
-    return render_template('new_ticket.html',theWorkOrderTypes=theWorkOrderTypes, theEngineers=theEngineers, theClients=theClients)
+    return render_template('new_ticket.html',theWorkOrderTypes=theWorkOrderTypes, theEngineers=theEngineers, theClients=theClients,currentUser=LoggedInUser)
 
 @app.route('/add_ticket', methods=['POST'])
 def add_ticket():
+    LoggedInUser = session['username']
     ticket_assigned_to = request.form['ticket_assigned_to']
     ticket_status =  request.form['ticket_status']
     hours_to_add = request.form['hours_to_add']
@@ -92,23 +99,27 @@ def add_ticket():
     ticket_priority = request.form['ticket_priority']
     ticket_site_id = request.form['ticket_site_id']
 
+    username = session['username']
+
     ticketInstance.add_ticket(ticket_assigned_to,ticket_opening_time,
     ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
     ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,
-    ticket_priority,ticket_site_id)
+    ticket_priority,username, ticket_site_id)
     theClients = ticketInstance.get_clients()
     theEngineers = ticketInstance.get_engineers()
     theWorkOrderTypes = ticketInstance.get_work_order_types()
-    return render_template('new_ticket.html',theWorkOrderTypes=theWorkOrderTypes, theEngineers=theEngineers, theClients=theClients)
+    return render_template('new_ticket.html',theWorkOrderTypes=theWorkOrderTypes, theEngineers=theEngineers, theClients=theClients,currentUser=LoggedInUser)
 
 @app.route('/edit_the_ticket/<int:ticket_id>', methods=['GET'])
 def get_ticket_details_for_edit(ticket_id):
+    LoggedInUser = session['username']
     theReturnedTicket = ticketInstance.get_ticket_by_Id(ticket_id)
-    return render_template('edit_ticket.html', allTheTickets=theReturnedTicket)
+    return render_template('edit_ticket.html', allTheTickets=theReturnedTicket,currentUser=LoggedInUser)
 
 
 @app.route('/edit_ticket/<int:ticket_id>', methods=['POST'])
 def edit_ticket(ticket_id):
+    LoggedInUser = session['username']
     ticket_assigned_to = request.form['ticket_assigned_to_edit']
     ticket_status =  request.form['ticket_status_edit']
     hours_to_add = request.form['hours_to_add_edit']
@@ -146,61 +157,64 @@ def edit_ticket(ticket_id):
     theClients = ticketInstance.get_clients()
     theEngineers = ticketInstance.get_engineers()
     theWorkOrderTypes = ticketInstance.get_work_order_types()
-    return render_template('new_ticket.html',theWorkOrderTypes=theWorkOrderTypes, theEngineers=theEngineers, theClients=theClients)
+    return render_template('new_ticket.html',theWorkOrderTypes=theWorkOrderTypes, theEngineers=theEngineers, theClients=theClients,currentUser=LoggedInUser)
 
 
 @app.route('/view_all_tickets', methods=['GET'])
 def view_all_tickets():
+    LoggedInUser = session['username']
     allTheTickets = ticketInstance.view_all_tickets()
-    return render_template('dashboard.html', allTheTickets=allTheTickets)
+    myTickets = ticketInstance.view_all_my_tickets(LoggedInUser)
+    return render_template('dashboard.html', allTheTickets=allTheTickets, currentUser=LoggedInUser,myTickets=myTickets)
 
 @app.route('/dashboard')
 def dashboard():
+    LoggedInUser = session['username']
     allTheTickets = ticketInstance.view_all_tickets()
-    return render_template('dashboard.html', allTheTickets=allTheTickets)
+    myTickets = ticketInstance.view_all_tickets()
+    return render_template('dashboard.html', allTheTickets=allTheTickets, currentUser=LoggedInUser,myTickets=myTickets)
 
 
 @app.route('/reports')
 def reports():
-    return render_template('reports.html')
+    LoggedInUser = session['username']
+    return render_template('reports.html', currentUser=LoggedInUser)
 
 @app.route('/tasks')
 def tasks():
-    return render_template('tasks.html')
+    LoggedInUser = session['username']
+    return render_template('tasks.html', currentUser=LoggedInUser)
 
 
 @app.route('/client')
 def new_customer():
-    return render_template('new_customer.html')
+    LoggedInUser = session['username']
+    return render_template('new_customer.html', currentUser=LoggedInUser)
 
 @app.route('/user')
 def new_users():
-    current_user = get_jwt_identity()
-    can_add = usersInstance.checkIfUserCanAdd(current_user)
+    LoggedInUser = session['username']
     theReturnedUser = usersInstance.get_no_user()
-    return render_template('new_users.html', allTheUsers=theReturnedUser,currentUser=can_add)
+    return render_template('new_users.html', allTheUsers=theReturnedUser,currentUser=LoggedInUser)
 
 @app.route('/engineer')
 def new_engineer():
-    return render_template('new_engineer.html')
+    LoggedInUser = session['username']
+    return render_template('new_engineer.html',currentUser=LoggedInUser)
 
 @app.route('/equipment')
 def new_equipment():
-    return render_template('new_equipment.html')
+    LoggedInUser = session['username']
+    return render_template('new_equipment.html',currentUser=LoggedInUser)
 
 @app.route('/workorder')
-# @jwt_required
 def new_workorder():
-    # if not access_token['username'] == get_jwt_identity():
-    #     user =access_token['username']
-    #     current_user = get_jwt_identity()
-    #     print(user)
-    #     print(current_user)
-    #     return redirect(url_for('index'))
-    return render_template('new_workorder.html')
+    LoggedInUser = session['username']
+    return render_template('new_workorder.html',currentUser=LoggedInUser)
 
 @app.route('/add_user', methods=['POST'])
 def add_user():
+    LoggedInUser = session['username']
     firstName = request.form['user_first_name']
     lastName = request.form['user_last_name']
     userName = request.form['user_name']
@@ -292,13 +306,13 @@ def add_user():
     else:
         can_view_all_reports_value = 0
 
-    can_add_delete_edit_client = request.form.get('can_add_delete_edit_client')
+    can_add_delete_edit_client = request.form.get('can_add_delete_edit_clients')
     if can_add_delete_edit_client:
         can_add_delete_edit_client_value = 1
     else:
         can_add_delete_edit_client_value = 0
 
-    can_add_delete_edit_engineer = request.form.get('can_add_delete_edit_engineer')
+    can_add_delete_edit_engineer = request.form.get('can_add_delete_edit_engineers')
     if can_add_delete_edit_engineer:
         can_add_delete_edit_engineer_value = 1
     else:
@@ -326,20 +340,22 @@ def add_user():
     can_view_his_reports_value,can_view_all_reports_value,can_add_delete_edit_client_value,
     can_add_delete_edit_engineer_value,can_add_delete_edit_equipment_value,can_add_delete_edit_workorder_value)
     theReturnedUsers = usersInstance.view_all_users()
-    return render_template('view_users.html', allTheUsers=theReturnedUsers)
+    return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser)
 
 @app.route('/add_client', methods=['POST'])
 def add_client():
+    LoggedInUser = session['username']
     customer_name = request.form['customer_name']
     customer_email = request.form['customer_email']
     customer_phone = request.form['customer_phone']
     customer_address = request.form['customer_address']
     customer_product = request.form['customer_product']
     custInstance.add_client(customer_name,customer_phone,customer_email,customer_address,customer_product)
-    return render_template('new_customer.html')
+    return render_template('new_customer.html',currentUser=LoggedInUser)
 
 @app.route('/add_engineer', methods=['POST'])
 def add_engineer():
+    LoggedInUser = session['username']
     engineer_first_name = request.form['engineer_first_name']
     engineer_last_name = request.form['engineer_last_name']
     engineer_email = request.form['engineer_email']
@@ -364,42 +380,49 @@ def add_engineer():
         engineer_field_TEL_Value = 0
 
     engineersInstance.add_engineer(engineer_first_name,engineer_last_name,engineer_phone,engineer_email,engineer_address,engineer_field_ATM_Value,engineer_field_AIR_Value,engineer_field_TEL_Value)
-    return render_template('new_engineer.html')
+    return render_template('new_engineer.html',currentUser=LoggedInUser)
 
 
 @app.route('/all_users', methods=['GET'])
 def all_users():
+    LoggedInUser = session['username']
     theReturnedUsers = usersInstance.view_all_users()
-    return render_template('view_users.html', allTheUsers=theReturnedUsers)
+    return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser)
 
 @app.route('/all_admin_users', methods=['GET'])
 def all_admin_users():
+    LoggedInUser = session['username']
     theReturnedUsers = usersInstance.view_all_admin_users()
-    return render_template('view_users.html', allTheUsers=theReturnedUsers)
+    return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser)
 
 @app.route('/all_ordinary_users', methods=['GET'])
 def all_ordinary_users():
+    LoggedInUser = session['username']
     theReturnedUsers = usersInstance.view_all_ordinary_users()
-    return render_template('view_users.html', allTheUsers=theReturnedUsers)
+    return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser)
 
 @app.route('/all_the_users/<int:user_id>', methods=['GET','DELETE'])
 def delete_user(user_id):
+    LoggedInUser = session['username']
     usersInstance.delete_a_user(user_id)
     theReturnedUsers = usersInstance.view_all_users()
-    return render_template('view_users.html', allTheUsers=theReturnedUsers)
+    return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser)
 
 @app.route('/the_user/<int:user_id>', methods=['GET'])
 def get_user_by_Id(user_id):
+    LoggedInUser = session['username']
     theReturnedUser = usersInstance.get_user_by_Id(user_id)
-    return render_template('new_users.html', allTheUsers=theReturnedUser)
+    return render_template('new_users.html', allTheUsers=theReturnedUser,currentUser=LoggedInUser)
 
 @app.route('/edit_the_user/<int:user_id>', methods=['GET'])
 def get_user_details_for_edit(user_id):
+    LoggedInUser = session['username']
     theReturnedUser = usersInstance.get_user_by_Id(user_id)
-    return render_template('edit_user.html', allTheUsers=theReturnedUser)
+    return render_template('edit_user.html', allTheUsers=theReturnedUser,currentUser=LoggedInUser)
 
 @app.route('/edit_user/<int:user_id>', methods=['POST'])
 def edit_user(user_id):
+    LoggedInUser = session['username']
     firstName = request.form['user_first_name_edit']
     lastName = request.form['user_last_name_edit']
     userName = request.form['user_name_edit']
@@ -407,78 +430,207 @@ def edit_user(user_id):
     userAddress = request.form['user_address_edit']
     userPhone = request.form['user_phone_edit']
     userPassword = request.form['user_password_edit']
+
+
+    can_add_user = request.form.get('can_add_user_edit')
+    if can_add_user:
+        can_add_user_value = 1
+    else:
+        can_add_user_value = 0
+
+    can_delete_user = request.form.get('can_delete_user_edit')
+    if can_delete_user:
+        can_delete_user_value = 1
+    else:
+        can_delete_user_value = 0
+
+    can_edit_user = request.form.get('can_edit_user_edit')
+    if can_edit_user:
+        can_edit_user_value = 1
+    else:
+        can_edit_user_value = 0
+
+    can_edit_his_info = request.form.get('can_edit_his_info_edit')
+    if can_edit_his_info:
+        can_edit_his_info_value = 1
+    else:
+        can_edit_his_info_value = 0
+
+    can_open_tickets = request.form.get('can_open_tickets_edit')
+    if can_open_tickets:
+        can_open_tickets_value = 1
+    else:
+        can_open_tickets_value = 0
+
+    can_edit_tickets = request.form.get('can_edit_tickets_edit')
+    if can_edit_tickets:
+        can_edit_tickets_value = 1
+    else:
+        can_edit_tickets_value = 0
+
+    can_delete_tickets = request.form.get('can_delete_tickets_edit')
+    if can_delete_tickets:
+        can_delete_tickets_value = 1
+    else:
+        can_delete_tickets_value = 0
+
+    can_view_all_tickets = request.form.get('can_view_all_tickets_edit')
+    if can_view_all_tickets:
+        can_view_all_tickets_value = 1
+    else:
+        can_view_all_tickets_value = 0
+
+    can_view_his_tickets = request.form.get('can_view_his_tickets_edit')
+    if can_view_his_tickets:
+        can_view_his_tickets_value = 1
+    else:
+        can_view_his_tickets_value = 0
+
+    can_edit_his_tickets = request.form.get('can_edit_his_tickets_edit')
+    if can_edit_his_tickets:
+        can_edit_his_tickets_value = 1
+    else:
+        can_edit_his_tickets_value = 0
+
+    can_view_his_tasks = request.form.get('can_view_his_tasks_edit')
+    if can_view_his_tasks:
+        can_view_his_tasks_value = 1
+    else:
+        can_view_his_tasks_value = 0
+
+    can_view_all_tasks = request.form.get('can_view_all_tasks_edit')
+    if can_view_all_tasks:
+        can_view_all_tasks_value = 1
+    else:
+        can_view_all_tasks_value = 0
+
+    can_view_his_reports = request.form.get('can_view_his_reports_edit')
+    if can_view_his_reports:
+        can_view_his_reports_value = 1
+    else:
+        can_view_his_reports_value = 0
+
+    can_view_all_reports = request.form.get('can_view_all_reports_edit')
+    if can_view_all_reports:
+        can_view_all_reports_value = 1
+    else:
+        can_view_all_reports_value = 0
+
+    can_add_delete_edit_client = request.form.get('can_add_delete_edit_clients_edit')
+    if can_add_delete_edit_client:
+        can_add_delete_edit_client_value = 1
+    else:
+        can_add_delete_edit_client_value = 0
+
+    can_add_delete_edit_engineer = request.form.get('can_add_delete_edit_engineers_edit')
+    if can_add_delete_edit_engineer:
+        can_add_delete_edit_engineer_value = 1
+    else:
+        can_add_delete_edit_engineer_value = 0
+
+
+    can_add_delete_edit_equipment = request.form.get('can_add_delete_edit_equipment_edit')
+    if can_add_delete_edit_equipment:
+        can_add_delete_edit_equipment_value = 1
+    else:
+        can_add_delete_edit_equipment_value = 0
+
+
+    can_add_delete_edit_workorder = request.form.get('can_add_delete_edit_workorder_edit')
+    if can_add_delete_edit_workorder:
+        can_add_delete_edit_workorder_value = 1
+    else:
+        can_add_delete_edit_workorder_value = 0
+
     encryptedPassword = sha256_crypt.encrypt(str(userPassword))
-    usersInstance.edit_a_user(user_id,firstName, lastName,email,userPhone,userAddress,userName,encryptedPassword)
+    usersInstance.edit_a_user(user_id,firstName, lastName,email,userPhone,userAddress,userName,encryptedPassword,
+    can_add_user_value,can_delete_user_value,can_edit_user_value,can_edit_his_info_value,
+    can_open_tickets_value,can_edit_tickets_value,can_delete_tickets_value,can_view_all_tickets_value,
+    can_view_his_tickets_value,can_edit_his_tickets_value,can_view_his_tasks_value,can_view_all_tasks_value,
+    can_view_his_reports_value,can_view_all_reports_value,can_add_delete_edit_client_value,
+    can_add_delete_edit_engineer_value,can_add_delete_edit_equipment_value,can_add_delete_edit_workorder_value)
     theReturnedUsers = usersInstance.view_all_users()
-    return render_template('view_users.html', allTheUsers=theReturnedUsers)
+    return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser)
 
 # WORK ORDERS
 
 @app.route('/edit_the_work_order/<int:work_order_id>', methods=['GET'])
 def edit_the_work_order(work_order_id):
+    LoggedInUser = session['username']
     theReturnedOrder = ordersInstance.get_work_order_by_Id(work_order_id)
-    return render_template('edit_work_order.html', allTheOrders=theReturnedOrder)
+    return render_template('edit_work_order.html', allTheOrders=theReturnedOrder,currentUser=LoggedInUser)
 
 @app.route('/add_work_order', methods=['POST'])
 def add_work_order():
+    LoggedInUser = session['username']
     work_order_type = request.form['work_order_type']
     ordersInstance.add_work_order(work_order_type)
     theReturnedOrders = ordersInstance.view_all_work_orders()
-    return render_template('view_work_order.html', allTheOrders=theReturnedOrders)
+    return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser)
 
 @app.route('/edit_the_work_order/<int:work_order_id>', methods=['POST'])
 def edit_work_order(work_order_id):
+    LoggedInUser = session['username']
     workOrderType = request.form['work_order_type_edit']
     ordersInstance.edit_a_work_order(work_order_id,workOrderType)
     theReturnedOrders = ordersInstance.view_all_work_orders()
-    return render_template('view_work_order.html', allTheOrders=theReturnedOrders)
+    return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser)
 
 @app.route('/all_the_work_orders/<int:work_order_id>', methods=['GET','DELETE'])
 def delete_work_order(work_order_id):
+    LoggedInUser = session['username']
     ordersInstance.delete_a_work_order(work_order_id)
     theReturnedOrders = ordersInstance.view_all_work_orders()
-    return render_template('view_work_order.html', allTheOrders=theReturnedOrders)
+    return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser)
 
 @app.route('/all_work_orders', methods=['GET'])
 def all_work_orders():
+    LoggedInUser = session['username']
     theReturnedOrders = ordersInstance.view_all_work_orders()
-    return render_template('view_work_order.html', allTheOrders=theReturnedOrders)
+    return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser)
 
 @app.route('/all_work_orders_completed', methods=['GET'])
 def all_work_orders_completed():
+    LoggedInUser = session['username']
     theReturnedOrders = ordersInstance.view_all_work_orders()
-    return render_template('view_work_order.html', allTheOrders=theReturnedOrders)
+    return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser)
 
 @app.route('/all_work_orders_pending', methods=['GET'])
 def all_work_orders_pending():
+    LoggedInUser = session['username']
     theReturnedOrders = ordersInstance.view_all_work_orders()
-    return render_template('view_work_order.html', allTheOrders=theReturnedOrders)
+    return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser)
 
 # OUR CLIENTS
 
 @app.route('/all_clients', methods=['GET'])
 def all_clients():
+    LoggedInUser = session['username']
     theReturnedClients = custInstance.get_all_clients()
-    return render_template('view_clients.html', allTheClients=theReturnedClients)
+    return render_template('view_clients.html', allTheClients=theReturnedClients,currentUser=LoggedInUser)
 
 @app.route('/all_the_clients/<int:client_id>', methods=['GET','DELETE'])
 def delete_client(client_id):
+    LoggedInUser = session['username']
     custInstance.delete_a_client(client_id)
     theReturnedClients = custInstance.get_all_clients()
-    return render_template('view_clients.html', allTheClients=theReturnedClients)
+    return render_template('view_clients.html', allTheClients=theReturnedClients,currentUser=LoggedInUser)
 
 @app.route('/the_client/<int:client_id>', methods=['GET'])
 def get_client_by_Id(client_id):
+    LoggedInUser = session['username']
     theReturnedClient = custInstance.get_client_by_Id(client_id)
-    return render_template('new_customer.html', allTheClients=theReturnedClient)
+    return render_template('new_customer.html', allTheClients=theReturnedClient,currentUser=LoggedInUser)
 
 @app.route('/edit_the_client/<int:client_id>', methods=['GET'])
 def get_client_details_for_edit(client_id):
+    LoggedInUser = session['username']
     theReturnedClient = custInstance.get_client_by_Id(client_id)
-    return render_template('edit_client.html', allTheClients=theReturnedClient)
+    return render_template('edit_client.html', allTheClients=theReturnedClient,currentUser=LoggedInUser)
 
 @app.route('/edit_client/<int:client_id>', methods=['POST'])
 def edit_client(client_id):
+    LoggedInUser = session['username']
     clientName = request.form['customer_name_edit']
     clientProduct = request.form['customer_product_edit']
     clientAddress = request.form['customer_address_edit']
@@ -487,33 +639,38 @@ def edit_client(client_id):
    
     custInstance.edit_a_client(client_id,clientName, clientProduct,clientAddress,clientPhone,clientEmail)
     theReturnedClients = custInstance.get_all_clients()
-    return render_template('view_clients.html', allTheClients=theReturnedClients)
+    return render_template('view_clients.html', allTheClients=theReturnedClients,currentUser=LoggedInUser)
 
 # OUR ENGINEERS
 
 @app.route('/all_engineers', methods=['GET'])
 def all_engineers():
+    LoggedInUser = session['username']
     theReturnedEngineers = engineersInstance.get_all_engineers()
-    return render_template('view_engineers.html', allTheEngineers=theReturnedEngineers)
+    return render_template('view_engineers.html', allTheEngineers=theReturnedEngineers,currentUser=LoggedInUser)
 
 @app.route('/all_the_engineers/<int:engineer_id>', methods=['GET','DELETE'])
 def delete_engineer(engineer_id):
+    LoggedInUser = session['username']
     engineersInstance.delete_a_engineer(engineer_id)
     theReturnedEngineers = engineersInstance.get_all_engineers()
-    return render_template('view_engineers.html', allTheEngineers=theReturnedEngineers)
+    return render_template('view_engineers.html', allTheEngineers=theReturnedEngineers,currentUser=LoggedInUser)
 
 @app.route('/the_engineer/<int:engineer_id>', methods=['GET'])
 def get_engineer_by_Id(engineer_id):
+    LoggedInUser = session['username']
     theReturnedEngineer = engineersInstance.get_engineer_by_Id(engineer_id)
-    return render_template('new_engineer.html', allTheEngineers=theReturnedEngineer)
+    return render_template('new_engineer.html', allTheEngineers=theReturnedEngineer,currentUser=LoggedInUser)
 
 @app.route('/edit_the_engineer/<int:engineer_id>', methods=['GET'])
 def get_engineer_details_for_edit(engineer_id):
+    LoggedInUser = session['username']
     theReturnedEngineer = engineersInstance.get_engineer_by_Id(engineer_id)
-    return render_template('edit_engineer.html', allTheEngineers=theReturnedEngineer)
+    return render_template('edit_engineer.html', allTheEngineers=theReturnedEngineer,currentUser=LoggedInUser)
 
 @app.route('/edit_engineer/<int:engineer_id>', methods=['POST'])
 def edit_engineer(engineer_id):
+    LoggedInUser = session['username']
     engineer_first_name = request.form['engineer_first_name_edit']
     engineer_last_name = request.form['engineer_last_name_edit']
     engineer_email = request.form['engineer_email_edit']
@@ -539,58 +696,4 @@ def edit_engineer(engineer_id):
 
     engineersInstance.edit_an_engineer(engineer_id,engineer_first_name,engineer_last_name,engineer_address,engineer_phone,engineer_email,engineer_field_ATM_Value,engineer_field_AIR_Value,engineer_field_TEL_Value)
     theReturnedEngineers = engineersInstance.get_all_engineers()
-    return render_template('view_engineers.html', allTheEngineers=theReturnedEngineers)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # if "Open" not in allTheTickets[4] and "Closed" not in allTheTickets[4]:
-    #     print(allTheTickets[4])
-    #     myDays = float(allTheTickets[4])/1440
-    #     daysRem = float(allTheTickets[4])%1440
-    #     myHours = int(daysRem/60)
-    #     minutes = int(daysRem%60)
-    #     if myDays>0:
-    #         if myHours>0:
-
-    #             if minutes>0:
-    #                 allTheTickets[4] = "Overdue (Late By {} Days {} Hours {} Minutes".format(myDays,myHours,minutes) 
-    #             else:
-    #                 allTheTickets[4] = "Overdue (Late By {} Days {} Hours".format(myDays,myHours) 
-
-    #         else:
-    #             if minutes>0:
-    #                 allTheTickets[4] = "Overdue (Late By {} Days {} Minutes".format(myDays,minutes) 
-    #             else:
-    #                 allTheTickets[4] = "Overdue (Late By {} Days".format(myDays) 
-
-
-    #     else:
-
-    #         if myHours>0:
-
-    #             if minutes>0:
-    #                 allTheTickets[4] = "Overdue (Late By {} Days {} Hours {} Minutes".format(myDays,myHours,minutes) 
-    #             else:
-    #                 allTheTickets[4] = "Overdue (Late By {} Days {} Hours".format(myDays,myHours) 
-
-    #         else:
-    #             if minutes>0:
-    #                 allTheTickets[4] = "Overdue (Late By {} Days {} Minutes".format(myDays,minutes) 
-    #             else:
-    #                 allTheTickets[4] = "Overdue (Late By {} Days".format(myDays) 
-
-    # else:
-    #     allTheTickets[4] = allTheTickets[4]
+    return render_template('view_engineers.html', allTheEngineers=theReturnedEngineers,currentUser=LoggedInUser)

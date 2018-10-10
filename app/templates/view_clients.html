@@ -58,7 +58,6 @@
         </div>
     </nav>
 
-
     <!-- Side -->
     <div class="wrapper">
         <!-- Sidebar  -->
@@ -70,24 +69,32 @@
                 <li class="active mt-2 mb-2" data-spy="scroll">
                     <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fas fa-folder-open"></i> New</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu1">
+                        {% if currentUser[9] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_users') }}">Add New User</a>
                         </li>
+                        {%endif%} {% if currentUser[13] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_ticket') }}">Add New Ticket</a>
                         </li>
+                        {%endif%} {% if currentUser[23] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_customer') }}">Add New Client</a>
                         </li>
+
+                        {%endif%} {% if currentUser[24] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_engineer') }}">Add New Engineer</a>
                         </li>
+                        {%endif%} {% if currentUser[25] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_equipment') }}">Add New Equipment</a>
                         </li>
+                        {%endif%} {% if currentUser[26] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_workorder') }}">Add New Work Order</a>
                         </li>
+                        {%endif%}
                     </ul>
                 </li>
                 <li class="mt-2 mb-2">
@@ -97,9 +104,11 @@
                 <li class="active mt-2 mb-2" data-spy="scroll">
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fas fa-folder-open"></i> Views</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
+                        {% if currentUser[16] ==1:%}
                         <li>
                             <a href="#">All Tickets</a>
                         </li>
+
                         <li>
                             <a href="#">Open Tickets</a>
                         </li>
@@ -109,9 +118,33 @@
                         <li>
                             <a href="#">Overdue Tickets</a>
                         </li>
+
                         <li>
-                            <a href="#">SLA Violated Tickets</a>
+                            <a href="#">My Tickets</a>
                         </li>
+                        <li>
+                            <a href="#">My Open Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Closed Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Overdue Tickets</a>
+                        </li>
+
+                        {% else:%}
+                        <li>
+                            <a href="#">My Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Open Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Closed Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Overdue Tickets</a>
+                        </li> {%endif%}
 
                     </ul>
                 </li>

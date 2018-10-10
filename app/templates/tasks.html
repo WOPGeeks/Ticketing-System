@@ -72,24 +72,32 @@
                 <li class="active mt-2 mb-2" data-spy="scroll">
                     <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fas fa-folder-open"></i> New</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu1">
+                        {% if currentUser[9] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_users') }}">Add New User</a>
                         </li>
+                        {%endif%} {% if currentUser[13] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_ticket') }}">Add New Ticket</a>
                         </li>
+                        {%endif%} {% if currentUser[23] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_customer') }}">Add New Client</a>
                         </li>
+
+                        {%endif%} {% if currentUser[24] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_engineer') }}">Add New Engineer</a>
                         </li>
+                        {%endif%} {% if currentUser[25] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_equipment') }}">Add New Equipment</a>
                         </li>
+                        {%endif%} {% if currentUser[26] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_workorder') }}">Add New Work Order</a>
                         </li>
+                        {%endif%}
                     </ul>
                 </li>
                 <li class="mt-2 mb-2">
@@ -99,9 +107,11 @@
                 <li class="active mt-2 mb-2" data-spy="scroll">
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fas fa-folder-open"></i> Views</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
+                        {% if currentUser[16] ==1:%}
                         <li>
                             <a href="#">All Tickets</a>
                         </li>
+
                         <li>
                             <a href="#">Open Tickets</a>
                         </li>
@@ -111,9 +121,32 @@
                         <li>
                             <a href="#">Overdue Tickets</a>
                         </li>
+
                         <li>
-                            <a href="#">SLA Violated Tickets</a>
+                            <a href="#">My Tickets</a>
                         </li>
+                        <li>
+                            <a href="#">My Open Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Closed Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Overdue Tickets</a>
+                        </li>
+                        {% else:%}
+                        <li>
+                            <a href="#">My Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Open Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Closed Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Overdue Tickets</a>
+                        </li> {%endif%}
 
                     </ul>
                 </li>
@@ -355,9 +388,6 @@
             </div>
         </div>
     </div>
-
-    <script src="{{ url_for('static',filename='scripts/app.js') }}"></script>
-    <script src="../static/scripts/myscripts.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>

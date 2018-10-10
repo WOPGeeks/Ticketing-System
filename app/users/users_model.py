@@ -91,12 +91,29 @@ class Users:
             flash('User Deleted Successfully','success')
         except:
             flash('Error deleteing user from database','danger')
-    def edit_a_user(self, user_id,user_first_name, user_last_name,user_email,user_phone,user_address,user_name,user_password):
+    def edit_a_user(self, user_id,user_first_name, user_last_name,user_email,user_phone,user_address,user_name,user_password,
+    user_can_add_user,user_can_delete_user,user_can_edit_user,user_can_edit_his_info,
+    user_can_open_tickets,user_can_edit_tickets,user_can_delete_tickets,user_can_view_all_tickets,
+    user_can_view_his_tickets,user_can_edit_his_tickets,user_can_view_his_tasks,user_can_view_all_tasks,
+    user_can_view_his_reports,user_can_view_all_reports,user_can_add_delete_edit_client,
+    user_can_add_delete_edit_engineer,user_can_add_delete_edit_equipment,user_can_add_delete_edit_workorder):
         try:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
-            sql ="UPDATE users SET user_first_name=%s, user_last_name=%s,user_email=%s,user_phone=%s,user_address=%s,user_name=%s,user_password=%s WHERE user_id=%s"
-            cur.execute(sql,[user_first_name, user_last_name,user_email,user_phone,user_address,user_name,user_password,user_id])
+            sql ="""
+            UPDATE users SET user_first_name=%s, user_last_name=%s,user_email=%s,user_phone=%s,user_address=%s,user_name=%s,user_password=%s,
+            user_can_add_user=%s,user_can_delete_user=%s,user_can_edit_user=%s,user_can_edit_his_info=%s,
+            user_can_open_tickets=%s,user_can_edit_tickets=%s,user_can_delete_tickets=%s,user_can_view_all_tickets=%s,
+            user_can_view_his_tickets=%s,user_can_edit_his_tickets=%s,user_can_view_his_tasks=%s,user_can_view_all_tasks=%s,
+            user_can_view_his_reports=%s,user_can_view_all_reports=%s,user_can_add_delete_edit_client_info=%s,
+            user_can_add_delete_edit_engineer_info=%s,user_can_add_delete_edit_equipment_info=%s,user_can_add_delete_edit_workorder_info=%s WHERE user_id=%s
+            """
+            cur.execute(sql,[user_first_name, user_last_name,user_email,user_phone,user_address,user_name,user_password,
+            user_can_add_user,user_can_delete_user,user_can_edit_user,user_can_edit_his_info,
+            user_can_open_tickets,user_can_edit_tickets,user_can_delete_tickets,user_can_view_all_tickets,
+            user_can_view_his_tickets,user_can_edit_his_tickets,user_can_view_his_tasks,user_can_view_all_tasks,
+            user_can_view_his_reports,user_can_view_all_reports,user_can_add_delete_edit_client,
+            user_can_add_delete_edit_engineer,user_can_add_delete_edit_equipment,user_can_add_delete_edit_workorder,user_id])
             conn.commit()
             flash('User Edited Successfully','success')
         except:
@@ -113,7 +130,7 @@ class Users:
         except:
             flash('Error retrieving user from database','danger')
 
-    def checkIfUserCanAdd(self, current_user):
+    def checkUserRights(self, current_user):
         try:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()

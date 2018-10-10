@@ -71,24 +71,32 @@
                 <li class="active mt-2 mb-2" data-spy="scroll">
                     <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fas fa-folder-open"></i> New</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu1">
+                        {% if currentUser[9] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_users') }}">Add New User</a>
                         </li>
+                        {%endif%} {% if currentUser[13] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_ticket') }}">Add New Ticket</a>
                         </li>
+                        {%endif%} {% if currentUser[23] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_customer') }}">Add New Client</a>
                         </li>
+
+                        {%endif%} {% if currentUser[24] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_engineer') }}">Add New Engineer</a>
                         </li>
+                        {%endif%} {% if currentUser[25] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_equipment') }}">Add New Equipment</a>
                         </li>
+                        {%endif%} {% if currentUser[26] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_workorder') }}">Add New Work Order</a>
                         </li>
+                        {%endif%}
                     </ul>
                 </li>
                 <li class="mt-2 mb-2">
@@ -98,9 +106,11 @@
                 <li class="active mt-2 mb-2" data-spy="scroll">
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fas fa-folder-open"></i> Views</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
+                        {% if currentUser[16] ==1:%}
                         <li>
                             <a href="#">All Tickets</a>
                         </li>
+
                         <li>
                             <a href="#">Open Tickets</a>
                         </li>
@@ -110,9 +120,33 @@
                         <li>
                             <a href="#">Overdue Tickets</a>
                         </li>
+
                         <li>
-                            <a href="#">SLA Violated Tickets</a>
+                            <a href="#">My Tickets</a>
                         </li>
+                        <li>
+                            <a href="#">My Open Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Closed Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Overdue Tickets</a>
+                        </li>
+
+                        {% else:%}
+                        <li>
+                            <a href="#">My Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Open Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Closed Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Overdue Tickets</a>
+                        </li> {%endif%}
 
                     </ul>
                 </li>
@@ -123,9 +157,10 @@
 
             <h5><i class="fas fa-star"></i> All Tickets</h5>
 
-            <hr> {% include '_messages.html'%} {% for eachTicket in allTheTickets %}
+            <hr> {% if currentUser[16] ==1:%} {% include '_messages.html'%} {% for eachTicket in allTheTickets %}
 
             <div class="row">
+
                 <div class="col-md-1">
                     <i class="fas fa-phone text-info" style="font-size: 20px"></i>
                 </div>
@@ -143,18 +178,58 @@
                     <a href="/edit_the_ticket/{{eachTicket[0]}}"><i class="fas fa-edit text-info" style="font-size: 15px"></i></a> &nbsp &nbsp
                     <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt text-danger" style="font-size: 15px"></i></a>
                 </div>
-                {%if "High" in "{{eachTicket[6]}}" %}
+                {%if "High" in "eachTicket[6]": %}
                 <div class="col-md-1">
                     <p id="overdue-status" style="color: green;" class="ticket-details-6">{{eachTicket[6]}}</p>
                 </div>
-                {% else %}
+                {% else: %}
                 <div class="col-md-1">
                     <p id="overdue-status" style="color: red;" class="ticket-details-6">{{eachTicket[6]}}</p>
                 </div>
                 {%endif%}
             </div>
 
-            <hr> {% endfor %}
+            <hr> {% endfor %} {% else:%} {% if currentUser[17] == 1%} {% include '_messages.html'%} {% for eachOfMyTicket in allMyTickets %}
+
+            <div class="row">
+
+                <div class="col-md-1">
+                    <i class="fas fa-phone text-info" style="font-size: 20px"></i>
+                </div>
+                <div class="col-md-6">
+                    <p><a class="ticket-details-1" href="/edit_the_ticket/{{eachOfMyTicket[0]}}">#{{eachOfMyTicket[0]}} {{eachOfMyTicket[1]}}</a><br>
+                        <span class="ticket-details-2">{{eachOfMyTicket[2]}}</span>&nbsp&nbsp
+                        <span class="ticket-details-3">{{eachOfMyTicket[3]}}</span>&nbsp&nbsp {%if "Expired" in "{{eachOfMyTicket[4]}}"%}
+                        <span style="color: red; font-size: 13px;" class="ticket-details-4">{{eachOfMyTicket[4]}}</span>&nbsp&nbsp {% else %}
+                        <span style="color: black; font-size: 12px;" class="ticket-details-4">{{eachOfMyTicket[4]}}</span>&nbsp&nbsp {%endif%} {%if "Overdue" in "eachOfMyTicket[5]"%}
+                        <span style="color: red; font-size: 13px;" id="expire-status" class="ticket-details-5">{{eachOfMyTicket[5]}}</span> {% else %}
+                        <span style="color: black; font-size: 13px;" id="expire-status" class="ticket-details-5">{{eachOfMyTicket[5]}}</span> {%endif%}
+                    </p>
+                </div>
+                <div class="col-md-2">
+                    <a href="/edit_the_ticket/{{eachOfMyTicket[0]}}"><i class="fas fa-edit text-info" style="font-size: 15px"></i></a> &nbsp &nbsp
+                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt text-danger" style="font-size: 15px"></i></a>
+                </div>
+                {%if "High" in "eachOfMyTicket[6]": %}
+                <div class="col-md-1">
+                    <p id="overdue-status" style="color: green;" class="ticket-details-6">{{eachOfMyTicket[6]}}</p>
+                </div>
+                {% else: %}
+                <div class="col-md-1">
+                    <p id="overdue-status" style="color: red;" class="ticket-details-6">{{eachOfMyTicket[6]}}</p>
+                </div>
+                {%endif%}
+            </div>
+
+            <hr> {% endfor%} {% else:%}
+            <center>
+                </br>
+                </br>
+                <h6>Welcome to Zubacz Call Center System, Please relax and do your job</h6>
+                </br>
+                <img src="{{ url_for('static',filename='files/relax.gif') }}"></img>
+            </center>
+            {%endif%} {%endif%}
 
 
 

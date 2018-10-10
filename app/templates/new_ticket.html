@@ -70,24 +70,32 @@
                 <li class="active mt-2 mb-2" data-spy="scroll">
                     <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fas fa-folder-open"></i> New</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu1">
+                        {% if currentUser[9] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_users') }}">Add New User</a>
                         </li>
+                        {%endif%} {% if currentUser[13] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_ticket') }}">Add New Ticket</a>
                         </li>
+                        {%endif%} {% if currentUser[23] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_customer') }}">Add New Client</a>
                         </li>
+
+                        {%endif%} {% if currentUser[24] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_engineer') }}">Add New Engineer</a>
                         </li>
+                        {%endif%} {% if currentUser[25] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_equipment') }}">Add New Equipment</a>
                         </li>
+                        {%endif%} {% if currentUser[26] ==0:%} {% else:%}
                         <li>
                             <a href="{{ url_for('new_workorder') }}">Add New Work Order</a>
                         </li>
+                        {%endif%}
                     </ul>
                 </li>
                 <li class="mt-2 mb-2">
@@ -97,9 +105,11 @@
                 <li class="active mt-2 mb-2" data-spy="scroll">
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fas fa-folder-open"></i> Views</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
+                        {% if currentUser[16] ==1:%}
                         <li>
                             <a href="#">All Tickets</a>
                         </li>
+
                         <li>
                             <a href="#">Open Tickets</a>
                         </li>
@@ -109,9 +119,33 @@
                         <li>
                             <a href="#">Overdue Tickets</a>
                         </li>
+
                         <li>
-                            <a href="#">SLA Violated Tickets</a>
+                            <a href="#">My Tickets</a>
                         </li>
+                        <li>
+                            <a href="#">My Open Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Closed Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Overdue Tickets</a>
+                        </li>
+
+                        {% else:%}
+                        <li>
+                            <a href="#">My Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Open Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Closed Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#">My Overdue Tickets</a>
+                        </li> {%endif%}
 
                     </ul>
                 </li>
@@ -202,7 +236,7 @@
                         <input id="hours_to_add" type="text" name="hours_to_add" class="form-control" placeholder="Expires After(Hours)" required>
                         <i class="fa fa-clock fa-lg fa-fw" aria-hidden="true"></i>
                         <div class="invalid-feedback">
-                            is invalid
+                            Hour is invalid
                         </div>
                     </div>
                 </div>
@@ -254,6 +288,48 @@
         CKEDITOR.replace('additional_note');
     </script> -->-->
 
+    <script type="text/javascript">
+        document.getElementById('ticket_site_id').addEventListener('blur', ticket_site_id);
+        document.getElementById('ticket_po_number').addEventListener('blur', ticket_po_number);
+        document.getElementById('hours_to_add').addEventListener('blur', hours_to_add);
+
+
+        function ticket_site_id() {
+            const ticket_site_id = document.getElementById('ticket_site_id');
+            const re_ticket_site_id = /^[a-zA-Z0-9_\-\.]{2,16}$/;
+
+            if (!re_ticket_site_id.test(ticket_site_id.value)) {
+                return ticket_site_id.classList.add('is-invalid');
+            } else {
+                return ticket_site_id.classList.remove('is-invalid');
+            }
+
+        }
+
+        function ticket_po_number() {
+            const ticket_po_number = document.getElementById('ticket_po_number');
+            const re_ticket_po_number = /^[a-zA-Z0-9_\-\.]{2,16}$/;
+
+            if (!re_ticket_po_number.test(ticket_po_number.value)) {
+                return ticket_po_number.classList.add('is-invalid');
+            } else {
+                return ticket_po_number.classList.remove('is-invalid');
+            }
+
+        }
+
+        function hours_to_add() {
+            const hours_to_add = document.getElementById('hours_to_add');
+            const re_hours_to_add = /^[0-9]{2,16}$/;
+
+            if (!re_hours_to_add.test(hours_to_add.value)) {
+                return hours_to_add.classList.add('is-invalid');
+            } else {
+                return hours_to_add.classList.remove('is-invalid');
+            }
+
+        }
+    </script>
 
 </body>
 
