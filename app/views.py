@@ -12,7 +12,9 @@ from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     get_jwt_identity
 )
-
+import atexit
+from apscheduler.scheduler import Scheduler
+from flask_mail import Mail, Message
 
 dbInstance = DatabaseConnectivity()
 usersInstance = Users()
@@ -28,6 +30,15 @@ app.config['JWT_SECRET_KEY'] = 'somesecretstuffsforjwt'
 jwt = JWTManager(app)
 
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(days=1)
+
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'nyekowalter69@gmail.com'
+app.config['MAIL_PASSWORD'] = 'CATRINAH'
+
+mail = Mail(app)
 
 # @jwt.unauthorized_loader
 # def unauthorized_response(callback):
@@ -81,8 +92,10 @@ def new_ticket():
     theClients = ticketInstance.get_clients()
     theEngineers = ticketInstance.get_engineers()
     theWorkOrderTypes = ticketInstance.get_work_order_types()
-    return render_template('new_ticket.html',theWorkOrderTypes=theWorkOrderTypes, theEngineers=theEngineers, theClients=theClients,currentUser=LoggedInUser1)
-
+    if g.username:
+        return render_template('new_ticket.html',theWorkOrderTypes=theWorkOrderTypes, theEngineers=theEngineers, theClients=theClients,currentUser=LoggedInUser1)
+    return render_template('index.html')
+    
 @app.route('/add_ticket', methods=['POST'])
 def add_ticket():
     LoggedInUser = session['username']
@@ -110,14 +123,18 @@ def add_ticket():
     theClients = ticketInstance.get_clients()
     theEngineers = ticketInstance.get_engineers()
     theWorkOrderTypes = ticketInstance.get_work_order_types()
-    return render_template('new_ticket.html',theWorkOrderTypes=theWorkOrderTypes, theEngineers=theEngineers, theClients=theClients,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('new_ticket.html',theWorkOrderTypes=theWorkOrderTypes, theEngineers=theEngineers, theClients=theClients,currentUser=LoggedInUser1)
+    return render_template('index.html')
 
 @app.route('/edit_the_ticket/<int:ticket_id>', methods=['GET'])
 def get_ticket_details_for_edit(ticket_id):
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     theReturnedTicket = ticketInstance.get_ticket_by_Id(ticket_id)
-    return render_template('edit_ticket.html', allTheTickets=theReturnedTicket,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('edit_ticket.html', allTheTickets=theReturnedTicket,currentUser=LoggedInUser1)
+    return render_template('index.html')
 
 
 @app.route('/edit_ticket/<int:ticket_id>', methods=['POST'])
@@ -170,7 +187,9 @@ def view_all_tickets():
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     allTheTickets = ticketInstance.view_all_tickets()
     myTickets = ticketInstance.view_all_my_tickets(LoggedInUser)
-    return render_template('dashboard.html', allTheTickets=allTheTickets, currentUser=LoggedInUser1,myTickets=myTickets)
+    if g.username:
+        return render_template('dashboard.html', allTheTickets=allTheTickets, currentUser=LoggedInUser1,myTickets=myTickets)
+    return redirect(url_for('index'))
 
 @app.route('/dashboard')
 def dashboard():
@@ -178,52 +197,65 @@ def dashboard():
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     allTheTickets = ticketInstance.view_all_tickets()
     myTickets = ticketInstance.view_all_tickets()
-    return render_template('dashboard.html', allTheTickets=allTheTickets, currentUser=LoggedInUser1,myTickets=myTickets)
-
+    if g.username:
+        return render_template('dashboard.html', allTheTickets=allTheTickets, currentUser=LoggedInUser1,myTickets=myTickets)
+    return redirect(url_for('index'))
 
 @app.route('/reports')
 def reports():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
-    return render_template('reports.html', currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('reports.html', currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/tasks')
 def tasks():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
-    return render_template('tasks.html', currentUser=LoggedInUser1)
-
+    if g.username:
+        return render_template('tasks.html', currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/client')
 def new_customer():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
-    return render_template('new_customer.html', currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('new_customer.html', currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/user')
 def new_users():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     theReturnedUser = usersInstance.get_no_user()
-    return render_template('new_users.html', allTheUsers=theReturnedUser,currentUser=LoggedInUser1)
-
+    if g.username:
+        return render_template('new_users.html', allTheUsers=theReturnedUser,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 @app.route('/engineer')
 def new_engineer():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
-    return render_template('new_engineer.html',currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('new_engineer.html',currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/equipment')
 def new_equipment():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
-    return render_template('new_equipment.html',currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('new_equipment.html',currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/workorder')
 def new_workorder():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
-    return render_template('new_workorder.html',currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('new_workorder.html',currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/add_user', methods=['POST'])
 def add_user():
@@ -354,7 +386,9 @@ def add_user():
     can_view_his_reports_value,can_view_all_reports_value,can_add_delete_edit_client_value,
     can_add_delete_edit_engineer_value,can_add_delete_edit_equipment_value,can_add_delete_edit_workorder_value)
     theReturnedUsers = usersInstance.view_all_users()
-    return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/add_client', methods=['POST'])
 def add_client():
@@ -366,7 +400,9 @@ def add_client():
     customer_address = request.form['customer_address']
     customer_product = request.form['customer_product']
     custInstance.add_client(customer_name,customer_phone,customer_email,customer_address,customer_product)
-    return render_template('new_customer.html',currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('new_customer.html',currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/add_engineer', methods=['POST'])
 def add_engineer():
@@ -396,29 +432,36 @@ def add_engineer():
         engineer_field_TEL_Value = 0
 
     engineersInstance.add_engineer(engineer_first_name,engineer_last_name,engineer_phone,engineer_email,engineer_address,engineer_field_ATM_Value,engineer_field_AIR_Value,engineer_field_TEL_Value)
-    return render_template('new_engineer.html',currentUser=LoggedInUser1)
-
+    if g.username:
+        return render_template('new_engineer.html',currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/all_users', methods=['GET'])
 def all_users():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     theReturnedUsers = usersInstance.view_all_users()
-    return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/all_admin_users', methods=['GET'])
 def all_admin_users():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     theReturnedUsers = usersInstance.view_all_admin_users()
-    return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/all_ordinary_users', methods=['GET'])
 def all_ordinary_users():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     theReturnedUsers = usersInstance.view_all_ordinary_users()
-    return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/all_the_users/<int:user_id>', methods=['GET','DELETE'])
 def delete_user(user_id):
@@ -426,21 +469,27 @@ def delete_user(user_id):
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     usersInstance.delete_a_user(user_id)
     theReturnedUsers = usersInstance.view_all_users()
-    return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/the_user/<int:user_id>', methods=['GET'])
 def get_user_by_Id(user_id):
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     theReturnedUser = usersInstance.get_user_by_Id(user_id)
-    return render_template('new_users.html', allTheUsers=theReturnedUser,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('new_users.html', allTheUsers=theReturnedUser,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/edit_the_user/<int:user_id>', methods=['GET'])
 def get_user_details_for_edit(user_id):
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     theReturnedUser = usersInstance.get_user_by_Id(user_id)
-    return render_template('edit_user.html', allTheUsers=theReturnedUser,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('edit_user.html', allTheUsers=theReturnedUser,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/edit_user/<int:user_id>', methods=['POST'])
 def edit_user(user_id):
@@ -573,7 +622,9 @@ def edit_user(user_id):
     can_view_his_reports_value,can_view_all_reports_value,can_add_delete_edit_client_value,
     can_add_delete_edit_engineer_value,can_add_delete_edit_equipment_value,can_add_delete_edit_workorder_value)
     theReturnedUsers = usersInstance.view_all_users()
-    return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 # WORK ORDERS
 
@@ -582,7 +633,9 @@ def edit_the_work_order(work_order_id):
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     theReturnedOrder = ordersInstance.get_work_order_by_Id(work_order_id)
-    return render_template('edit_work_order.html', allTheOrders=theReturnedOrder,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('edit_work_order.html', allTheOrders=theReturnedOrder,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/add_work_order', methods=['POST'])
 def add_work_order():
@@ -591,7 +644,9 @@ def add_work_order():
     work_order_type = request.form['work_order_type']
     ordersInstance.add_work_order(work_order_type)
     theReturnedOrders = ordersInstance.view_all_work_orders()
-    return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/edit_the_work_order/<int:work_order_id>', methods=['POST'])
 def edit_work_order(work_order_id):
@@ -600,7 +655,9 @@ def edit_work_order(work_order_id):
     workOrderType = request.form['work_order_type_edit']
     ordersInstance.edit_a_work_order(work_order_id,workOrderType)
     theReturnedOrders = ordersInstance.view_all_work_orders()
-    return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/all_the_work_orders/<int:work_order_id>', methods=['GET','DELETE'])
 def delete_work_order(work_order_id):
@@ -608,28 +665,36 @@ def delete_work_order(work_order_id):
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     ordersInstance.delete_a_work_order(work_order_id)
     theReturnedOrders = ordersInstance.view_all_work_orders()
-    return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/all_work_orders', methods=['GET'])
 def all_work_orders():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     theReturnedOrders = ordersInstance.view_all_work_orders()
-    return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/all_work_orders_completed', methods=['GET'])
 def all_work_orders_completed():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     theReturnedOrders = ordersInstance.view_all_work_orders()
-    return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/all_work_orders_pending', methods=['GET'])
 def all_work_orders_pending():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     theReturnedOrders = ordersInstance.view_all_work_orders()
-    return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 # OUR CLIENTS
 
@@ -638,7 +703,9 @@ def all_clients():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     theReturnedClients = custInstance.get_all_clients()
-    return render_template('view_clients.html', allTheClients=theReturnedClients,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('view_clients.html', allTheClients=theReturnedClients,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/all_the_clients/<int:client_id>', methods=['GET','DELETE'])
 def delete_client(client_id):
@@ -646,21 +713,27 @@ def delete_client(client_id):
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     custInstance.delete_a_client(client_id)
     theReturnedClients = custInstance.get_all_clients()
-    return render_template('view_clients.html', allTheClients=theReturnedClients,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('view_clients.html', allTheClients=theReturnedClients,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/the_client/<int:client_id>', methods=['GET'])
 def get_client_by_Id(client_id):
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     theReturnedClient = custInstance.get_client_by_Id(client_id)
-    return render_template('new_customer.html', allTheClients=theReturnedClient,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('new_customer.html', allTheClients=theReturnedClient,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/edit_the_client/<int:client_id>', methods=['GET'])
 def get_client_details_for_edit(client_id):
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     theReturnedClient = custInstance.get_client_by_Id(client_id)
-    return render_template('edit_client.html', allTheClients=theReturnedClient,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('edit_client.html', allTheClients=theReturnedClient,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/edit_client/<int:client_id>', methods=['POST'])
 def edit_client(client_id):
@@ -674,8 +747,9 @@ def edit_client(client_id):
    
     custInstance.edit_a_client(client_id,clientName, clientProduct,clientAddress,clientPhone,clientEmail)
     theReturnedClients = custInstance.get_all_clients()
-    return render_template('view_clients.html', allTheClients=theReturnedClients,currentUser=LoggedInUser1)
-
+    if g.username:
+        return render_template('view_clients.html', allTheClients=theReturnedClients,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 # OUR ENGINEERS
 
 @app.route('/all_engineers', methods=['GET'])
@@ -683,7 +757,9 @@ def all_engineers():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     theReturnedEngineers = engineersInstance.get_all_engineers()
-    return render_template('view_engineers.html', allTheEngineers=theReturnedEngineers,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('view_engineers.html', allTheEngineers=theReturnedEngineers,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/all_the_engineers/<int:engineer_id>', methods=['GET','DELETE'])
 def delete_engineer(engineer_id):
@@ -691,21 +767,27 @@ def delete_engineer(engineer_id):
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     engineersInstance.delete_a_engineer(engineer_id)
     theReturnedEngineers = engineersInstance.get_all_engineers()
-    return render_template('view_engineers.html', allTheEngineers=theReturnedEngineers,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('view_engineers.html', allTheEngineers=theReturnedEngineers,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/the_engineer/<int:engineer_id>', methods=['GET'])
 def get_engineer_by_Id(engineer_id):
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     theReturnedEngineer = engineersInstance.get_engineer_by_Id(engineer_id)
-    return render_template('new_engineer.html', allTheEngineers=theReturnedEngineer,currentUser=LoggedInUser1)
-
+    if g.username:
+        return render_template('new_engineer.html', allTheEngineers=theReturnedEngineer,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
+    
 @app.route('/edit_the_engineer/<int:engineer_id>', methods=['GET'])
 def get_engineer_details_for_edit(engineer_id):
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     theReturnedEngineer = engineersInstance.get_engineer_by_Id(engineer_id)
-    return render_template('edit_engineer.html', allTheEngineers=theReturnedEngineer,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('edit_engineer.html', allTheEngineers=theReturnedEngineer,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/edit_engineer/<int:engineer_id>', methods=['POST'])
 def edit_engineer(engineer_id):
@@ -736,10 +818,32 @@ def edit_engineer(engineer_id):
 
     engineersInstance.edit_an_engineer(engineer_id,engineer_first_name,engineer_last_name,engineer_address,engineer_phone,engineer_email,engineer_field_ATM_Value,engineer_field_AIR_Value,engineer_field_TEL_Value)
     theReturnedEngineers = engineersInstance.get_all_engineers()
-    return render_template('view_engineers.html', allTheEngineers=theReturnedEngineers,currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('view_engineers.html', allTheEngineers=theReturnedEngineers,currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 @app.route('/robot', methods=['GET'])
 def user_is_missing_permission():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
-    return render_template('rights_messages.html',currentUser=LoggedInUser1)
+    if g.username:
+        return render_template('rights_messages.html',currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
+
+
+cron = Scheduler(daemon=True)
+# Explicitly kick off the background thread
+cron.start()
+
+@cron.interval_schedule(seconds=5)
+def job_function():
+    try:
+        msg = Message('The Subject', sender='nyekowalter69@gmail.com', recipients=['sandieo.2020@gmail.com'], body='Just testing')
+        mail.send(msg)
+        print("Message Sent Successfully")
+    except Exception as e:
+        print(e)
+
+
+# Shutdown your cron thread if the web process is stopped
+atexit.register(lambda: cron.shutdown(wait=False))
