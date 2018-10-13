@@ -125,4 +125,14 @@ class DatabaseConnectivity:
         self.cur.execute(sqlcommandforAnswers)
         self.conn.commit()
 
+    def drop_equipment_table(self):
+        sqlcommandforAnswers =(
+            """
+            DROP TABLE equipments
+            """
+        )
+        self.conn = self.connectToDatabase()
+        self.cur = self.conn.cursor()
+        self.cur.execute(sqlcommandforAnswers)
+        self.conn.commit()
     
