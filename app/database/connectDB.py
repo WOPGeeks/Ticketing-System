@@ -87,7 +87,7 @@ class DatabaseConnectivity:
             CREATE TABLE equipments(equipment_serial_number VARCHAR(100), 
             equipment_serial_id VARCHAR(200),equipment_class VARCHAR(200),
             equipment_model VARCHAR(200), equipment_category VARCHAR(100),
-            equipment_type VARCHAR(200),equipment_resolution VARCHAR(200), 
+            equipment_type VARCHAR(200), 
             equipment_response smallint,equipment_resolution smallint,equipment_installation_date DATE,
             equipment_address VARCHAR(200),equipment_city VARCHAR(200),equipment_supplier VARCHAR(200))
             """
