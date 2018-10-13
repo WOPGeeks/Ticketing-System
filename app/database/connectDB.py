@@ -84,7 +84,7 @@ class DatabaseConnectivity:
     def create_equipments_table(self):
         sqlcommandforEquipments =(
             """
-            CREATE TABLE IF NOT EXISTS equipments(equipment_serial_number INT(100), 
+            CREATE TABLE equipments(equipment_serial_number VARCHAR(100), 
             equipment_serial_id VARCHAR(200),equipment_class VARCHAR(200),
             equipment_model VARCHAR(200), equipment_category VARCHAR(100),
             equipment_type VARCHAR(200),equipment_resolution VARCHAR(200), 
