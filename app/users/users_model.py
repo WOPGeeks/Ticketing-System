@@ -1,6 +1,6 @@
 from app.database.connectDB import DatabaseConnectivity
 from flask import flash
-
+import psycopg2
 
 dbInstance = DatabaseConnectivity()
 class Users:

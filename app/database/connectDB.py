@@ -88,7 +88,7 @@ class DatabaseConnectivity:
             equipment_serial_id VARCHAR(200),equipment_class VARCHAR(200),
             equipment_model VARCHAR(200), equipment_category VARCHAR(100),
             equipment_type VARCHAR(200), 
-            equipment_response smallint,equipment_resolution smallint,equipment_installation_date DATE,
+            equipment_response decimal(12,2),equipment_resolution decimal(12,2),equipment_installation_date DATE,
             equipment_address VARCHAR(200),equipment_city VARCHAR(200),equipment_supplier VARCHAR(200))
             """
         )

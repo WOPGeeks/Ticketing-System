@@ -1,7 +1,7 @@
 from app.database.connectDB import DatabaseConnectivity
 from flask import flash
 import datetime
-
+import psycopg2
 
 dbInstance = DatabaseConnectivity()
 class Tickets:
@@ -25,7 +25,8 @@ class Tickets:
             ticket_priority,username,ticket_site_id))
             conn.commit()
             flash('Ticket Opened Successfully','success')
-        except:
+        except(Exception, psycopg2.DatabaseError) as e:
+            print(e)
             flash('Error submiting the data to database','danger')
 
     def view_all_tickets(self):
