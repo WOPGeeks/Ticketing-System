@@ -3,29 +3,29 @@ from flask import jsonify
 
 class DatabaseConnectivity:
 # Using MySQL Database
-    def connectToDatabase(self):
-        try:
-            import MySQLdb
-            self.conn = MySQLdb.connect(host='localhost', user='root', password='mysql', db='tickets')
-            print("Connected Successfully")
-            return self.conn
-            
-        except:
-            print('Cannot connect to database')
-            return jsonify({'Message' : 'Cannot connect to database'})
-
-# Using PostgreSQL Database
     # def connectToDatabase(self):
-        
     #     try:
-    #         connectionString = "postgres://lhzxcyfuehqwcw:129faa08ef955acc4144bd7bbf2e4e697ca8faa0a4f319fa73ddeb31584fda47@ec2-54-227-241-179.compute-1.amazonaws.com:5432/d6humsp52ioadf"
-    #         # connectionString = "host='localhost' user='postgres' password='password' dbname='tickets' port='5432'"
-    #         self.conn = psycopg2.connect(connectionString)
-    #         print("Connection established")
+    #         import MySQLdb
+    #         self.conn = MySQLdb.connect(host='localhost', user='root', password='mysql', db='tickets')
+    #         print("Connected Successfully")
     #         return self.conn
             
-    #     except(Exception, psycopg2.DatabaseError) as e:
-    #         print(e)
+    #     except:
+    #         print('Cannot connect to database')
+    #         return jsonify({'Message' : 'Cannot connect to database'})
+
+# Using PostgreSQL Database
+    def connectToDatabase(self):
+        
+        try:
+            connectionString = "postgres://lhzxcyfuehqwcw:129faa08ef955acc4144bd7bbf2e4e697ca8faa0a4f319fa73ddeb31584fda47@ec2-54-227-241-179.compute-1.amazonaws.com:5432/d6humsp52ioadf"
+            # connectionString = "host='localhost' user='postgres' password='password' dbname='tickets' port='5432'"
+            self.conn = psycopg2.connect(connectionString)
+            print("Connection established")
+            return self.conn
+            
+        except(Exception, psycopg2.DatabaseError) as e:
+            print(e)
 
     def create_tickets_table(self):
         sqlcommandforQuestions =(
@@ -80,6 +80,23 @@ class DatabaseConnectivity:
         self.cur = self.conn.cursor()
         self.cur.execute(sqlcommandforQuestions)
         self.conn.commit()
+
+    def create_equipments_table(self):
+        sqlcommandforEquipments =(
+            """
+            CREATE TABLE IF NOT EXISTS equipments(equipment_serial_number INT(100), 
+            equipment_serial_id VARCHAR(200),equipment_class VARCHAR(200),
+            equipment_model VARCHAR(200), equipment_category VARCHAR(100),
+            equipment_type VARCHAR(200),equipment_resolution VARCHAR(200), 
+            equipment_response smallint,equipment_resolution smallint,equipment_installation_date DATE,
+            equipment_address VARCHAR(200),equipment_city VARCHAR(200),equipment_supplier VARCHAR(200))
+            """
+        )
+        self.conn = self.connectToDatabase()
+        self.cur = self.conn.cursor()
+        self.cur.execute(sqlcommandforEquipments)
+        self.conn.commit()
+
     def create_clients_table(self):
         sqlcommandforAnswers =(
             """

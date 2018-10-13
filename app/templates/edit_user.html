@@ -534,6 +534,24 @@
 
                 </div>
 
+                <div class="form-row">
+                    {% if allTheUsers[28] == 0:%}
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_receive_email_alerts" class="custom-control-input" id="can_receive_email_alerts">
+                            <label class="custom-control-label text-info" for="can_receive_email_alerts">Can Receive Email Alerts</label>
+                        </div>
+                    </div>
+                    {% else:%}
+                    <div class="col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="can_receive_email_alerts" class="custom-control-input" id="can_receive_email_alerts" checked>
+                            <label class="custom-control-label text-info" for="can_receive_email_alerts">Can Receive Email Alerts</label>
+                        </div>
+                    </div>
+                    {% endif%}
+                </div>
+
                 <div class="form-row mt-2">
                     <div class="form-group col-md-2">
                         <button type="submit" href="" class="btn btn-success btn-block">Save Changes</button>

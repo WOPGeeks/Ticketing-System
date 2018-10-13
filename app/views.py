@@ -15,6 +15,8 @@ from flask_jwt_extended import (
 import atexit
 from apscheduler.scheduler import Scheduler
 from flask_mail import Mail, Message
+from flask_cors import CORS, cross_origin
+from app.equipments.equipments_model import Equipments
 
 dbInstance = DatabaseConnectivity()
 usersInstance = Users()
@@ -22,9 +24,13 @@ custInstance = Customers()
 engineersInstance = Engineers()
 ordersInstance = WorkOrders()
 ticketInstance = Tickets()
+equipmentInstance = Equipments()
 
 app = Flask(__name__)
 app.secret_key = 'mysecretkeyghjngdssdfghjhdfhghhsffdtrdddvdvbggdsewwessaae'
+
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 app.config['JWT_SECRET_KEY'] = 'somesecretstuffsforjwt'
 jwt = JWTManager(app)
@@ -241,7 +247,7 @@ def new_engineer():
         return render_template('new_engineer.html',currentUser=LoggedInUser1)
     return redirect(url_for('index'))
 
-@app.route('/equipment')
+@app.route('/new_equipment')
 def new_equipment():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
@@ -830,6 +836,38 @@ def user_is_missing_permission():
         return render_template('rights_messages.html',currentUser=LoggedInUser1)
     return redirect(url_for('index'))
 
+@app.route('/tasks', methods=['GET'])
+@cross_origin
+def get_tasks():
+    data = [{'value':12},{'value1':12},{'value2':23}]
+    return jsonify({'Data':data})
+
+@app.route('/two_columns')
+def two_columns():
+    return render_template('two_columns.html')
+
+@app.route('/add_equipment', methods=['POST'])
+def add_equipment():
+    LoggedInUser = session['username']
+    LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
+    equipment_serial = request.form['equipment_serial']
+    equipment_serial_id = request.form['equipment_serial_id']
+    equipment_model = request.form['equipment_model']
+    equipment_class = request.form['equipment_class']
+    equipment_type = request.form['equipment_type']
+    equipment_category = request.form['equipment_category']
+    equipment_resolution = request.form['equipment_resolution']
+    equipment_response = request.form['equipment_response']
+    equipment_installation_date = request.form['equipment_installation_date']
+    equipment_installation_address = request.form['equipment_installation_address']
+    equipment_installation_city = request.form['equipment_installation_city']
+    equipment_supplier = request.form['equipment_supplier']
+    if g.username:
+        equipmentInstance.add_equipment(equipment_serial,equipment_serial_id,equipment_model,equipment_class,
+        equipment_type,equipment_category,equipment_resolution,equipment_response,equipment_installation_date,
+        equipment_installation_address,equipment_installation_city,equipment_supplier)
+        return render_template('new_equipment.html',currentUser=LoggedInUser1)
+    return redirect(url_for('index'))
 
 cron = Scheduler(daemon=True)
 # Explicitly kick off the background thread
@@ -837,12 +875,13 @@ cron.start()
 
 @cron.interval_schedule(seconds=5)
 def job_function():
-    try:
-        msg = Message('The Subject', sender='nyekowalter69@gmail.com', recipients=['sandieo.2020@gmail.com'], body='Just testing')
-        mail.send(msg)
-        print("Message Sent Successfully")
-    except Exception as e:
-        print(e)
+    pass
+    # try:
+    #     msg = Message('The Subject', sender='nyekowalter69@gmail.com', recipients=['sandieo.2020@gmail.com'], body='Just testing')
+    #     mail.send(msg)
+    #     print("Message Sent Successfully")
+    # except Exception as e:
+    #     print(e)
 
 
 # Shutdown your cron thread if the web process is stopped

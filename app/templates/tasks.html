@@ -197,6 +197,36 @@
 
             </div>
             <script>
+                let datavalues = []
+                let options = {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+
+                }
+
+                fetch('https://127.0.0.1:8081/tasks', options)
+                    .then((response) => {
+                        // if (response.status == 200) {
+                        return response.json();
+                        // } else {
+                        //     return Promise.reject(new error("Failed to get response"));
+                        // }
+                    }).then((data) => {
+                        data.Data.forEach(element => {
+                            for (key in element) {
+
+                                var value = element[key];
+                                console.log(value.value)
+                                datavalues.push(value.value)
+                            }
+
+                        });
+
+
+                    });
                 var ctx = document.getElementById("myChart").getContext('2d');
                 var myChart = new Chart(ctx, {
                     type: 'bar',
@@ -204,7 +234,7 @@
                         labels: ["ATM TASKS", "AIRPORT TASKS", "TELECOM SITE TASKS"],
                         datasets: [{
                             label: 'Running Tasks',
-                            data: [12, 19, 3],
+                            data: [12, 45, 23],
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',
                                 'rgba(54, 162, 235, 0.2)',
@@ -241,6 +271,7 @@
                         }
                     }
                 });
+
                 var ctx1 = document.getElementById("myChart1").getContext('2d');
                 var myChart1 = new Chart(ctx1, {
                     type: 'doughnut',
