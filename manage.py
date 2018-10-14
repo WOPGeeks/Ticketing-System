@@ -7,7 +7,7 @@ dbInstance = DatabaseConnectivity()
 # dbInstance.create_work_orders_table()
 # dbInstance.create_tickets_table()
 # dbInstance.create_equipments_table()
-dbInstance.drop_equipment_table()
+# dbInstance.drop_equipment_table()
 
 if __name__ == '__main__':
     app.secret_key = 'mysecretkeyghjngdssdfghjhdfhghhsffdtrdddvdvbggdsewwessaae'
