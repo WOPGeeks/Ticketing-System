@@ -121,46 +121,46 @@
                     <ul class="collapse list-unstyled" id="homeSubmenu">
                         {% if currentUser[16] ==1:%}
                         <li>
-                            <a href="#">All Tickets</a>
+                            <a href="/all_open_and_overdue_tickets">All Tickets</a>
                         </li>
 
                         <li>
-                            <a href="#">Open Tickets</a>
+                            <a href="/open_and_overdue_tickets">Open Tickets</a>
                         </li>
                         <li>
-                            <a href="#">Closed Tickets</a>
+                            <a href="/closed_and_overdue_tickets">Closed Tickets</a>
                         </li>
                         <li>
-                            <a href="#">Overdue Tickets</a>
+                            <a href="/low_priority_and_overdue_tickets">Overdue Tickets</a>
                         </li>
 
                         <li>
-                            <a href="#">My Tickets</a>
+                            <a href="/all_my_open_and_overdue_tickets">My Tickets</a>
                         </li>
                         <li>
-                            <a href="#">My Open Tickets</a>
+                            <a href="/my_open_and_overdue_tickets">My Open Tickets</a>
                         </li>
                         <li>
-                            <a href="#">My Closed Tickets</a>
+                            <a href="/my_closed_and_overdue_tickets">My Closed Tickets</a>
                         </li>
                         <li>
-                            <a href="#">My Overdue Tickets</a>
+                            <a href="/my_low_priority_and_overdue_tickets">My Overdue Tickets</a>
                         </li>
+
                         {% else:%} {% if currentUser[13] ==1:%}
 
                         <li>
-                            <a href="#">My Tickets</a>
+                            <a href="/all_my_open_and_overdue_tickets">My Tickets</a>
                         </li>
                         <li>
-                            <a href="#">My Open Tickets</a>
+                            <a href="/my_open_and_overdue_tickets">My Open Tickets</a>
                         </li>
                         <li>
-                            <a href="#">My Closed Tickets</a>
+                            <a href="/my_closed_and_overdue_tickets">My Closed Tickets</a>
                         </li>
                         <li>
-                            <a href="#">My Overdue Tickets</a>
+                            <a href="/my_low_priority_and_overdue_tickets">My Overdue Tickets</a>
                         </li>{% else:%} {%endif%} {%endif%}
-
                     </ul>
                 </li>
             </ul>

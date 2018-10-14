@@ -105,8 +105,9 @@ class Tickets:
             flash('Error retrieving tickets from database','danger')
 
 
-    def view_all_my_tickets(self,username):
+    def view_all_my_tickets(self,current_user):
         try:
+            import MySQLdb
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
             # sql = """
@@ -125,7 +126,7 @@ class Tickets:
             # WHEN ticket_status='Open' AND TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>1439 
             # THEN CONCAT('Overdue ','( Late By ',TIMESTAMPDIFF(DAY,ticket_overdue_time,NOW()),' Days ',TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())%24, ' Hours ',TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())%60, ' Minutes)')
 
-            # ELSE ticket_status END AS Ticket, ticket_priority from tickets WHERE username=%s
+            # ELSE ticket_status END AS Ticket, ticket_priority from tickets
             # """
 
             sql = """
@@ -174,11 +175,12 @@ class Tickets:
             ELSE ticket_status END AS Ticket,
             ticket_priority from tickets
             """
-            cur.execute(sql,(username))
+            cur.execute(sql)
             self.theTickets = cur.fetchall()
             return self.theTickets
-        except:
-            flash('Error retrieving my tickets from database, the statement is {} and user is {}'.format(sql,username),'danger')
+        except(Exception, MySQLdb.DatabaseError) as e:
+            print(e)
+            flash('Error retrieving my tickets from database','danger')
 
     def edit_ticket(self,ticket_assigned_to,
     ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
