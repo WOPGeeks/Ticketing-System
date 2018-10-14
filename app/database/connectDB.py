@@ -2,6 +2,17 @@ import psycopg2
 from flask import jsonify
 
 class DatabaseConnectivity:
+# Using MySQL Database
+    # def connectToDatabase(self):
+    #     try:
+    #         import MySQLdb
+    #         self.conn = MySQLdb.connect(host='localhost', user='root', password='mysql', db='tickets')
+    #         print("Connected Successfully")
+    #         return self.conn
+            
+    #     except:
+    #         print('Cannot connect to database')
+    #         return jsonify({'Message' : 'Cannot connect to database'})
 
 # Using PostgreSQL Database
     def connectToDatabase(self):
