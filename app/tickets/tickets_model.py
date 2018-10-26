@@ -178,7 +178,7 @@ class Tickets:
             cur.execute(sql)
             self.theTickets = cur.fetchall()
             return self.theTickets
-        except(Exception, MySQLdb.DatabaseError) as e:
+        except(Exception, psycopg2.DatabaseError) as e:
             print(e)
             flash('Error retrieving my tickets from database','danger')
 
