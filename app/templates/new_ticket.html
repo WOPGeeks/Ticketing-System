@@ -191,6 +191,7 @@
                     <option selected>-None-</option>
                     <option>Open</option>
                     <option>Closed</option>
+                    <option>Pending</option>
                   </select>
                     </div>
                 </div>
@@ -205,7 +206,7 @@
                     </select>
                     </div>
                     <div class="form-group col-md-4" id="trialImages">
-                        <label class="text-info" for="ticket_id">Ticket Site ID</label>
+                        <label class="text-info" for="ticket_id">Site ID</label>
                         <input id="ticket_site_id" type="text" name="ticket_site_id" class="form-control" placeholder="Site ID">
                         <i class="fa fa-star fa-lg fa-fw" aria-hidden="true"></i>
                         <div class="invalid-feedback">
@@ -269,6 +270,45 @@
                         <input type="date" name="ticket_actual_visit_date" class="form-control">
                     </div>
                 </div>
+
+
+                <div class="row">
+                    <div class="col-md-2">
+                        
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="ATM" class="custom-control-input" id="customCheck1">
+                            <label class="custom-control-label text-info" for="customCheck1">ATM</label>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-2">
+                        
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="airport" class="custom-control-input" id="customCheck2">
+                            <label class="custom-control-label text-info" for="customCheck2">AIRPORT</label>
+                        </div>
+                       
+                    </div>
+                    <div class="col-md-2">
+                        
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="telecom" class="custom-control-input" id="customCheck3">
+                            <label class="custom-control-label text-info" for="customCheck3">TELECOM SITE</label>
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-2">
+                        
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="fleet" class="custom-control-input" id="customCheck4">
+                            <label class="custom-control-label text-info" for="customCheck4">FLEET SITE</label>
+                        </div>
+                        
+                    </div>
+                </div>
+
+
                 <div class="form-row mt-3">
                     <div class="form-group col-md-2">
                         <button type="submit" class="btn btn-success btn-block">Submit</button>

@@ -189,11 +189,13 @@
                         <span style="color: black; font-size: 13px;" id="expire-status" class="ticket-details-5">{{eachTicket[5]}}</span> {%endif%}
                     </p>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     {% if currentUser[14] ==1:%}
                     <a href="/edit_the_ticket/{{eachTicket[0]}}"><i class="fas fa-edit text-info" style="font-size: 15px"></i></a> &nbsp &nbsp {% else:%} {% endif%} {% if currentUser[15] ==1:%}
-                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt text-danger" style="font-size: 15px"></i></a> {% else:%} {% endif%}
-                </div>
+                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt text-danger" style="font-size: 15px"></i></a>&nbsp&nbsp&nbsp&nbsp
+                    <span style="color: green; font-size: 14px;" class="ticket-details-2">{{eachTicket[7]}}</span> 
+                    {% else:%} {% endif%}
+                </div>&nbsp&nbsp&nbsp&nbsp
                 {%if "High" in "eachTicket[6]": %}
                 <div class="col-md-1">
                     <p id="overdue-status" style="color: green;" class="ticket-details-6">{{eachTicket[6]}}</p>
@@ -222,11 +224,13 @@
                         <span style="color: black; font-size: 13px;" id="expire-status" class="ticket-details-5">{{eachOfMyTicket[5]}}</span> {%endif%}
                     </p>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     {% if currentUser[14] ==1:%}
                     <a href="/edit_the_ticket/{{eachTicket[0]}}"><i class="fas fa-edit text-info" style="font-size: 15px"></i></a> &nbsp &nbsp {% else:%} {% endif%} {% if currentUser[15] ==1:%}
-                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt text-danger" style="font-size: 15px"></i></a> {% else:%} {% endif%}
-                </div>
+                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt text-danger" style="font-size: 15px"></i></a>&nbsp&nbsp&nbsp&nbsp
+                    <span style="color: green; font-size: 14px;" class="ticket-details-2">{{eachTicket[7]}}
+                    {% else:%} {% endif%}
+                </div>&nbsp&nbsp
                 {%if "High" in eachOfMyTicket[6]: %}
                 <div class="col-md-1">
                     <p id="overdue-status" style="color: green;" class="ticket-details-6">{{eachOfMyTicket[6]}}</p>

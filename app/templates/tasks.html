@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Zubacz Account | Tasks</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
+    <script src="../static/css/Chart.min.js"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
@@ -15,8 +15,8 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <!-- <a class="navbar-brand" href="#">Navbar</a> -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-	    <span class="navbar-toggler-icon"></span>
-	  </button>
+                <span class="navbar-toggler-icon"></span>
+              </button>
 
         <div class="collapse navbar-collapse" id="navbarColor03">
             <ul class="navbar-nav mr-auto">
@@ -58,7 +58,6 @@
                 </li>
                 <li class="nav-item ml-3">
                     <a class="nav-link" href="#"><i class="fas fa-plus"></i></a>
-
                 </li>
                 <li class="nav-item ml-3">
                     <a class="nav-link" href="#"><i class="fas fa-bell"></i></a>
@@ -72,6 +71,7 @@
             </ul>
         </div>
     </nav>
+
 
 
     <!-- Side -->
@@ -168,142 +168,135 @@
         </nav>
         <!-- Page Content  -->
         <div id="content" class="mt-5">
-
-            <h5><i class="fas fa-star"></i> Engineers Tasks</h5>
-            <hr>
+            <div class="row mb-4 page-header">
+                <div class="col-md-12">
+                    <h5><i class="fas fa-star"></i> Engineers Tasks</h5>
+                </div>
+            </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
 
-                    <canvas id="myChart" style="width: 35x; height: 15px;"></canvas>
+                    <div class="card">
+                        <div class="card-body">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                    </div>
 
 
                 </div>
                 <div class="form-group col-md-6">
 
-                    <canvas id="myChart1" style="width: 35x; height: 15px;"></canvas>
+                   <div class="card">
+                       <div class="card-body">
+                            <canvas id="myChart1"></canvas>
+                       </div>
+                   </div>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-6">
 
-                    <canvas id="myChart2" style="width: 35x; height: 15px;"></canvas>
+                    <div class="card">
+                        <div class="card-body">
+                            <canvas id="myChart2"></canvas>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group col-md-6">
 
-                    <canvas id="myChart3" style="width: 35x; height: 15px;"></canvas>
+                    <div class="card">
+                        <div class="card-body">
+                            <canvas id="myChart3"></canvas>
+                        </div>
+                    </div>
                 </div>
 
             </div>
             <script>
-                let datavalues = []
-                let options = {
-                    method: 'GET',
-                    mode: 'cors',
-                    headers: {
-                        'Content-type': 'application/json'
-                    }
-
-                }
-
-                fetch('https://127.0.0.1:8081/tasks', options)
-                    .then((response) => {
-                        // if (response.status == 200) {
-                        return response.json();
-                        // } else {
-                        //     return Promise.reject(new error("Failed to get response"));
-                        // }
-                    }).then((data) => {
-                        data.Data.forEach(element => {
-                            for (key in element) {
-
-                                var value = element[key];
-                                console.log(value.value)
-                                datavalues.push(value.value)
-                            }
-
-                        });
-
-
-                    });
-                var ctx = document.getElementById("myChart").getContext('2d');
-                var myChart = new Chart(ctx, {
+                function buildRunningTasksChart(atm,airport,telecom,fleet){
+                    var ctx = document.getElementById("myChart").getContext('2d');
+                    var myChart = new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: ["ATM TASKS", "AIRPORT TASKS", "TELECOM SITE TASKS"],
+                        labels: ["ATM", "AIRPORT", "TELECOM", "FLEET"],
                         datasets: [{
                             label: 'Running Tasks',
-                            data: [12, 45, 23],
+                            data: [atm, airport, telecom, fleet],
                             backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)'
+                                '#007bff',
+                                '#dc3545',
+                                '#21c65e',
+                                '#ffc107'
                             ],
                             borderColor: [
-                                'rgba(255,99,132,1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)'
+                                '#007bff',
+                                '#dc3545',
+                                '#21c65e',
+                                '#ffc107'
                             ],
-                            borderWidth: 1
+                            borderWidth: 3
                         }]
                     },
                     options: {
                         scales: {
                             yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
+                              scaleLabel: {
+                                display: true,
+                                labelString: 'Number of Running Tasks',
+                                fontSize: 14
+                              }
                             }]
                         },
                         legend: {
                             display: false,
-                            position: 'top',
+                            position: 'bottom',
                             labels: {
-                                fontColor: "#000"
+                                fontColor: "#000",
                             }
 
                         },
                         title: {
                             display: true,
-                            fontSize: 14,
+                            fontSize: 18,
                             text: 'Running Tasks'
                         }
                     }
                 });
 
-                var ctx1 = document.getElementById("myChart1").getContext('2d');
-                var myChart1 = new Chart(ctx1, {
+                }
+                function buildDueSoonTasksChart(atm,airport,telecom,fleet){
+                    var ctx1 = document.getElementById("myChart1").getContext('2d');
+                    var myChart1 = new Chart(ctx1, {
                     type: 'doughnut',
                     data: {
-                        labels: ["ATM TASKS", "AIRPORT TASKS", "TELECOM SITE TASKS"],
+                        labels: ["ATM", "AIRPORT", "TELECOM", "FLEET"],
                         datasets: [{
                             label: 'Tasks Due Soon',
-                            data: [12, 19, 3],
+                            data: [atm, airport, telecom, fleet],
                             backgroundColor: [
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)'
+                                '#007bff',
+                                '#dc3545',
+                                '#21c65e',
+                                '#ffc107'
                             ],
                             borderColor: [
-                                'rgba(255,99,132,1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)'
+                                '#007bff',
+                                '#dc3545',
+                                '#21c65e',
+                                '#ffc107'
                             ],
-                            borderWidth: 1
+                            borderWidth: 3
                         }]
                     },
                     options: {
                         scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
+                            //Not Title for Doughut Chart
                         },
-                        legends: {
-                            display: false,
-                            position: 'right',
+                        legend: {
+                            display: true,
+                            position: 'bottom',
                             labels: {
                                 fontColor: "#000"
                             }
@@ -311,44 +304,44 @@
                         },
                         title: {
                             display: true,
-                            fontSize: 14,
+                            fontSize: 18,
                             text: 'Tasks Due Soon'
                         }
                     }
                 });
 
-                var ctx2 = document.getElementById("myChart2").getContext('2d');
-                var myChart2 = new Chart(ctx2, {
+                }
+                function buildCompletedTasksChart(atm,airport,telecom,fleet){
+                    var ctx2 = document.getElementById("myChart2").getContext('2d');
+                    var myChart2 = new Chart(ctx2, {
                     type: 'pie',
                     data: {
-                        labels: ["ATM TASKS", "AIRPORT TASKS", "TELECOM SITE TASKS"],
+                        labels: ["ATM", "AIRPORT", "TELECOM", "FLEET"],
                         datasets: [{
                             label: 'Completed Tasks',
-                            data: [12, 19, 3],
+                            data: [atm, airport, telecom, fleet],
                             backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)'
+                                '#007bff',
+                                '#dc3545',
+                                '#21c65e',
+                                '#ffc107'
                             ],
                             borderColor: [
-                                'rgba(255,99,132,1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)'
+                                '#007bff',
+                                '#dc3545',
+                                '#21c65e',
+                                '#ffc107'
                             ],
-                            borderWidth: 1
+                            borderWidth: 3
                         }]
                     },
                     options: {
                         scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
+                            // Not Scale for PieChart
                         },
-                        legends: {
+                        legend: {
                             display: true,
-                            position: 'top',
+                            position: 'bottom',
                             labels: {
                                 fontColor: "#000"
                             }
@@ -356,41 +349,47 @@
                         },
                         title: {
                             display: true,
-                            fontSize: 14,
+                            fontSize: 18,
                             text: 'Completed Tasks'
                         }
                     }
 
                 });
 
-                var ctx3 = document.getElementById("myChart3").getContext('2d');
-                var myChart3 = new Chart(ctx3, {
+                }
+                function buildOverdueTasksChart(atm,airport,telecom,fleet){
+                    var ctx3 = document.getElementById("myChart3").getContext('2d');
+                    var myChart3 = new Chart(ctx3, {
                     type: 'bar',
                     data: {
-                        labels: ["ATM TASKS", "AIRPORT TASKS", "TELECOM SITE TASKS"],
+                        labels: ["ATM", "AIRPORT", "TELECOM", "FLEET"],
                         datasets: [{
                             display: false,
                             label: 'Disrespected Tasks',
-                            data: [12, 19, 3],
+                            data: [atm, airport, telecom, fleet],
                             backgroundColor: [
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)'
+                                '#007bff',
+                                '#dc3545',
+                                '#21c65e',
+                                '#ffc107'
                             ],
                             borderColor: [
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)'
+                                '#007bff',
+                                '#dc3545',
+                                '#21c65e',
+                                '#ffc107'
                             ],
-                            borderWidth: 1
+                            borderWidth: 3
                         }]
                     },
                     options: {
                         scales: {
                             yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
+                              scaleLabel: {
+                                display: true,
+                                labelString: 'Number of Violated Tasks',
+                                fontSize: 14
+                              }
                             }]
                         },
                         legend: {
@@ -403,12 +402,19 @@
                         },
                         title: {
                             display: true,
-                            fontSize: 14,
+                            fontSize: 18,
                             text: 'Violated Tasks'
                         }
                     }
                 });
-            </script>
+                }
+               buildRunningTasksChart({{ATM_running_value | safe}}, {{Airport_running_value | safe}}, {{Telecom_running_value | safe}}, {{Fleet_running_value | safe}}) 
+               buildDueSoonTasksChart({{ATM_due_soon_value | safe}}, {{Airport_due_soon_value | safe}}, {{Telecom_due_soon_value | safe}}, {{Fleet_due_soon_value | safe}}) 
+               buildCompletedTasksChart({{ATM_completed_value | safe}}, {{Airport_completed_value | safe}}, {{Telecom_completed_value | safe}}, {{Fleet_completed_value | safe}}) 
+               buildOverdueTasksChart({{ATM_overdue_value | safe}}, {{Airport_overdue_value | safe}}, {{Telecom_overdue_value | safe}}, {{Fleet_overdue_value | safe}}) 
+               
+                
+                
             </script>
         </div>
     </div>

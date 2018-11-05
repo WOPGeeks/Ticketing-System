@@ -192,7 +192,7 @@
                     <option selected>{{allTheTickets[2]}}</option>
                     <option>Open</option>
                     <option>Closed</option>
-                    <option>Unassigned</option>
+                    <option>Pending</option>
 
                   </select>
                     </div>
@@ -209,7 +209,7 @@
                     </select>
                     </div>
                     <div class="form-group col-md-4" id="trialImages">
-                        <label class="text-info" for="ticket_id">Ticket Site ID</label>
+                        <label class="text-info" for="ticket_id">Site ID</label>
                         <input id="ticket_site_id_edit" type="text" value="{{allTheTickets[23]}}" name="ticket_site_id_edit" class="form-control" placeholder="Site ID">
                         <i class="fa fa-star fa-lg fa-fw" aria-hidden="true"></i>
                         <div class="invalid-feedback">
@@ -245,13 +245,14 @@
                         <label class="text-info" for="inputZip">Ticket Priority</label>
                         <select id="inputState" name="ticket_priority_edit" class="form-control">
                             <option>High</option>
+                            <option>Medium</option>
                             <option>Low</option>
                             <option selected>{{allTheTickets[13]}}</option>
                         </select>
                     </div>
                     <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="inputCity">Ticket Expires After (Hours):</label>
-                        <input id="hours_to_add_edit" type="text" name="hours_to_add_edit" class="form-control" placeholder="Expires After (Hours)">
+                        <input id="hours_to_add_edit" type="text" value="0" name="hours_to_add_edit" class="form-control" placeholder="Expires After (Hours)">
                         <i class="fa fa-clock fa-lg fa-fw" aria-hidden="true"></i>
                         <div class="invalid-feedback">
                             Hours is invalid
@@ -274,6 +275,68 @@
                         <input type="date" name="ticket_actual_visit_date_edit" value="{{allTheTickets[12]}}" class="form-control">
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        {% if allTheTickets[25] == 1 %}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="ATM_edit" class="custom-control-input" id="customCheck1" checked>
+                            <label class="custom-control-label text-info" for="customCheck1">ATM</label>
+                        </div>
+                        {% else %}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="ATM_edit" class="custom-control-input" id="customCheck1">
+                            <label class="custom-control-label text-info" for="customCheck1">ATM</label>
+                        </div>
+                        {% endif %}
+                        
+                    </div>
+                    <div class="col-md-2">
+                        {% if allTheTickets[25] == 2 %}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="airport_edit" class="custom-control-input" id="customCheck2" checked>
+                            <label class="custom-control-label text-info" for="customCheck2">AIRPORT</label>
+                        </div>
+                        {% else %}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="airport_edit" class="custom-control-input" id="customCheck2">
+                            <label class="custom-control-label text-info" for="customCheck2">AIRPORT</label>
+                        </div>
+                        {% endif%}
+                       
+                    </div>
+                    <div class="col-md-2">
+                        {% if allTheTickets[25] == 3 %}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="telecom_edit" class="custom-control-input" id="customCheck3" checked>
+                            <label class="custom-control-label text-info" for="customCheck3">TELECOM SITE</label>
+                        </div>
+                        {% else %}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="telecom_edit" class="custom-control-input" id="customCheck3">
+                            <label class="custom-control-label text-info" for="customCheck3">TELECOM SITE</label>
+                        </div>
+                        {% endif%}
+                        
+                    </div>
+
+                    <div class="col-md-2">
+                        {% if allTheTickets[25] == 4 %}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="fleet_edit" class="custom-control-input" id="customCheck4" checked>
+                            <label class="custom-control-label text-info" for="customCheck4">FLEET SITE</label>
+                        </div>
+                        {% else %}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="fleet_edit" class="custom-control-input" id="customCheck4">
+                            <label class="custom-control-label text-info" for="customCheck4">FLEET SITE</label>
+                        </div>
+                        {% endif%}
+                        
+                    </div>
+                </div>
+
+
                 <div class="form-row">
                     <div class="form-group col-md-8" id="trialImages">
                         <label class="text-info" for="reason">Ticket Root Cause</label>
