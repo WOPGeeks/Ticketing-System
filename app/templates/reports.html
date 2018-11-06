@@ -74,98 +74,99 @@
         </div>
     </nav>
 
-   <!-- Side -->
-   <div class="wrapper">
-    <!-- Sidebar  -->
-    <nav id="sidebar">
-        <ul class="list-unstyled components">
-            <li class="mt-2 mb-2">
-                <a href="#"><i class="fas fa-building"></i> Entries</a>
-            </li>
-            <li class="active mt-2 mb-2" data-spy="scroll">
-                <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fas fa-folder-open"></i> New</a>
-                <ul class="collapse list-unstyled" id="homeSubmenu1">
-                    {% if currentUser[9] ==0:%} {% else:%}
-                    <li>
-                        <a href="{{ url_for('new_users') }}">Add New User</a>
-                    </li>
-                    {%endif%} {% if currentUser[13] ==0:%} {% else:%}
-                    <li>
-                        <a href="{{ url_for('new_ticket') }}">Add New Ticket</a>
-                    </li>
-                    {%endif%} {% if currentUser[23] ==0:%} {% else:%}
-                    <li>
-                        <a href="{{ url_for('new_customer') }}">Add New Client</a>
-                    </li>
+    <!-- Side -->
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <ul class="list-unstyled components">
+                <li class="mt-2 mb-2">
+                    <a href="#"><i class="fas fa-building"></i> Entries</a>
+                </li>
+                <li class="active mt-2 mb-2" data-spy="scroll">
+                    <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fas fa-folder-open"></i> New</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu1">
+                        {% if currentUser[9] ==0:%} {% else:%}
+                        <li>
+                            <a href="{{ url_for('new_users') }}">Add New User</a>
+                        </li>
+                        {%endif%} {% if currentUser[13] ==0:%} {% else:%}
+                        <li>
+                            <a href="{{ url_for('new_ticket') }}">Add New Ticket</a>
+                        </li>
+                        {%endif%} {% if currentUser[23] ==0:%} {% else:%}
+                        <li>
+                            <a href="{{ url_for('new_customer') }}">Add New Client</a>
+                        </li>
 
-                    {%endif%} {% if currentUser[24] ==0:%} {% else:%}
-                    <li>
-                        <a href="{{ url_for('new_engineer') }}">Add New Engineer</a>
-                    </li>
-                    {%endif%} {% if currentUser[25] ==0:%} {% else:%}
-                    <li>
-                        <a href="{{ url_for('new_equipment') }}">Add New Equipment</a>
-                    </li>
-                    {%endif%} {% if currentUser[26] ==0:%} {% else:%}
-                    <li>
-                        <a href="{{ url_for('new_workorder') }}">Add New Work Order</a>
-                    </li>
-                    {%endif%}
-                </ul>
-            </li>
-            <li class="mt-2 mb-2">
-                <a href="#"><i class="fas fa-wifi"></i> Ticket Feeds</a>
-            </li>
+                        {%endif%} {% if currentUser[24] ==0:%} {% else:%}
+                        <li>
+                            <a href="{{ url_for('new_engineer') }}">Add New Engineer</a>
+                        </li>
+                        {%endif%} {% if currentUser[25] ==0:%} {% else:%}
+                        <li>
+                            <a href="{{ url_for('new_equipment') }}">Add New Equipment</a>
+                        </li>
+                        {%endif%} {% if currentUser[26] ==0:%} {% else:%}
+                        <li>
+                            <a href="{{ url_for('new_workorder') }}">Add New Work Order</a>
+                        </li>
+                        {%endif%}
+                    </ul>
+                </li>
+                <li class="mt-2 mb-2">
+                    <a href="#"><i class="fas fa-wifi"></i> Ticket Feeds</a>
+                </li>
 
-            <li class="active mt-2 mb-2" data-spy="scroll">
-                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fas fa-folder-open"></i> Views</a>
-                <ul class="collapse list-unstyled" id="homeSubmenu">
-                    {% if currentUser[16] ==1:%}
-                    <li>
-                        <a href="/all_open_and_overdue_tickets">All Tickets</a>
-                    </li>
+                <li class="active mt-2 mb-2" data-spy="scroll">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fas fa-folder-open"></i> Views</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        {% if currentUser[16] ==1:%}
+                        <li>
+                            <a href="/all_open_and_overdue_tickets">All Tickets</a>
+                        </li>
 
-                    <li>
-                        <a href="/open_and_overdue_tickets">Open Tickets</a>
-                    </li>
-                    <li>
-                        <a href="/closed_and_overdue_tickets">Closed Tickets</a>
-                    </li>
-                    <li>
-                        <a href="/low_priority_and_overdue_tickets">Overdue Tickets</a>
-                    </li>
+                        <li>
+                            <a href="/open_and_overdue_tickets">Open Tickets</a>
+                        </li>
+                        <li>
+                            <a href="/closed_and_overdue_tickets">Closed Tickets</a>
+                        </li>
+                        <li>
+                            <a href="/low_priority_and_overdue_tickets">Overdue Tickets</a>
+                        </li>
 
-                    <li>
-                        <a href="/all_my_open_and_overdue_tickets">My Tickets</a>
-                    </li>
-                    <li>
-                        <a href="/my_open_and_overdue_tickets">My Open Tickets</a>
-                    </li>
-                    <li>
-                        <a href="/my_closed_and_overdue_tickets">My Closed Tickets</a>
-                    </li>
-                    <li>
-                        <a href="/my_low_priority_and_overdue_tickets">My Overdue Tickets</a>
-                    </li>
+                        <li>
+                            <a href="/all_my_open_and_overdue_tickets">My Tickets</a>
+                        </li>
+                        <li>
+                            <a href="/my_open_and_overdue_tickets">My Open Tickets</a>
+                        </li>
+                        <li>
+                            <a href="/my_closed_and_overdue_tickets">My Closed Tickets</a>
+                        </li>
+                        <li>
+                            <a href="/my_low_priority_and_overdue_tickets">My Overdue Tickets</a>
+                        </li>
 
-                    {% else:%} {% if currentUser[13] ==1:%}
+                        {% else:%} {% if currentUser[13] ==1:%}
 
-                    <li>
-                        <a href="/all_my_open_and_overdue_tickets">My Tickets</a>
-                    </li>
-                    <li>
-                        <a href="/my_open_and_overdue_tickets">My Open Tickets</a>
-                    </li>
-                    <li>
-                        <a href="/my_closed_and_overdue_tickets">My Closed Tickets</a>
-                    </li>
-                    <li>
-                        <a href="/my_low_priority_and_overdue_tickets">My Overdue Tickets</a>
-                    </li>{% else:%} {%endif%} {%endif%}
-                </ul>
-            </li>
-        </ul>
-    </nav>
+                        <li>
+                            <a href="/all_my_open_and_overdue_tickets">My Tickets</a>
+                        </li>
+                        <li>
+                            <a href="/my_open_and_overdue_tickets">My Open Tickets</a>
+                        </li>
+                        <li>
+                            <a href="/my_closed_and_overdue_tickets">My Closed Tickets</a>
+                        </li>
+                        <li>
+                            <a href="/my_low_priority_and_overdue_tickets">My Overdue Tickets</a>
+                        </li>{% else:%} {%endif%} {%endif%}
+
+                    </ul>
+                </li>
+            </ul>
+        </nav>
 
         <!-- Page Content  -->
         <div id="content" class="mt-5">

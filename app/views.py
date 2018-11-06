@@ -951,7 +951,7 @@ def open_and_overdue_tickets():
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     leftHeading = "Open Tickets"
     rightHeading = "Due In 2 Hours"
-    allMyLeftTickets = ticketInstance.view_all_closed_tickets(LoggedInUser)
+    allMyLeftTickets = ticketInstance.view_all_open_tickets(LoggedInUser)
     allMyRightTickets = ticketInstance.view_all_tickets_due_in_2_hours(LoggedInUser)
     if g.username:
         return render_template('two_columns.html', 
@@ -1041,8 +1041,8 @@ def all_open_and_overdue_tickets():
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
     leftHeading = "All Open Tickets"
     rightHeading = "All Closed Tickets"
-    allMyLeftTickets = ticketInstance.view_all_closed_tickets(LoggedInUser)
-    allMyRightTickets = ticketInstance.view_all_open_tickets(LoggedInUser)
+    allMyLeftTickets = ticketInstance.view_all_open_tickets(LoggedInUser)
+    allMyRightTickets = ticketInstance.view_all_closed_tickets(LoggedInUser)
     if g.username:
         return render_template('two_columns.html', 
         currentUser=LoggedInUser1,leftHead=leftHeading,rightHead=rightHeading, allMyLeftTickets=allMyLeftTickets,allMyRightTickets=allMyRightTickets)
@@ -1056,7 +1056,7 @@ def all_my_open_and_overdue_tickets():
     leftHeading = "All My Open Tickets"
     rightHeading = "All My Tickets Due In 2 Hours"
     allMyLeftTickets = ticketInstance.view_all_my_open_tickets(LoggedInUser)
-    allMyRightTickets = ticketInstance.view_all_my_closed_tickets(LoggedInUser)
+    allMyRightTickets = ticketInstance.view_all_my_tickets_due_in_2_hours(LoggedInUser)
     if g.username:
         return render_template('two_columns.html', 
         currentUser=LoggedInUser1,leftHead=leftHeading,rightHead=rightHeading, allMyLeftTickets=allMyLeftTickets,allMyRightTickets=allMyRightTickets)
