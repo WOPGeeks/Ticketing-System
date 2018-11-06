@@ -296,8 +296,21 @@
                     <div class="form-group col-md-2">
                         <button type="submit" class="btn btn-success btn-block">Submit</button>
                     </div>
+                    <form class="md-form" action="#">
+                        <div class="file-field">
+                            <div class="btn btn-info btn-sm float-left">
+                                <span>Choose File To Upload</span>
+                                <input type="file" multiple>
+                            </div>
+                            
+                        </div>
+                        <div class="form-group col-md-2">
+                            <button type="submit" class="btn btn-success btn-block" formnovalidate formaction="/dashboard">Save Upload</button>
+                        </div>
+                    </form>
+
                     <div class="form-group col-md-2">
-                        <button type="submit" class="btn btn-secondary btn-block">Cancel</button>
+                        <button type="submit" class="btn btn-secondary btn-block" formnovalidate formaction="/dashboard">Cancel</button>
                     </div>
                 </div>
             </form>

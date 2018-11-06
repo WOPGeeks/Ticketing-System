@@ -248,7 +248,7 @@ def view_all_tickets():
         return render_template('dashboard.html', allTheTickets=allTheTickets, currentUser=LoggedInUser1,myTickets=myTickets)
     return redirect(url_for('index'))
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
