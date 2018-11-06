@@ -18,7 +18,7 @@ class DatabaseConnectivity:
     def connectToDatabase(self):
         
         try:
-            connectionString = "postgres://lhzxcyfuehqwcw:129faa08ef955acc4144bd7bbf2e4e697ca8faa0a4f319fa73ddeb31584fda47@ec2-54-227-241-179.compute-1.amazonaws.com:5432/d6humsp52ioadf"
+            connectionString = "postgres://dbedyelavllkkj:03bedcb65c16fe6538d37dcae2c1eb9750a9d24ae85741f460cb1a9a1ab5e632@ec2-23-21-192-179.compute-1.amazonaws.com:5432/d24c9iu1i9q6d0"
             # connectionString = "host='localhost' user='postgres' password='' dbname='tickets' port='5432'"
             self.conn = psycopg2.connect(connectionString)
             print("Connection established")
@@ -84,7 +84,7 @@ class DatabaseConnectivity:
     def create_equipments_table(self):
         sqlcommandforEquipments =(
             """
-            CREATE TABLE equipments(equipment_serial_number VARCHAR(100), 
+            CREATE TABLE IF NOT EXISTS equipments(equipment_serial_number VARCHAR(100), 
             equipment_serial_id VARCHAR(200),equipment_class VARCHAR(200),
             equipment_model VARCHAR(200), equipment_category VARCHAR(100),
             equipment_type VARCHAR(200), 
@@ -128,7 +128,7 @@ class DatabaseConnectivity:
     def drop_equipment_table(self):
         sqlcommandforAnswers =(
             """
-            DROP TABLE equipments
+            DROP TABLE ticketsß
             """
         )
         self.conn = self.connectToDatabase()

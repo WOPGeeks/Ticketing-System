@@ -85,6 +85,7 @@ def login():
             return render_template('dashboard.html', allTheTickets=allTheTickets,currentUser=LoggedInUser1,allMyTickets=myTickets)
             
         else:
+            
             flash('Invalid Password', 'danger')
             return render_template('index.html')
     else:
