@@ -260,6 +260,39 @@
                         <textarea name="ticket_reason" class="form-control" cols="30" rows="2"></textarea>
                     </div>
                 </div>
+
+                
+                <div class="row">
+                    <div class="col-md-2">
+                        
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="Revisit" class="custom-control-input" id="customCheck7">
+                            <label class="custom-control-label text-info" for="customCheck7">Revisit</label>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-2">
+                        
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="Returned" class="custom-control-input" id="customCheck8">
+                            <label class="custom-control-label text-info" for="customCheck8">Returned Parts</label>
+                        </div>
+                       
+                    </div>
+
+                    <div class="form-group col-md-4" id="trialImages">
+                        <input id="parts_returned" type="text" name="ticket_part_used" class="form-control" placeholder="Part(s) Used" required>
+                        <i class="fa fa-tool fa-lg fa-fw" aria-hidden="true"></i>
+                        <div class="invalid-feedback">
+                            Input is invalid
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label class="text-info" for="inputCity">Planned Visit Date</label>
@@ -314,7 +347,7 @@
                         <button type="submit" class="btn btn-success btn-block">Submit</button>
                     </div>
                     <div class="form-group col-md-2">
-                        <a href="dashboard.html" class="btn btn-secondary btn-block">Cancel</a>
+                        <button type="submit" class="btn btn-secondary btn-block" formnovalidate formaction="/dashboard">Cancel</button>
                     </div>
                 </div>
             </form>

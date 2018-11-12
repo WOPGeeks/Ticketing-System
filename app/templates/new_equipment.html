@@ -181,7 +181,7 @@
             <hr>
             <h5>New Equipment Information</h5>
             {% include '_messages.html' %}
-            <form class="mt-4" action="/add_equipment" method="POST">
+            <form class="mt-4" action="/add_equipment" enctype="multipart/form-data" method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="equipment_serial">Equipment Serial No</label>
@@ -296,16 +296,16 @@
                     <div class="form-group col-md-2">
                         <button type="submit" class="btn btn-success btn-block">Submit</button>
                     </div>
-                    <form class="md-form" action="#">
+                    <form class="md-form" action="#" enctype="multipart/form-data">
                         <div class="file-field">
                             <div class="btn btn-info btn-sm float-left">
                                 <span>Choose File To Upload</span>
-                                <input type="file" multiple>
+                                <input type="file" name="equipment" multiple>
                             </div>
                             
                         </div>
                         <div class="form-group col-md-2">
-                            <button type="submit" class="btn btn-success btn-block" formnovalidate formaction="/dashboard">Save Upload</button>
+                            <button type="submit" class="btn btn-success btn-block" formnovalidate formaction="/upload/equipments">Save Upload</button>
                         </div>
                     </form>
 

@@ -3,11 +3,12 @@ from flask import flash
 
 dbInstance = DatabaseConnectivity()
 class Customers:
-    def add_client(self,customer_name,customer_phone,customer_email,customer_address,customer_product):
+    def add_client(self,customer_name,customer_phone,customer_email,customer_address,customer_product,customer_contact_person,customer_contact_person_phone):
         try:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
-            cur.execute("INSERT INTO customers(customer_name,customer_phone,customer_email,customer_address,customer_product) VALUES(%s,%s,%s,%s,%s)",(customer_name,customer_phone,customer_email,customer_address,customer_product))
+            cur.execute("INSERT INTO customers(customer_name,customer_phone,customer_email,customer_address,customer_product,customer_contact_person,customer_contact_person_phone) VALUES(%s,%s,%s,%s,%s,%s,%s)",(customer_name,
+            customer_phone,customer_email,customer_address,customer_product,customer_contact_person,customer_contact_person_phone))
             conn.commit()
             flash('Client Added Successfully','success')
         except:
@@ -42,12 +43,12 @@ class Customers:
             flash('Client Deleted Successfully','success')
         except:
             flash('Error deleteing client from database','danger')
-    def edit_a_client(self, client_id,customer_name, customer_product,customer_address,customer_phone,customer_email):
+    def edit_a_client(self, client_id,customer_name, customer_product,customer_address,customer_phone,customer_email,customer_contact_person,customer_contact_person_phone):
         try:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
-            sql ="UPDATE customers SET customer_name=%s, customer_product=%s,customer_address=%s,customer_phone=%s,customer_email=%s WHERE customer_id=%s"
-            cur.execute(sql,[customer_name, customer_product,customer_address,customer_phone,customer_email,client_id])
+            sql ="UPDATE customers SET customer_name=%s, customer_product=%s,customer_address=%s,customer_phone=%s,customer_email=%s, customer_contact_person=%s, customer_contact_person_phone=%s WHERE customer_id=%s"
+            cur.execute(sql,[customer_name, customer_product,customer_address,customer_phone,customer_email,customer_contact_person,customer_contact_person_phone,client_id])
             conn.commit()
             flash('Client Edited Successfully','success')
         except:

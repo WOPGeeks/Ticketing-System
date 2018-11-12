@@ -272,9 +272,13 @@
                     <p class="lead">Are you sure you want to delete?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Delete</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+                        {% for eachTicket in allTheTickets %}
+                    <form action="/delete_tickets/{{eachTicket[0]}}" method="POST">
+                            <button type="submit" class="btn btn-primary">Delete</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" formnovalidate>Close</button>
+                    </form>
+                    {% endfor%}
+                    </div>
             </div>
         </div>
     </div>

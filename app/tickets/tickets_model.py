@@ -8,7 +8,8 @@ class Tickets:
     def add_ticket(self,ticket_assigned_to,ticket_opening_time,
         ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
         ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,
-        ticket_priority,username,ticket_type,ticket_site_id):
+        ticket_priority,username,ticket_type,ticket_part_used,ticket_revisited_value,
+        ticket_returned_part_value,ticket_site_id):
         try:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
@@ -16,13 +17,15 @@ class Tickets:
             INSERT INTO tickets(ticket_assigned_to,ticket_opening_time,
             ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
             ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,
-            ticket_priority,username,ticket_type,ticket_site_id) VALUES(
-            %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            ticket_priority,username,ticket_type,ticket_part_used,
+            ticket_revisited,ticket_part_returned,ticket_site_id) VALUES(
+            %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
             """
             cur.execute(sql,(ticket_assigned_to,ticket_opening_time,
             ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
             ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,
-            ticket_priority,username,ticket_type,ticket_site_id))
+            ticket_priority,username,ticket_type,ticket_part_used,ticket_revisited_value,
+            ticket_returned_part_value,ticket_site_id))
             conn.commit()
             flash('Ticket Opened Successfully','success')
         except(Exception, psycopg2.DatabaseError) as e:
@@ -337,6 +340,15 @@ class Tickets:
             flash('User Deleted Successfully','success')
         except:
             flash('Error deleteing user from database','danger')
+    def delete_a_ticket(self, ticket_id):
+        try:
+            conn = dbInstance.connectToDatabase()
+            cur = conn.cursor()
+            cur.execute("DELETE FROM tickets WHERE ticket_id=%s",[ticket_id])
+            conn.commit()
+            flash('Ticket Deleted Successfully','success')
+        except:
+            flash('Error deleteing ticket from database','danger')
 
     def get_ticket_by_Id(self, ticket_id):
         try:
@@ -494,5 +506,5 @@ class Tickets:
         WHEN ticket_type=4 THEN 'Fleet Product' ELSE 'Unknown Product' 
         END AS ticket_types,ticket_reason,ticket_root_cause,ticket_assigned_to,
         ticket_dispatch_time,ticket_arrival_time,ticket_start_time,ticket_complete_time,
-        ticket_return_time FROM tickets ORDER BY ticket_opening_time DESC""")
+        ticket_return_time,ticket_part_used,ticket_revisited,ticket_part_returned FROM tickets ORDER BY ticket_opening_time DESC""")
         return self.ticket_counts

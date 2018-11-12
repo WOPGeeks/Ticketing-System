@@ -185,7 +185,7 @@
             <hr>
             <h5>New Customer Information</h5>
             {% include '_messages.html'%}
-            <form class="mt-4" action="/add_client" method="POST">
+            <form class="mt-4" action="/add_client" enctype="multipart/form-data" method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-4" id="trialImages">
                         <label class="text-info" for="name">Customer Name</label>
@@ -220,6 +220,21 @@
                     </div>
                 </div>
                 <div class="form-row">
+                    <div class="form-group col-md-4" id="trialImages">
+                        <label class="text-info" for="address">Contact Person</label>
+                        <input id="customer_contact_person" name="customer_contact_person" type="text" class="form-control" id="inputAddress" placeholder="Customer Address">
+                        <i class="fa fa-home fa-lg fa-fw" aria-hidden="true"></i>
+                    </div>
+                    <div class="form-group col-md-4" id="trialImages">
+                        <label class="text-info" for="phone">Contact Person's Phone</label>
+                        <input id="customer_contact_person_phone" name="customer_contact_person_phone" type="text" class="form-control" id="inputAddress2" placeholder="Customer Phone">
+                        <i class="fa fa-phone fa-lg fa-fw" aria-hidden="true"></i>
+                        <div class="invalid-feedback">
+                            Contact Phone is invalid
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
                     <div class="form-group col-md-8" id="trialImages">
                         <label class="text-info" for="address">Customer Email</label>
                         <input id="customer_email" name="customer_email" type="email" class="form-control" placeholder="Customer Email Address">
@@ -234,16 +249,16 @@
                         <button type="submit" class="btn btn-success btn-block">Submit</button>
                     </div>
                    
-                    <form class="md-form" action="#">
+                    <form class="md-form" action="/uploader" enctype="multipart/form-data" method="POST">
                         <div class="file-field">
                             <div class="btn btn-info btn-sm float-left">
                                 <span>Choose File To Upload</span>
-                                <input type="file" multiple>
+                                <input type="file" name="file" multiple>
                             </div>
                             
                         </div>
                         <div class="form-group col-md-2">
-                            <button type="submit" class="btn btn-success btn-block" formnovalidate formaction="/dashboard">Save Upload</button>
+                            <button type="submit" class="btn btn-success btn-block" formnovalidate formaction="/upload/clients">Save Upload</button>
                         </div>
                     </form>
                     

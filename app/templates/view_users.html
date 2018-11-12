@@ -191,7 +191,7 @@
                 </div>
                 <div class="col-md-2">
                     <a href="/edit_the_user/{{eachUser[5]}}"><i class="fas fa-edit text-info" style="font-size: 15px"></i></a> &nbsp &nbsp
-                    <a href="#" onclick="localStorage.setItem('user_id',eachUser[5])" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt text-danger" style="font-size: 15px"></i></a>
+                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt text-danger" style="font-size: 15px"></i></a>
                     <!-- href="/all_the_users/{{eachUser[5]}}" -->
                 </div>
                 <div class="col-md-1 ">
@@ -219,8 +219,13 @@
                     <p class="lead">Are you sure you want to delete?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="/edit_the_user/localStorage.getItem('user_id')" class="btn btn-primary">Delete</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        {% for eachUser in allTheUsers%}
+                        <form action="/all_the_users/{{eachUser[5]}}" method="POST">
+                            {% endfor%}  
+                            <button type="submit" class="btn btn-primary">Delete</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" formnovalidate>Close</button>
+                        </form>
+                       
                 </div>
             </div>
         </div>

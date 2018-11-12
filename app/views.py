@@ -7,16 +7,20 @@ from app.workorders.work_orders_model import WorkOrders
 from app.tickets.tickets_model import Tickets
 from passlib.hash import sha256_crypt
 import datetime
+
 from datetime import timedelta
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     get_jwt_identity
 )
+import os
+import csv
 import atexit
 from apscheduler.scheduler import Scheduler
 from flask_mail import Mail, Message
 from flask_cors import CORS, cross_origin
 from app.equipments.equipments_model import Equipments
+from werkzeug import secure_filename
 
 dbInstance = DatabaseConnectivity()
 usersInstance = Users()
@@ -45,6 +49,8 @@ app.config['MAIL_USERNAME'] = 'nyekowalter69@gmail.com'
 app.config['MAIL_PASSWORD'] = 'CATRINAH'
 
 mail = Mail(app)
+
+app.config['UPLOAD_FOLDER'] = '/Users/walternyeko/Desktop/Tests/uploads/'
 
 # @jwt.unauthorized_loader
 # def unauthorized_response(callback):
@@ -120,6 +126,7 @@ def add_ticket():
     ticket_actual_visit_date = request.form['ticket_actual_visit_date']
     ticket_priority = request.form['ticket_priority']
     ticket_site_id = request.form['ticket_site_id']
+    ticket_part_used = request.form['ticket_part_used']
 
     ticket_type_ATM = request.form.get('ATM')
     if ticket_type_ATM:
@@ -145,13 +152,27 @@ def add_ticket():
     else:
         ticket_type_value = ticket_type_value
 
+    ticket_revisited = request.form.get('Revisit')
+    if ticket_revisited:
+        ticket_revisited_value = "Yes"
+    else:
+        ticket_revisited_value = "No"
+
+
+    ticket_returned_part = request.form.get('Returned')
+    
+    if ticket_returned_part:
+        ticket_returned_part_value = "Yes"
+    else:
+        ticket_returned_part_value = "No"
 
     username = session['username']
 
     ticketInstance.add_ticket(ticket_assigned_to,ticket_opening_time,
     ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
     ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,
-    ticket_priority,username,ticket_type_value, ticket_site_id)
+    ticket_priority,username,ticket_type_value,ticket_part_used,ticket_revisited_value,
+    ticket_returned_part_value, ticket_site_id)
     theClients = ticketInstance.get_clients()
     theEngineers = ticketInstance.get_engineers()
     theWorkOrderTypes = ticketInstance.get_work_order_types()
@@ -247,6 +268,19 @@ def view_all_tickets():
     if g.username:
         return render_template('dashboard.html', allTheTickets=allTheTickets, currentUser=LoggedInUser1,myTickets=myTickets)
     return redirect(url_for('index'))
+
+@app.route('/delete_tickets/<int:ticket_id>', methods=['DELETE','POST'])
+def delete_ticket(ticket_id):
+    LoggedInUser = session['username']
+    LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
+    ticketInstance.delete_a_ticket(ticket_id)
+    allTheTickets = ticketInstance.view_all_tickets()
+    myTickets = ticketInstance.view_all_my_tickets(LoggedInUser)
+    if g.username:
+        return render_template('dashboard.html', allTheTickets=allTheTickets, currentUser=LoggedInUser1,myTickets=myTickets)
+    return redirect(url_for('index'))
+    
+
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
@@ -508,7 +542,10 @@ def add_client():
     customer_phone = request.form['customer_phone']
     customer_address = request.form['customer_address']
     customer_product = request.form['customer_product']
-    custInstance.add_client(customer_name,customer_phone,customer_email,customer_address,customer_product)
+    customer_contact_person = request.form['customer_contact_person']
+    customer_contact_person_phone = request.form['customer_contact_person_phone']
+    custInstance.add_client(customer_name,customer_phone,customer_email,
+    customer_address,customer_product,customer_contact_person,customer_contact_person_phone)
     if g.username:
         return render_template('new_customer.html',currentUser=LoggedInUser1)
     return redirect(url_for('index'))
@@ -572,7 +609,7 @@ def all_ordinary_users():
         return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser1)
     return redirect(url_for('index'))
 
-@app.route('/all_the_users/<int:user_id>', methods=['GET','DELETE'])
+@app.route('/all_the_users/<int:user_id>', methods=['DELETE','POST'])
 def delete_user(user_id):
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
@@ -768,7 +805,7 @@ def edit_work_order(work_order_id):
         return render_template('view_work_order.html', allTheOrders=theReturnedOrders,currentUser=LoggedInUser1)
     return redirect(url_for('index'))
 
-@app.route('/all_the_work_orders/<int:work_order_id>', methods=['GET','DELETE'])
+@app.route('/all_the_work_orders/<int:work_order_id>', methods=['POST','DELETE'])
 def delete_work_order(work_order_id):
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
@@ -816,7 +853,7 @@ def all_clients():
         return render_template('view_clients.html', allTheClients=theReturnedClients,currentUser=LoggedInUser1)
     return redirect(url_for('index'))
 
-@app.route('/all_the_clients/<int:client_id>', methods=['GET','DELETE'])
+@app.route('/all_the_clients/<int:client_id>', methods=['POST','DELETE'])
 def delete_client(client_id):
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
@@ -853,8 +890,10 @@ def edit_client(client_id):
     clientAddress = request.form['customer_address_edit']
     clientPhone = request.form['customer_phone_edit']
     clientEmail = request.form['customer_email_edit']
+    customer_contact_person = request.form['customer_contact_person_edit']
+    customer_contact_person_phone = request.form['customer_contact_person_phone_edit']
    
-    custInstance.edit_a_client(client_id,clientName, clientProduct,clientAddress,clientPhone,clientEmail)
+    custInstance.edit_a_client(client_id,clientName, clientProduct,clientAddress,clientPhone,clientEmail,customer_contact_person,customer_contact_person_phone)
     theReturnedClients = custInstance.get_all_clients()
     if g.username:
         return render_template('view_clients.html', allTheClients=theReturnedClients,currentUser=LoggedInUser1)
@@ -870,7 +909,7 @@ def all_engineers():
         return render_template('view_engineers.html', allTheEngineers=theReturnedEngineers,currentUser=LoggedInUser1)
     return redirect(url_for('index'))
 
-@app.route('/all_the_engineers/<int:engineer_id>', methods=['GET','DELETE'])
+@app.route('/all_the_engineers/<int:engineer_id>', methods=['POST','DELETE'])
 def delete_engineer(engineer_id):
     LoggedInUser = session['username']
     LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
@@ -1086,6 +1125,100 @@ def add_equipment():
         equipment_installation_address,equipment_installation_city,equipment_supplier)
         return render_template('new_equipment.html',currentUser=LoggedInUser1)
     return redirect(url_for('index'))
+
+@app.route('/upload/clients', methods = ['GET', 'POST'])
+def upload_client():
+   if request.method == 'POST':
+      LoggedInUser = session['username']
+      LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
+      f = request.files['file']
+      filename = secure_filename(f.filename)
+      f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+      filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+      with open(filepath) as csv_file:
+          data = csv.DictReader(csv_file)
+          for item in data:
+              customer_name = item['customer_name']
+              customer_email = item['customer_email']
+              customer_phone = item['customer_phone']
+              customer_address = item['customer_address']
+              customer_product = item['customer_product']
+              customer_contact_person = item['contact_person']
+              customer_contact_person_phone = item['contact_person_phone']
+              custInstance.add_client(customer_name,customer_phone,customer_email,
+              customer_address,customer_product,customer_contact_person,customer_contact_person_phone)
+   if g.username:
+       return render_template('view_clients.html',currentUser=LoggedInUser1)
+   return redirect(url_for('index'))
+
+
+@app.route('/upload/engineers', methods = ['GET', 'POST'])
+def upload_engineers():
+   if request.method == 'POST':
+      LoggedInUser = session['username']
+      LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
+      f = request.files['engineers']
+      filename = secure_filename(f.filename)
+      f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+      filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+      with open(filepath) as csv_file:
+          data = csv.DictReader(csv_file)
+          for item in data:
+              engineer_first_name = item['engineer_first_name']
+              engineer_last_name = item['engineer_last_name']
+              engineer_email = item['engineer_email']
+              engineer_phone = item['engineer_phone']
+              engineer_address = item['engineer_address']
+
+              engineer_field_ATM_Value = 0
+
+              engineer_field_AIR_Value = 0
+
+              engineer_field_TEL_Value = 0
+
+              engineersInstance.add_engineer(engineer_first_name,engineer_last_name,engineer_phone,engineer_email,engineer_address,engineer_field_ATM_Value,engineer_field_AIR_Value,engineer_field_TEL_Value)
+   theReturnedEngineers = engineersInstance.get_all_engineers()
+   if g.username:
+       return render_template('view_engineers.html', allTheEngineers=theReturnedEngineers,currentUser=LoggedInUser1)
+   return redirect(url_for('index'))
+
+@app.route('/upload/equipments', methods = ['GET', 'POST'])
+def upload_equipments():
+   if request.method == 'POST':
+      LoggedInUser = session['username']
+      LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
+      f = request.files['equipment']
+      filename = secure_filename(f.filename)
+      f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+      filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+      with open(filepath) as csv_file:
+          data = csv.DictReader(csv_file)
+          for item in data:
+              equipment_serial = item['equipment_serial']
+              equipment_serial_id = item['equipment_id']
+              equipment_model = item['equipment_model']
+              equipment_class = item['equipment_class']
+              equipment_type = item['equipment_type']
+              equipment_category = item['equipment_category']
+              equipment_resolution = item['equipment_resolution']
+              equipment_response = item['equipment_response']
+
+            #   equipment_installation_date = item['equipment_installation_date']
+
+              equipment_installation_address = request.form['equipment_installation_address']
+              equipment_installation_city = item['equipment_installation_city']
+              equipment_supplier = item['equipment_supplier']
+              equipmentInstance.add_equipment(equipment_serial,equipment_serial_id,equipment_model,equipment_class,
+              equipment_type,equipment_category,equipment_resolution,equipment_response,
+              equipment_installation_address,equipment_installation_city,equipment_supplier)
+    
+   if g.username:
+       return render_template('new_equipment.html',currentUser=LoggedInUser1)
+   return redirect(url_for('index'))
+
+
+
+
 
 cron = Scheduler(daemon=True)
 # Explicitly kick off the background thread
