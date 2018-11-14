@@ -11,4 +11,4 @@ dbInstance.create_engineers_table()
 
 if __name__ == '__main__':
     app.secret_key = 'mysecretkeyghjngdssdfghjhdfhghhsffdtrdddvdvbggdsewwessaae'
-    app.run(debug=True)
+    app.run(debug=True, port=8080)
