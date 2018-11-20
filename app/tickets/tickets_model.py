@@ -108,7 +108,7 @@ class Tickets:
             cur = conn.cursor()
             theSql = Tickets().sqlStatment()
             finalSQL = theSql + " ORDER BY ticket_id DESC"
-            print(finalSQL)
+            
             cur.execute(finalSQL)
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -123,7 +123,7 @@ class Tickets:
             cur = conn.cursor()
             theSql = Tickets().sqlStatment()
             finalSQL = theSql+' Where ticket_priority is not null ORDER BY ticket_id DESC'
-            print(finalSQL)
+            
             cur.execute(finalSQL)
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -143,7 +143,7 @@ class Tickets:
             theStatus = "Closed"
             theWhere = " Where ticket_status='{}' ORDER BY ticket_id DESC".format(theStatus)
             finalSQL = theSql+theWhere 
-            print(finalSQL)
+            
             cur.execute(finalSQL)
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -159,7 +159,7 @@ class Tickets:
             theStatus = "Closed"
             theWhere = " Where ticket_status='{}' AND username='{}' ORDER BY ticket_id DESC".format(theStatus,current_user)
             finalSQL = theSql+theWhere
-            print(finalSQL)
+            
             cur.execute(finalSQL)
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -176,7 +176,7 @@ class Tickets:
             theStatus = "Open"
             theWhere = " Where ticket_status='{}' ORDER BY ticket_id DESC".format(theStatus)
             finalSQL = theSql+theWhere
-            print(finalSQL)
+            
             cur.execute(finalSQL)
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -192,7 +192,7 @@ class Tickets:
             theStatus = "Open"
             theWhere = " Where ticket_status='{}' AND username='{}' ORDER BY ticket_id DESC".format(theStatus,current_user)
             finalSql = theSql+theWhere
-            print(finalSql)
+            
             cur.execute(finalSql)
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -207,7 +207,7 @@ class Tickets:
             theSql = Tickets().sqlStatment()
             theWhere = " Where TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())<2 AND TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())>0 ORDER BY ticket_id DESC"
             finalSql = theSql+theWhere
-            print(finalSql)
+            
             cur.execute(finalSql)
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -223,7 +223,7 @@ class Tickets:
             theSql = Tickets().sqlStatment()
             theWhere = " Where TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())<2 AND TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())>0 AND username='{}' ORDER BY ticket_id DESC".format(current_user)
             finalSql = theSql+theWhere
-            print(finalSql)
+            
             cur.execute(finalSql)
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -238,7 +238,7 @@ class Tickets:
             theSql = Tickets().sqlStatment()
             theWhere = " Where TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())<1 AND TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())>0 ORDER BY ticket_id DESC"
             finalSql = theSql+theWhere
-            print(finalSql)
+            
             cur.execute(finalSql)
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -254,7 +254,7 @@ class Tickets:
             theSql = Tickets().sqlStatment()
             theWhere = " Where TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())<1 AND TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())>0 AND username='{}' ORDER BY ticket_id DESC".format(current_user)
             finalSql = theSql+theWhere
-            print(finalSql)
+            
             cur.execute(finalSql)
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -270,7 +270,7 @@ class Tickets:
             theSql = Tickets().sqlStatment()
             theWhere = " Where TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())<0 AND ticket_complete_time IS NULL ORDER BY ticket_id DESC"
             finalSql = theSql+theWhere
-            print(finalSql)
+            
             cur.execute(finalSql)
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -286,7 +286,7 @@ class Tickets:
             theLowPriority = "Low"
             theWhere = " Where ticket_priority='{}' ORDER BY ticket_id DESC".format(theLowPriority)
             finalSql = theSql+theWhere
-            print(finalSql)
+            
             cur.execute(finalSql)
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -302,7 +302,7 @@ class Tickets:
             theSql = Tickets().sqlStatment()
             theWhere = " Where TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())<0 AND ticket_complete_time IS NULL AND username='{}' ORDER BY ticket_id DESC".format(current_user)
             finalSql = theSql+theWhere
-            print(finalSql)
+            
             cur.execute(finalSql)
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -317,7 +317,7 @@ class Tickets:
             theLowPriority = "Low"
             theWhere = " Where ticket_priority='{}' AND username='{}' ORDER BY ticket_id DESC".format(theLowPriority,current_user)
             finalSql = theSql+theWhere
-            print(finalSql)
+            
             cur.execute(finalSql)
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -482,25 +482,25 @@ class Tickets:
     def get_ATM_due_soon_tasks(self):
         sql = Tickets().setOverdueSQL()
         finalSQL =sql + " ticket_type=1"
-        print(finalSQL)
+        
         self.ticket_counts = Tickets().general_function(finalSQL)
         return self.ticket_counts
     def get_Airport_due_soon_tasks(self):
         sql = Tickets().setOverdueSQL()
         finalSQL =sql + " ticket_type=2"
-        print(finalSQL)
+        
         self.ticket_counts = Tickets().general_function(finalSQL)
         return self.ticket_counts
     def get_Telecom_due_soon_tasks(self):
         sql = Tickets().setOverdueSQL()
         finalSQL =sql + " ticket_type=3"
-        print(finalSQL)
+        
         self.ticket_counts = Tickets().general_function(finalSQL)
         return self.ticket_counts
     def get_Fleet_due_soon_tasks(self):
         sql = Tickets().setOverdueSQL()
         finalSQL =sql + " ticket_type=4"
-        print(finalSQL)
+        
         self.ticket_counts = Tickets().general_function(finalSQL)
         return self.ticket_counts
 
@@ -508,13 +508,13 @@ class Tickets:
     def get_ATM_overdue_tasks(self):
         sql = Tickets().setDisrespectedSQL()
         finalSQL =sql + " ticket_type=1"
-        print(finalSQL)
+        
         self.ticket_counts = Tickets().general_function(finalSQL)
         return self.ticket_counts
     def get_Airport_overdue_tasks(self):
         sql = Tickets().setDisrespectedSQL()
         finalSQL =sql + " ticket_type=2"
-        print(finalSQL)
+        
         self.ticket_counts = Tickets().general_function(finalSQL)
         return self.ticket_counts
     def get_Telecom_overdue_tasks(self):
@@ -525,7 +525,7 @@ class Tickets:
     def get_Fleet_overdue_tasks(self):
         sql = Tickets().setDisrespectedSQL()
         finalSQL =sql + " ticket_type=4"
-        print(finalSQL)
+        
         self.ticket_counts = Tickets().general_function(finalSQL)
         return self.ticket_counts
 
