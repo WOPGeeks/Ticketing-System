@@ -15,19 +15,6 @@ class DatabaseConnectivity:
             return jsonify({'Message' : 'Cannot connect to database'})
 
 # Using PostgreSQL Database
-    # def connectToDatabase(self):
-        
-    #     try:
-    #         # connectionString = "postgres://xbkhddyykiqqtj:47bb54868364989b09ade3295411d8cf0371913acfed1784c5481d09480b4fa3@ec2-23-23-153-145.compute-1.amazonaws.com:5432/d965p4umfcab6f"
-            
-    #         connectionString = "host='localhost' user='postgres' password='password' dbname='tickets' port='5432'"
-    #         self.conn = psycopg2.connect(connectionString)
-    #         print("Connection established")
-    #         return self.conn
-            
-    #     except(Exception, psycopg2.DatabaseError) as e:
-    #         print(e)
-
     def create_tickets_table(self):
 
         # sqlcommandforQuestions =(
