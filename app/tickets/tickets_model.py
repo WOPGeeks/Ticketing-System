@@ -194,7 +194,7 @@ class Tickets:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
             theSql = Tickets().sqlStatment()
-            theWhere = " Where DATE_PART('hour', ticket_overdue_time::timestamp - now()::timestamp)<2 AND DATE_PART('hour', ticket_overdue_time::timestamp - now()::timestamp)>0 ORDER BY ticket_id DESC"
+            theWhere = " Where TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())<2 AND TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())>0 ORDER BY ticket_id DESC"
             cur.execute(theSql+theWhere)
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -208,7 +208,7 @@ class Tickets:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
             theSql = Tickets().sqlStatment()
-            theWhere = " Where DATE_PART('hour', ticket_overdue_time::timestamp - now()::timestamp)<2 AND DATE_PART('hour', ticket_overdue_time::timestamp - now()::timestamp)>0 AND username=%s ORDER BY ticket_id DESC"
+            theWhere = " Where TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())<2 AND TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())>0 AND username=%s ORDER BY ticket_id DESC"
             cur.execute(theSql+theWhere,[current_user])
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -221,7 +221,7 @@ class Tickets:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
             theSql = Tickets().sqlStatment()
-            theWhere = " Where DATE_PART('hour', ticket_overdue_time::timestamp - now()::timestamp)<1 AND DATE_PART('hour', ticket_overdue_time::timestamp - now()::timestamp)>0 ORDER BY ticket_id DESC"
+            theWhere = " Where TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())<1 AND TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())>0 ORDER BY ticket_id DESC"
             cur.execute(theSql+theWhere)
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -235,7 +235,7 @@ class Tickets:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
             theSql = Tickets().sqlStatment()
-            theWhere = " Where DATE_PART('hour', ticket_overdue_time::timestamp - now()::timestamp)<1 AND DATE_PART('hour', ticket_overdue_time::timestamp - now()::timestamp)>0 AND username=%s ORDER BY ticket_id DESC"
+            theWhere = " Where TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())<1 AND TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())>0 AND username=%s ORDER BY ticket_id DESC"
             cur.execute(theSql+theWhere,[current_user])
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -249,7 +249,7 @@ class Tickets:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
             theSql = Tickets().sqlStatment()
-            theWhere = " Where DATE_PART('hour', ticket_overdue_time::timestamp - now()::timestamp)<0 AND ticket_complete_time IS NULL ORDER BY ticket_id DESC"
+            theWhere = " Where TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())<0 AND ticket_complete_time IS NULL ORDER BY ticket_id DESC"
             cur.execute(theSql+theWhere)
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -277,7 +277,7 @@ class Tickets:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
             theSql = Tickets().sqlStatment()
-            theWhere = " Where DATE_PART('hour', ticket_overdue_time::timestamp - now()::timestamp)<0 AND ticket_complete_time IS NULL AND username=%s ORDER BY ticket_id DESC"
+            theWhere = " Where TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())<0 AND ticket_complete_time IS NULL AND username=%s ORDER BY ticket_id DESC"
             cur.execute(theSql+theWhere,[current_user])
             self.theTickets = cur.fetchall()
             return self.theTickets
@@ -443,12 +443,12 @@ class Tickets:
         return self.ticket_counts
 
     def setOverdueSQL(self):
-        self.sql = "SELECT COUNT(*) FROM tickets WHERE DATE_PART('hour', ticket_overdue_time::timestamp - now()::timestamp)<1 AND DATE_PART('hour', ticket_overdue_time::timestamp - now()::timestamp)>0 AND"
+        self.sql = "SELECT COUNT(*) FROM tickets WHERE TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())<1 AND TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())>0 AND"
         # self.sql = "SELECT COUNT(*) FROM tickets WHERE TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())<1 AND TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())>0 AND"
         return self.sql
 
     def setDisrespectedSQL(self):
-        self.sql = "SELECT COUNT(*) FROM tickets WHERE DATE_PART('hour', ticket_overdue_time::timestamp - now()::timestamp)<0 AND ticket_complete_time IS NULL AND"
+        self.sql = "SELECT COUNT(*) FROM tickets WHERE TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())<0 AND ticket_complete_time IS NULL AND"
         # self.sql = "SELECT COUNT(*) FROM tickets WHERE TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())>0 AND ticket_complete_time IS NULL AND"
         return self.sql
 
