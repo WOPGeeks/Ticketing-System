@@ -107,8 +107,8 @@ class DatabaseConnectivity:
             customer_product VARCHAR(250),
             customer_address VARCHAR(250),
             customer_email VARCHAR(250),
-            customer_phone VARCHAR(250)),
-            customer_contact_person VARCHAR(200)),
+            customer_phone VARCHAR(250),
+            customer_contact_person VARCHAR(200),
             customer_contact_person_phone VARCHAR(200))
             """
         )
