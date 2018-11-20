@@ -50,7 +50,7 @@ app.config['MAIL_PASSWORD'] = 'CATRINAH'
 
 mail = Mail(app)
 
-app.config['UPLOAD_FOLDER'] = '/Users/walternyeko/Desktop/Tests/uploads/'
+app.config['UPLOAD_FOLDER'] = '/root/zubacx/zubacx/uploads/'
 
 # @jwt.unauthorized_loader
 # def unauthorized_response(callback):
