@@ -80,23 +80,28 @@ def login():
     cur.execute("SELECT user_name,user_password from users WHERE user_name=%s", [username])
 
     data = cur.fetchone()
-    usernameDB = data[0]
-    if usernameDB == username:
-        password = data[1]
-        if sha256_crypt.verify(password_candidate,password):
-            session['username'] = username
-            LoggedInUser1 = usersInstance.checkUserRights(username)
-            allTheTickets = ticketInstance.view_all_tickets()
-            myTickets = ticketInstance.view_all_tickets()
-            return render_template('dashboard.html', allTheTickets=allTheTickets,currentUser=LoggedInUser1,allMyTickets=myTickets)
-            
-        else:
-            
-            flash('Invalid Password', 'danger')
-            return render_template('index.html')
-    else:
-        flash('{} is not registered'.format(username), 'danger')
+    if not data:
+        flash('Username does not exist', 'danger')
         return render_template('index.html')
+    else:
+        usernameDB = data[0]
+        print(usernameDB)
+        if usernameDB == username:
+            password = data[1]
+            if sha256_crypt.verify(password_candidate,password):
+                session['username'] = username
+                LoggedInUser1 = usersInstance.checkUserRights(username)
+                allTheTickets = ticketInstance.view_all_tickets()
+                myTickets = ticketInstance.view_all_tickets()
+                return render_template('dashboard.html', allTheTickets=allTheTickets,currentUser=LoggedInUser1,allMyTickets=myTickets)
+                
+            else:
+                
+                flash('Invalid Password', 'danger')
+                return render_template('index.html')
+        else:
+            flash('{} is not registered'.format(username), 'danger')
+            return render_template('index.html')
 
 @app.route('/new_ticket')
 def new_ticket():
