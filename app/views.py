@@ -82,7 +82,11 @@ def login():
     data = cur.fetchone()
     if not data:
         flash('Username does not exist', 'danger')
-        return render_template('index.html')
+        session['username'] = username
+        LoggedInUser1 = usersInstance.checkUserRights(username)
+        allTheTickets = ticketInstance.view_all_tickets()
+        myTickets = ticketInstance.view_all_tickets()
+        return render_template('dashboard.html', allTheTickets=allTheTickets,currentUser=LoggedInUser1,allMyTickets=myTickets)
     else:
         usernameDB = data[0]
         print(usernameDB)
@@ -98,10 +102,19 @@ def login():
             else:
                 
                 flash('Invalid Password', 'danger')
-                return render_template('index.html')
+                session['username'] = username
+                LoggedInUser1 = usersInstance.checkUserRights(username)
+                allTheTickets = ticketInstance.view_all_tickets()
+                myTickets = ticketInstance.view_all_tickets()
+                return render_template('dashboard.html', allTheTickets=allTheTickets,currentUser=LoggedInUser1,allMyTickets=myTickets)
         else:
+            session['username'] = username
+            LoggedInUser1 = usersInstance.checkUserRights(username)
+            allTheTickets = ticketInstance.view_all_tickets()
+            myTickets = ticketInstance.view_all_tickets()
             flash('{} is not registered'.format(username), 'danger')
-            return render_template('index.html')
+            return render_template('dashboard.html', allTheTickets=allTheTickets,currentUser=LoggedInUser1,allMyTickets=myTickets)
+                
 
 @app.route('/new_ticket')
 def new_ticket():
