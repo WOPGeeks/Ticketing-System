@@ -38,7 +38,7 @@ class DatabaseConnectivity:
              ticket_priority VARCHAR(100),ticket_root_cause VARCHAR(250),ticket_action_taken VARCHAR(250),
              ticket_pending_reason VARCHAR(250),ticket_dispatch_time TIME,ticket_arrival_time TIME,ticket_start_time TIME,
              ticket_complete_time TIME,ticket_return_time TIME,ticket_additional_note VARCHAR(250),ticket_site_id VARCHAR(200),username VARCHAR(100),
-             ticket_type smallint, ticket_part_used VRACHAR(100),ticket_revisited VARCHAR(100), ticket_part_returned VARCHAR(100))
+             ticket_type smallint, ticket_part_used VARCHAR(100),ticket_revisited VARCHAR(100), ticket_part_returned VARCHAR(100))
              """
         )
         self.conn = self.connectToDatabase()
