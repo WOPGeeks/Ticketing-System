@@ -60,8 +60,10 @@ class DatabaseConnectivity:
             user_can_view_all_reports smallint DEFAULT 0,user_can_view_his_reports smallint DEFAULT 0,
             user_can_add_delete_edit_client_info smallint DEFAULT 0,user_can_add_delete_edit_engineer_info smallint DEFAULT 0,
             user_can_add_delete_edit_equipment_info smallint DEFAULT 0,user_can_add_delete_edit_workorder_info smallint DEFAULT 0,
-            user_photo BYTEA)
+            user_photo LONGBLOB)
             """
+
+            # user_photo BYTEA)
         )
         self.conn = self.connectToDatabase()
         self.cur = self.conn.cursor()
