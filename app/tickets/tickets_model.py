@@ -268,7 +268,8 @@ class Tickets:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
             theSql = Tickets().sqlStatment()
-            theWhere = " Where TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())<0 AND ticket_complete_time IS NULL ORDER BY ticket_id DESC"
+            theStatus = "Open"
+            theWhere = " Where TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>0 AND ticket_status ='{}' ORDER BY ticket_id DESC".format(theStatus)
             finalSql = theSql+theWhere
             
             cur.execute(finalSql)
@@ -300,7 +301,8 @@ class Tickets:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
             theSql = Tickets().sqlStatment()
-            theWhere = " Where TIMESTAMPDIFF(HOUR,ticket_overdue_time,NOW())<0 AND ticket_complete_time IS NULL AND username='{}' ORDER BY ticket_id DESC".format(current_user)
+            theStatus = "Open"
+            theWhere = " Where TIMESTAMPDIFF(MINUTE,ticket_overdue_time,NOW())>0 AND ticket_status ='{}' AND username='{}' ORDER BY ticket_id DESC".format(theStatus,current_user)
             finalSql = theSql+theWhere
             
             cur.execute(finalSql)
