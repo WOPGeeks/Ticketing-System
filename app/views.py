@@ -121,8 +121,8 @@ def add_ticket():
     ticket_assigned_to = request.form['ticket_assigned_to']
     ticket_status =  request.form['ticket_status']
     hours_to_add = request.form['hours_to_add']
-    ticket_opening_time = datetime.datetime.now()
-    ticket_overdue_time =  datetime.datetime.now() + timedelta(hours=int(hours_to_add))
+    ticket_opening_time = datetime.datetime.convert_tz(now(),'-04:00','+10:00')
+    ticket_overdue_time =  datetime.datetime.convert_tz(now(),'-04:00','+10:00') + timedelta(hours=int(hours_to_add))
     ticket_client =  request.form['ticket_client']
     ticket_po_number = request.form['ticket_po_number']
     ticket_wo_type = request.form['ticket_wo_type']
@@ -223,7 +223,7 @@ def edit_ticket(ticket_id):
     ticket_return_time = request.form['ticket_return_time']
     ticket_site_id = request.form['ticket_site_id_edit']
     if ticket_status == "Closed":
-        ticket_closing_time = datetime.datetime.now()
+        ticket_closing_time = datetime.datetime.convert_tz(now(),'-04:00','+10:00')
     else:
         ticket_closing_time = None
 
