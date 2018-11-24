@@ -186,11 +186,11 @@
                 </div>
                 <div class="form-group col-md-6">
 
-                   <div class="card">
-                       <div class="card-body">
+                    <div class="card">
+                        <div class="card-body">
                             <canvas id="myChart1"></canvas>
-                       </div>
-                   </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -215,206 +215,273 @@
 
             </div>
             <script>
-                function buildRunningTasksChart(atm,airport,telecom,fleet){
+                function buildRunningTasksChart(atm, airport, telecom, fleet) {
+
                     var ctx = document.getElementById("myChart").getContext('2d');
+                    console.log(atm);
                     var myChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: ["ATM", "AIRPORT", "TELECOM", "FLEET"],
-                        datasets: [{
-                            label: 'Running Tasks',
-                            data: [atm, airport, telecom, fleet],
-                            backgroundColor: [
-                                '#007bff',
-                                '#dc3545',
-                                '#21c65e',
-                                '#ffc107'
-                            ],
-                            borderColor: [
-                                '#007bff',
-                                '#dc3545',
-                                '#21c65e',
-                                '#ffc107'
-                            ],
-                            borderWidth: 3
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            yAxes: [{
-                              scaleLabel: {
-                                display: true,
-                                labelString: 'Number of Running Tasks',
-                                fontSize: 14
-                              }
+                        type: 'bar',
+                        data: {
+                            labels: ["ATM", "AIRPORT", "TELECOM", "FLEET"],
+                            datasets: [{
+                                label: 'Running Tasks',
+                                data: [atm, airport, telecom, fleet],
+                                backgroundColor: [
+                                    '#007bff',
+                                    '#dc3545',
+                                    '#21c65e',
+                                    '#ffc107'
+                                ],
+                                borderColor: [
+                                    '#007bff',
+                                    '#dc3545',
+                                    '#21c65e',
+                                    '#ffc107'
+                                ],
+                                borderWidth: 3
                             }]
                         },
-                        legend: {
-                            display: false,
-                            position: 'bottom',
-                            labels: {
-                                fontColor: "#000",
-                            }
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Number of Running Tasks',
+                                        fontSize: 14
+                                    }
+                                }]
+                            },
+                            legend: {
+                                display: false,
+                                position: 'bottom',
+                                labels: {
+                                    fontColor: "#000",
+                                }
 
-                        },
-                        title: {
-                            display: true,
-                            fontSize: 18,
-                            text: 'Running Tasks'
+                            },
+                            title: {
+                                display: true,
+                                fontSize: 18,
+                                text: 'Running Tasks'
+                            }
                         }
-                    }
-                });
+                    });
 
                 }
-                function buildDueSoonTasksChart(atm,airport,telecom,fleet){
+
+                function buildDueSoonTasksChart(atm, airport, telecom, fleet) {
                     var ctx1 = document.getElementById("myChart1").getContext('2d');
                     var myChart1 = new Chart(ctx1, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ["ATM", "AIRPORT", "TELECOM", "FLEET"],
-                        datasets: [{
-                            label: 'Tasks Due Soon',
-                            data: [atm, airport, telecom, fleet],
-                            backgroundColor: [
-                                '#007bff',
-                                '#dc3545',
-                                '#21c65e',
-                                '#ffc107'
-                            ],
-                            borderColor: [
-                                '#007bff',
-                                '#dc3545',
-                                '#21c65e',
-                                '#ffc107'
-                            ],
-                            borderWidth: 3
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            //Not Title for Doughut Chart
-                        },
-                        legend: {
-                            display: true,
-                            position: 'bottom',
-                            labels: {
-                                fontColor: "#000"
-                            }
-
-                        },
-                        title: {
-                            display: true,
-                            fontSize: 18,
-                            text: 'Tasks Due Soon'
-                        }
-                    }
-                });
-
-                }
-                function buildCompletedTasksChart(atm,airport,telecom,fleet){
-                    var ctx2 = document.getElementById("myChart2").getContext('2d');
-                    var myChart2 = new Chart(ctx2, {
-                    type: 'pie',
-                    data: {
-                        labels: ["ATM", "AIRPORT", "TELECOM", "FLEET"],
-                        datasets: [{
-                            label: 'Completed Tasks',
-                            data: [atm, airport, telecom, fleet],
-                            backgroundColor: [
-                                '#007bff',
-                                '#dc3545',
-                                '#21c65e',
-                                '#ffc107'
-                            ],
-                            borderColor: [
-                                '#007bff',
-                                '#dc3545',
-                                '#21c65e',
-                                '#ffc107'
-                            ],
-                            borderWidth: 3
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            // Not Scale for PieChart
-                        },
-                        legend: {
-                            display: true,
-                            position: 'bottom',
-                            labels: {
-                                fontColor: "#000"
-                            }
-
-                        },
-                        title: {
-                            display: true,
-                            fontSize: 18,
-                            text: 'Completed Tasks'
-                        }
-                    }
-
-                });
-
-                }
-                function buildOverdueTasksChart(atm,airport,telecom,fleet){
-                    var ctx3 = document.getElementById("myChart3").getContext('2d');
-                    var myChart3 = new Chart(ctx3, {
-                    type: 'bar',
-                    data: {
-                        labels: ["ATM", "AIRPORT", "TELECOM", "FLEET"],
-                        datasets: [{
-                            display: false,
-                            label: 'Disrespected Tasks',
-                            data: [atm, airport, telecom, fleet],
-                            backgroundColor: [
-                                '#007bff',
-                                '#dc3545',
-                                '#21c65e',
-                                '#ffc107'
-                            ],
-                            borderColor: [
-                                '#007bff',
-                                '#dc3545',
-                                '#21c65e',
-                                '#ffc107'
-                            ],
-                            borderWidth: 3
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            yAxes: [{
-                              scaleLabel: {
-                                display: true,
-                                labelString: 'Number of Violated Tasks',
-                                fontSize: 14
-                              }
+                        type: 'doughnut',
+                        data: {
+                            labels: ["ATM", "AIRPORT", "TELECOM", "FLEET"],
+                            datasets: [{
+                                label: 'Tasks Due Soon',
+                                data: [atm, airport, telecom, fleet],
+                                backgroundColor: [
+                                    '#007bff',
+                                    '#dc3545',
+                                    '#21c65e',
+                                    '#ffc107'
+                                ],
+                                borderColor: [
+                                    '#007bff',
+                                    '#dc3545',
+                                    '#21c65e',
+                                    '#ffc107'
+                                ],
+                                borderWidth: 3
                             }]
                         },
-                        legend: {
-                            display: false,
-                            position: 'top',
-                            labels: {
-                                fontColor: "#000"
-                            }
+                        options: {
+                            scales: {
+                                //Not Title for Doughut Chart
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                                labels: {
+                                    fontColor: "#000"
+                                }
 
-                        },
-                        title: {
-                            display: true,
-                            fontSize: 18,
-                            text: 'Violated Tasks'
+                            },
+                            title: {
+                                display: true,
+                                fontSize: 18,
+                                text: 'Tasks Due Soon'
+                            }
                         }
-                    }
-                });
+                    });
+
                 }
-               buildRunningTasksChart({{ATM_running_value | safe}}, {{Airport_running_value | safe}}, {{Telecom_running_value | safe}}, {{Fleet_running_value | safe}}) 
-               buildDueSoonTasksChart({{ATM_due_soon_value | safe}}, {{Airport_due_soon_value | safe}}, {{Telecom_due_soon_value | safe}}, {{Fleet_due_soon_value | safe}}) 
-               buildCompletedTasksChart({{ATM_completed_value | safe}}, {{Airport_completed_value | safe}}, {{Telecom_completed_value | safe}}, {{Fleet_completed_value | safe}}) 
-               buildOverdueTasksChart({{ATM_overdue_value | safe}}, {{Airport_overdue_value | safe}}, {{Telecom_overdue_value | safe}}, {{Fleet_overdue_value | safe}}) 
-               
-                
-                
+
+                function buildCompletedTasksChart(atm, airport, telecom, fleet) {
+                    var ctx2 = document.getElementById("myChart2").getContext('2d');
+                    var myChart2 = new Chart(ctx2, {
+                        type: 'pie',
+                        data: {
+                            labels: ["ATM", "AIRPORT", "TELECOM", "FLEET"],
+                            datasets: [{
+                                label: 'Completed Tasks',
+                                data: [atm, airport, telecom, fleet],
+                                backgroundColor: [
+                                    '#007bff',
+                                    '#dc3545',
+                                    '#21c65e',
+                                    '#ffc107'
+                                ],
+                                borderColor: [
+                                    '#007bff',
+                                    '#dc3545',
+                                    '#21c65e',
+                                    '#ffc107'
+                                ],
+                                borderWidth: 3
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                // Not Scale for PieChart
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                                labels: {
+                                    fontColor: "#000"
+                                }
+
+                            },
+                            title: {
+                                display: true,
+                                fontSize: 18,
+                                text: 'Completed Tasks'
+                            }
+                        }
+
+                    });
+
+                }
+
+                function buildOverdueTasksChart(atm, airport, telecom, fleet) {
+                    var ctx3 = document.getElementById("myChart3").getContext('2d');
+                    var myChart3 = new Chart(ctx3, {
+                        type: 'bar',
+                        data: {
+                            labels: ["ATM", "AIRPORT", "TELECOM", "FLEET"],
+                            datasets: [{
+                                display: false,
+                                label: 'Disrespected Tasks',
+                                data: [atm, airport, telecom, fleet],
+                                backgroundColor: [
+                                    '#007bff',
+                                    '#dc3545',
+                                    '#21c65e',
+                                    '#ffc107'
+                                ],
+                                borderColor: [
+                                    '#007bff',
+                                    '#dc3545',
+                                    '#21c65e',
+                                    '#ffc107'
+                                ],
+                                borderWidth: 3
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Number of Violated Tasks',
+                                        fontSize: 14
+                                    }
+                                }]
+                            },
+                            legend: {
+                                display: false,
+                                position: 'top',
+                                labels: {
+                                    fontColor: "#000"
+                                }
+
+                            },
+                            title: {
+                                display: true,
+                                fontSize: 18,
+                                text: 'Violated Tasks'
+                            }
+                        }
+                    });
+                }
+                buildRunningTasksChart({
+                            {
+                                ATM_running_value | safe
+                            },
+                            {
+                                {
+                                    Airport_running_value | safe
+                                }
+                            },
+                            {
+                                {
+                                    Telecom_running_value | safe
+                                }
+                            },
+                            {
+                                {
+                                    Fleet_running_value | safe
+                                }
+                            });
+
+                        buildDueSoonTasksChart({
+                            {
+                                ATM_due_soon_value | safe
+                            }
+                        }, {
+                            {
+                                Airport_due_soon_value | safe
+                            }
+                        }, {
+                            {
+                                Telecom_due_soon_value | safe
+                            }
+                        }, {
+                            {
+                                Fleet_due_soon_value | safe
+                            }
+                        }) buildCompletedTasksChart({
+                            {
+                                ATM_completed_value | safe
+                            }
+                        }, {
+                            {
+                                Airport_completed_value | safe
+                            }
+                        }, {
+                            {
+                                Telecom_completed_value | safe
+                            }
+                        }, {
+                            {
+                                Fleet_completed_value | safe
+                            }
+                        }); buildOverdueTasksChart({
+                            {
+                                ATM_overdue_value | safe
+                            }
+                        }, {
+                            {
+                                Airport_overdue_value | safe
+                            }
+                        }, {
+                            {
+                                Telecom_overdue_value | safe
+                            }
+                        }, {
+                            {
+                                Fleet_overdue_value | safe
+                            }
+                        });
             </script>
         </div>
     </div>

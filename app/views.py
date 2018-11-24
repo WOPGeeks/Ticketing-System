@@ -327,21 +327,32 @@ def tasks():
     Fleet_completed = ticketInstance.get_Fleet_completed_tasks()
 
     ATM_overdue = ticketInstance.get_ATM_overdue_tasks()
-    print(ATM_overdue)
+    
     Airport_overdue = ticketInstance.get_Airport_overdue_tasks()
+    
     Telecom_overdue = ticketInstance.get_Telecom_overdue_tasks()
+    
     Fleet_overdue = ticketInstance.get_Fleet_overdue_tasks()
+    
 
 
     ATM_running_value = ATM_running[0][0]
+    print(ATM_running_value)
     Airport_running_value = Airport_running[0][0]
+    print(Airport_running_value)
     Telecom_running_value = Telecom_running[0][0]
+    print(Telecom_running_value)
     Fleet_running_value = Fleet_running[0][0]
+    print(Fleet_running_value)
 
     ATM_overdue_value = ATM_overdue[0][0]
+    print(ATM_overdue_value)
     Airport_overdue_value = Airport_overdue[0][0]
+    print(Airport_overdue_value)
     Telecom_overdue_value = Telecom_overdue[0][0]
+    print(Telecom_overdue_value)
     Fleet_overdue_value = Fleet_overdue[0][0]
+    print(Fleet_overdue_value)
 
     ATM_due_soon_value = ATM_due_soon[0][0]
     Airport_due_soon_value = Airport_due_soon[0][0]
