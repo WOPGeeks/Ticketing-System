@@ -289,7 +289,7 @@
                             <label class="custom-control-label text-info" for="customCheck1">ATM</label>
                         </div>
                         {% endif %}
-                        
+
                     </div>
                     <div class="col-md-2">
                         {% if allTheTickets[25] == 2 %}
@@ -303,7 +303,7 @@
                             <label class="custom-control-label text-info" for="customCheck2">AIRPORT</label>
                         </div>
                         {% endif%}
-                       
+
                     </div>
                     <div class="col-md-2">
                         {% if allTheTickets[25] == 3 %}
@@ -317,7 +317,7 @@
                             <label class="custom-control-label text-info" for="customCheck3">TELECOM SITE</label>
                         </div>
                         {% endif%}
-                        
+
                     </div>
 
                     <div class="col-md-2">
@@ -332,7 +332,7 @@
                             <label class="custom-control-label text-info" for="customCheck4">FLEET SITE</label>
                         </div>
                         {% endif%}
-                        
+
                     </div>
                 </div>
 
@@ -358,10 +358,35 @@
                 </div>
 
                 <div class="form-row">
+                    <div class="col-md-2">
+                        {% if allTheTickets[28] == 'No' %}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="Returned" class="custom-control-input" id="customCheck8">
+                            <label class="custom-control-label text-info" for="customCheck8">Returned Parts</label>
+                        </div>
+                        {%else%}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="Returned" class="custom-control-input" id="customCheck8" checked>
+                            <label class="custom-control-label text-info" for="customCheck8">Returned Parts</label>
+                        </div>
+                        {%endif%}
+
+                    </div>
+
+                    <div class="form-group col-md-4" id="part used">
+                        <input id="parts_returned" type="text" name="ticket_part_used" value="{{allTheTickets[26]}}" class="form-control" placeholder="Part(s) Used">
+                        <div class="invalid-feedback">
+                            Input is invalid
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
                     <div class="form-group col-md-8" id="trialImages">
                         <label class="text-info" for="additional_note">Additional Note:</label>
                         <textarea id="ticket_additional_note_edit" name="ticket_additional_note_edit" value="#" class="form-control" cols="30" rows="2">{{allTheTickets[22]}}</textarea>
                     </div>
+
                 </div>
 
                 <div class="form-row">

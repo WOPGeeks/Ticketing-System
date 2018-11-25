@@ -47,6 +47,7 @@ app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = 'nyekowalter69@gmail.com'
 app.config['MAIL_PASSWORD'] = 'CATRINAH'
+app.config['MAIL_DEFAULT_SENDER '] = 'nyekowalter69@gmail.com'
 
 mail = Mail(app)
 
@@ -121,17 +122,17 @@ def add_ticket():
     ticket_assigned_to = request.form['ticket_assigned_to']
     ticket_status =  request.form['ticket_status']
     hours_to_add = request.form['hours_to_add']
-    ticket_opening_time = datetime.datetime.convert_tz(now(),'-04:00','+10:00')
-    ticket_overdue_time =  datetime.datetime.convert_tz(now(),'-04:00','+10:00') + timedelta(hours=int(hours_to_add))
+    ticket_opening_time = datetime.datetime.now()
+    ticket_overdue_time =  datetime.datetime.now() + timedelta(hours=int(hours_to_add))
     ticket_client =  request.form['ticket_client']
     ticket_po_number = request.form['ticket_po_number']
     ticket_wo_type = request.form['ticket_wo_type']
     ticket_reason = request.form['ticket_reason']
     ticket_planned_visit_date = request.form['ticket_planned_visit_date']
-    ticket_actual_visit_date = request.form['ticket_actual_visit_date']
+    
     ticket_priority = request.form['ticket_priority']
     ticket_site_id = request.form['ticket_site_id']
-    ticket_part_used = request.form['ticket_part_used']
+    
 
     ticket_type_ATM = request.form.get('ATM')
     if ticket_type_ATM:
@@ -164,20 +165,13 @@ def add_ticket():
         ticket_revisited_value = "No"
 
 
-    ticket_returned_part = request.form.get('Returned')
-    
-    if ticket_returned_part:
-        ticket_returned_part_value = "Yes"
-    else:
-        ticket_returned_part_value = "No"
-
     username = session['username']
 
     ticketInstance.add_ticket(ticket_assigned_to,ticket_opening_time,
-    ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
+    ticket_status,ticket_overdue_time,ticket_planned_visit_date,
     ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,
-    ticket_priority,username,ticket_type_value,ticket_part_used,ticket_revisited_value,
-    ticket_returned_part_value, ticket_site_id)
+    ticket_priority,username,ticket_type_value,ticket_revisited_value,
+    ticket_site_id)
     theClients = ticketInstance.get_clients()
     theEngineers = ticketInstance.get_engineers()
     theWorkOrderTypes = ticketInstance.get_work_order_types()
@@ -197,72 +191,157 @@ def get_ticket_details_for_edit(ticket_id):
 
 @app.route('/edit_ticket/<int:ticket_id>', methods=['POST'])
 def edit_ticket(ticket_id):
-    LoggedInUser = session['username']
-    LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
-    ticket_assigned_to = request.form['ticket_assigned_to_edit']
-    ticket_status =  request.form['ticket_status_edit']
-    hours_to_add = request.form['hours_to_add_edit']
-    current_ticket_overdue_time = ticketInstance.get_ticket_overdue_time_by_Id(ticket_id)
-    ticket_overdue_time =  current_ticket_overdue_time[0] + timedelta(hours=int(hours_to_add))
-    ticket_client =  request.form['ticket_client_edit']
-    ticket_po_number = request.form['ticket_po_number_edit']
-    ticket_wo_type = request.form['ticket_wo_type_edit']
-    ticket_reason = request.form['ticket_reason_edit']
-    ticket_client_visit_note = "Just for test...no client visited site"
-    ticket_planned_visit_date = request.form['ticket_planned_visit_date_edit']
-    ticket_actual_visit_date = request.form['ticket_actual_visit_date_edit']
-    ticket_priority = request.form['ticket_priority_edit']
-    ticket_root_cause = request.form['ticket_root_cause_edit']
-    ticket_action_taken = request.form['ticket_action_taken_edit']
-    ticket_pending_reason = request.form['ticket_pending_reason_edit']
-    ticket_additional_note = request.form['ticket_additional_note_edit']
-    ticket_dispatch_time = request.form['ticket_dispatch_time']
-    ticket_arrival_time = request.form['ticket_arrival_time']
-    ticket_start_time = request.form['ticket_start_time']
-    ticket_complete_time = request.form['ticket_complete_time']
-    ticket_return_time = request.form['ticket_return_time']
-    ticket_site_id = request.form['ticket_site_id_edit']
-    if ticket_status == "Closed":
-        ticket_closing_time = datetime.datetime.convert_tz(now(),'-04:00','+10:00')
-    else:
-        ticket_closing_time = None
+    try:
+        LoggedInUser = session['username']
+        LoggedInUser1 = usersInstance.checkUserRights(LoggedInUser)
+        ticket_assigned_to = request.form['ticket_assigned_to_edit']
+        ticket_status =  request.form['ticket_status_edit']
+        hours_to_add = request.form['hours_to_add_edit']
+        current_ticket_overdue_time = ticketInstance.get_ticket_overdue_time_by_Id(ticket_id)
+        ticket_overdue_time =  current_ticket_overdue_time[0] + timedelta(hours=int(hours_to_add))
+        ticket_client =  request.form['ticket_client_edit']
+        ticket_po_number = request.form['ticket_po_number_edit']
+        ticket_wo_type = request.form['ticket_wo_type_edit']
+        ticket_reason = request.form['ticket_reason_edit']
+        ticket_client_visit_note = "Just for test...no client visited site"
+        ticket_planned_visit_date = request.form['ticket_planned_visit_date_edit']
+        ticket_actual_visit_date = request.form['ticket_actual_visit_date_edit']
+        ticket_priority = request.form['ticket_priority_edit']
+        ticket_root_cause = request.form['ticket_root_cause_edit']
+        ticket_action_taken = request.form['ticket_action_taken_edit']
+        ticket_pending_reason = request.form['ticket_pending_reason_edit']
+        ticket_additional_note = request.form['ticket_additional_note_edit']
+        ticket_dispatch_time = request.form['ticket_dispatch_time']
+        ticket_arrival_time = request.form['ticket_arrival_time']
+        ticket_start_time = request.form['ticket_start_time']
+        ticket_complete_time = request.form['ticket_complete_time']
+        ticket_return_time = request.form['ticket_return_time']
+        ticket_site_id = request.form['ticket_site_id_edit']
+        ticket_returned_part = request.form.get('Returned')
+        ticket_part_used = request.form['ticket_part_used']
+        
+        if ticket_returned_part:
+            ticket_returned_part_value = "Yes"
+        else:
+            ticket_returned_part_value = "No"
 
-    ticket_type_ATM = request.form.get('ATM_edit')
-    if ticket_type_ATM:
-        ticket_type_value = 1
-    else:
-        ticket_type_value = 0
+        if ticket_status == "Closed":
+            ticket_closing_time = datetime.datetime.now()
+            try:
+                body = """
+                This email is to notify you that the call with ID of {} has been successfully closed today 
+                at {} by {}. According to the engineer, the root cause of the call was '{}' and the 
+                action taken was '{}'""".format(ticket_id,ticket_complete_time,ticket_assigned_to,ticket_root_cause,ticket_action_taken)
+            
+                theEmails = usersInstance.get_users_emails_for_alerts()
 
-    ticket_type_Airport = request.form.get('airport_edit')
-    if ticket_type_Airport:
-        ticket_type_value = 2
-    else:
-        ticket_type_value = ticket_type_value
+                emails = theEmails[0]
+                recipients_list = []
+                for email in emails:
+                    email_list = email.split(',')
+                    for eachEmail in email_list:
+                        recipients_list.append(eachEmail)
 
-    ticket_type_telecom = request.form.get('telecom_edit')
-    if ticket_type_telecom:
-        ticket_type_value = 3
-    else:
-        ticket_type_value = ticket_type_value
+                msg = Message('Call Closed Notification', sender='nyekowalter69@gmail.com', recipients=recipients_list,
+                body=body)
+                mail.send(msg)
+                print("Message Sent Successfully")
+            except Exception as e:
+                print(e)
 
-    ticket_type_fleet = request.form.get('fleet_edit')
-    if ticket_type_fleet:
-        ticket_type_value = 4
-    else:
-        ticket_type_value = ticket_type_value
+            if ticket_part_used is None:
+                pass
+            else:
 
-    ticketInstance.edit_ticket(ticket_assigned_to,
-    ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
-    ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,ticket_client_visit_note,
-    ticket_priority,ticket_root_cause,
-    ticket_action_taken,ticket_pending_reason,ticket_additional_note,ticket_site_id,ticket_closing_time,
-    ticket_dispatch_time,ticket_arrival_time,ticket_start_time,ticket_complete_time,
-    ticket_return_time,ticket_type_value,ticket_id)
-    theClients = ticketInstance.get_clients()
-    theEngineers = ticketInstance.get_engineers()
-    theWorkOrderTypes = ticketInstance.get_work_order_types()
-    return render_template('new_ticket.html',theWorkOrderTypes=theWorkOrderTypes, theEngineers=theEngineers, theClients=theClients,currentUser=LoggedInUser1)
+                try:
+                    body = """
+                    This email is to notify you that the call with ID of {} is being worked on right now and 
+                    emgineer {} has just replaced the {}. According to the engineer, the root cause of the call was '{}' and the 
+                    action taken was '{}'""".format(ticket_id,ticket_assigned_to,ticket_part_used,ticket_root_cause,ticket_action_taken)
+                
+                    theEmails = usersInstance.get_users_emails_for_alerts()
 
+                    emails = theEmails[0]
+                    recipients_list = []
+                    for email in emails:
+                        email_list = email.split(',')
+                        for eachEmail in email_list:
+                            recipients_list.append(eachEmail)
+
+                    msg = Message('Part Replaced Notification', sender='nyekowalter69@gmail.com', recipients=recipients_list,
+                    body=body)
+                    mail.send(msg)
+                    print("Message Sent Successfully")
+                except Exception as e:
+                    print(e)
+
+
+            
+        else:
+            ticket_closing_time = None
+            if ticket_part_used is None:
+                pass
+            else:
+
+                try:
+                    body = """
+                    This email is to notify you that the call with ID of {} is being worked on right now and 
+                    emgineer {} has just replaced the {}. According to the engineer, the root cause of the call was '{}' and the 
+                    action taken was '{}'""".format(ticket_id,ticket_assigned_to,ticket_part_used,ticket_root_cause,ticket_action_taken)
+                
+                    theEmails = usersInstance.get_users_emails_for_alerts()
+
+                    emails = theEmails[0]
+                    recipients_list = []
+                    for email in emails:
+                        email_list = email.split(',')
+                        for eachEmail in email_list:
+                            recipients_list.append(eachEmail)
+
+                    msg = Message('Part Replaced Notification', sender='nyekowalter69@gmail.com', recipients=recipients_list,
+                    body=body)
+                    mail.send(msg)
+                    print("Message Sent Successfully")
+                except Exception as e:
+                    print(e)
+
+        ticket_type_ATM = request.form.get('ATM_edit')
+        if ticket_type_ATM:
+            ticket_type_value = 1
+        else:
+            ticket_type_value = 0
+
+        ticket_type_Airport = request.form.get('airport_edit')
+        if ticket_type_Airport:
+            ticket_type_value = 2
+        else:
+            ticket_type_value = ticket_type_value
+
+        ticket_type_telecom = request.form.get('telecom_edit')
+        if ticket_type_telecom:
+            ticket_type_value = 3
+        else:
+            ticket_type_value = ticket_type_value
+
+        ticket_type_fleet = request.form.get('fleet_edit')
+        if ticket_type_fleet:
+            ticket_type_value = 4
+        else:
+            ticket_type_value = ticket_type_value
+
+        ticketInstance.edit_ticket(ticket_assigned_to,
+        ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
+        ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,ticket_client_visit_note,
+        ticket_priority,ticket_root_cause,
+        ticket_action_taken,ticket_pending_reason,ticket_additional_note,ticket_site_id,ticket_closing_time,
+        ticket_dispatch_time,ticket_arrival_time,ticket_start_time,ticket_complete_time,
+        ticket_return_time,ticket_type_value,ticket_part_used,ticket_returned_part_value,ticket_id)
+        theClients = ticketInstance.get_clients()
+        theEngineers = ticketInstance.get_engineers()
+        theWorkOrderTypes = ticketInstance.get_work_order_types()
+        return render_template('new_ticket.html',theWorkOrderTypes=theWorkOrderTypes, theEngineers=theEngineers, theClients=theClients,currentUser=LoggedInUser1)
+    except Exception as e:
+        raise(e)
 
 @app.route('/view_all_tickets', methods=['GET'])
 def view_all_tickets():
@@ -537,13 +616,21 @@ def add_user():
     else:
         can_add_delete_edit_workorder_value = 0
 
+    can_receive_email_alerts = request.form.get('can_receive_email_alerts')
+    if can_receive_email_alerts:
+        can_receive_email_alerts_value = 1
+    else:
+        can_receive_email_alerts_value = 0
+
+
     encryptedPassword = sha256_crypt.encrypt(str(userPassword))
     usersInstance.add_user(firstName,lastName,email,userAddress,userPhone,userName,encryptedPassword,
     can_add_user_value,can_delete_user_value,can_edit_user_value,can_edit_his_info_value,
     can_open_tickets_value,can_edit_tickets_value,can_delete_tickets_value,can_view_all_tickets_value,
     can_view_his_tickets_value,can_edit_his_tickets_value,can_view_his_tasks_value,can_view_all_tasks_value,
     can_view_his_reports_value,can_view_all_reports_value,can_add_delete_edit_client_value,
-    can_add_delete_edit_engineer_value,can_add_delete_edit_equipment_value,can_add_delete_edit_workorder_value)
+    can_add_delete_edit_engineer_value,can_add_delete_edit_equipment_value,can_add_delete_edit_workorder_value,
+    can_receive_email_alerts_value)
     theReturnedUsers = usersInstance.view_all_users()
     if g.username:
         return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser1)
@@ -776,13 +863,20 @@ def edit_user(user_id):
     else:
         can_add_delete_edit_workorder_value = 0
 
+
+    user_can_receive_email_alerts_edit = request.form.get('user_can_receive_email_alerts_edit')
+    if user_can_receive_email_alerts_edit:
+        user_can_receive_email_alerts_edit_value = 1
+    else:
+        user_can_receive_email_alerts_edit_value = 0
+
     encryptedPassword = sha256_crypt.encrypt(str(userPassword))
     usersInstance.edit_a_user(user_id,firstName, lastName,email,userPhone,userAddress,userName,encryptedPassword,
     can_add_user_value,can_delete_user_value,can_edit_user_value,can_edit_his_info_value,
     can_open_tickets_value,can_edit_tickets_value,can_delete_tickets_value,can_view_all_tickets_value,
     can_view_his_tickets_value,can_edit_his_tickets_value,can_view_his_tasks_value,can_view_all_tasks_value,
     can_view_his_reports_value,can_view_all_reports_value,can_add_delete_edit_client_value,
-    can_add_delete_edit_engineer_value,can_add_delete_edit_equipment_value,can_add_delete_edit_workorder_value)
+    can_add_delete_edit_engineer_value,can_add_delete_edit_equipment_value,can_add_delete_edit_workorder_value,user_can_receive_email_alerts_edit_value)
     theReturnedUsers = usersInstance.view_all_users()
     if g.username:
         return render_template('view_users.html', allTheUsers=theReturnedUsers,currentUser=LoggedInUser1)

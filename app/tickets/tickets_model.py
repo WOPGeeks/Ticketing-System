@@ -6,31 +6,31 @@ import psycopg2
 dbInstance = DatabaseConnectivity()
 class Tickets:
     def add_ticket(self,ticket_assigned_to,ticket_opening_time,
-        ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
+        ticket_status,ticket_overdue_time,ticket_planned_visit_date,
         ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,
-        ticket_priority,username,ticket_type,ticket_part_used,ticket_revisited_value,
-        ticket_returned_part_value,ticket_site_id):
+        ticket_priority,username,ticket_type,ticket_revisited_value,ticket_site_id):
         try:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
             sql = """
             INSERT INTO tickets(ticket_assigned_to,ticket_opening_time,
-            ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
+            ticket_status,ticket_overdue_time,ticket_planned_visit_date,
             ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,
-            ticket_priority,username,ticket_type,ticket_part_used,
-            ticket_revisited,ticket_part_returned,ticket_site_id) VALUES(
-            %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            ticket_priority,username,ticket_type,
+            ticket_revisited,ticket_site_id) VALUES(
+            %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
             """
             cur.execute(sql,(ticket_assigned_to,ticket_opening_time,
-            ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
+            ticket_status,ticket_overdue_time,ticket_planned_visit_date,
             ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,
-            ticket_priority,username,ticket_type,ticket_part_used,ticket_revisited_value,
-            ticket_returned_part_value,ticket_site_id))
+            ticket_priority,username,ticket_type,ticket_revisited_value,ticket_site_id))
             conn.commit()
             flash('Ticket Opened Successfully','success')
         except(Exception, psycopg2.DatabaseError) as e:
             print(e)
-            flash('Error submiting the data to database','danger')
+            flash('Error submiting the ticket to database','danger')
+
+
     def sqlStatment(self):
             self.sql = """
             SELECT ticket_id,ticket_reason,ticket_assigned_to,ticket_client,
@@ -333,7 +333,8 @@ class Tickets:
     ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,ticket_client_visit_note,
     ticket_priority,ticket_root_cause,
     ticket_action_taken,ticket_pending_reason,ticket_additional_note,ticket_site_id,ticket_closing_time,
-    ticket_dispatch_time,ticket_arrival_time,ticket_start_time,ticket_complete_time,ticket_return_time,ticket_type,ticket_id):
+    ticket_dispatch_time,ticket_arrival_time,ticket_start_time,ticket_complete_time,ticket_return_time,ticket_type,
+    ticket_part_used,ticket_returned_part_value,ticket_id):
         try:
             conn = dbInstance.connectToDatabase()
             cur = conn.cursor()
@@ -343,20 +344,23 @@ class Tickets:
             ticket_client=%s,ticket_po_number=%s,ticket_wo_type=%s,ticket_reason=%s,ticket_client_visit_note=%s,
             ticket_priority=%s,ticket_root_cause=%s,
             ticket_action_taken=%s,ticket_pending_reason=%s,ticket_additional_note=%s,ticket_site_id=%s,ticket_closing_time=%s,
-            ticket_dispatch_time=%s,ticket_arrival_time=%s,ticket_start_time=%s,ticket_complete_time=%s,ticket_return_time=%s,ticket_type=%s WHERE ticket_id=%s
+            ticket_dispatch_time=%s,ticket_arrival_time=%s,ticket_start_time=%s,ticket_complete_time=%s,ticket_return_time=%s,ticket_type=%s,
+            ticket_part_used=%s,ticket_part_returned=%s WHERE ticket_id=%s
             """
             cur.execute(sql,(ticket_assigned_to,
             ticket_status,ticket_overdue_time,ticket_planned_visit_date,ticket_actual_visit_date,
             ticket_client,ticket_po_number,ticket_wo_type,ticket_reason,ticket_client_visit_note,
             ticket_priority,ticket_root_cause,
             ticket_action_taken,ticket_pending_reason,ticket_additional_note,ticket_site_id,ticket_closing_time,
-            ticket_dispatch_time,ticket_arrival_time,ticket_start_time,ticket_complete_time,ticket_return_time,ticket_type,ticket_id))
+            ticket_dispatch_time,ticket_arrival_time,ticket_start_time,ticket_complete_time,ticket_return_time,ticket_type,
+            ticket_part_used,ticket_returned_part_value,ticket_id))
             conn.commit()
             if ticket_status == "Closed":
                 flash('Ticket Closed Successfully','success')
             else:
                 flash('Ticket Edited Successfully','success')
-        except:
+        except Exception as e:
+            raise(e)
             flash('Error submiting the data to database','danger')
 
 
