@@ -547,3 +547,28 @@ class Tickets:
         ticket_dispatch_time,ticket_arrival_time,ticket_start_time,ticket_complete_time,
         ticket_return_time,ticket_part_used,ticket_revisited,ticket_part_returned FROM tickets ORDER BY ticket_opening_time DESC""")
         return self.ticket_counts
+
+    def get_tickets_for_alerts(self):
+        try:
+            conn = dbInstance.connectToDatabase()
+            cur = conn.cursor()
+            sql = """SELECT ticket_id, ticket_assigned_to, 
+            ticket_opening_time, ticket_planned_visit_date, 
+            ticket_priority FROM tickets WHERE TIMESTAMPDIFF(MINUTE,now(),ticket_overdue_time)<360 AND 
+            TIMESTAMPDIFF(MINUTE,now(),ticket_overdue_time)>0 AND ticket_notified=0"""
+            cur.execute(sql)
+            self.theUsers = cur.fetchall()
+            return self.theUsers
+        except:
+            flash('Error retrieving users emails from database','danger')
+
+    def update_notified_tickets(self, ticket_id):
+        try:
+            conn = dbInstance.connectToDatabase()
+            cur = conn.cursor()
+            sql = """UPDATE tickets SET ticket_notified=1 WHERE ticket_id={}""".format(ticket_id)
+            cur.execute(sql)
+            conn.commit()
+        except:
+            flash('Error updating ticket notified in the database','danger')
+

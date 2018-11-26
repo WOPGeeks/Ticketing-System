@@ -256,7 +256,7 @@ def edit_ticket(ticket_id):
                 try:
                     body = """
                     This email is to notify you that the call with ID of {} is being worked on right now and 
-                    emgineer {} has just replaced the {}. According to the engineer, the root cause of the call was '{}' and the 
+                    engineer {} has just replaced the {}. According to the engineer, the root cause of the call was '{}' and the 
                     action taken was '{}'""".format(ticket_id,ticket_assigned_to,ticket_part_used,ticket_root_cause,ticket_action_taken)
                 
                     theEmails = usersInstance.get_users_emails_for_alerts()
@@ -286,7 +286,7 @@ def edit_ticket(ticket_id):
                 try:
                     body = """
                     This email is to notify you that the call with ID of {} is being worked on right now and 
-                    emgineer {} has just replaced the {}. According to the engineer, the root cause of the call was '{}' and the 
+                    engineer {} has just replaced the {}. According to the engineer, the root cause of the call was '{}' and the 
                     action taken was '{}'""".format(ticket_id,ticket_assigned_to,ticket_part_used,ticket_root_cause,ticket_action_taken)
                 
                     theEmails = usersInstance.get_users_emails_for_alerts()
@@ -1328,22 +1328,48 @@ def upload_equipments():
 
 
 
-
-
 cron = Scheduler(daemon=True)
 # Explicitly kick off the background thread
 cron.start()
 
 @cron.interval_schedule(seconds=5)
 def job_function():
-    pass
-    # try:
-    #     msg = Message('The Subject', sender='nyekowalter69@gmail.com', recipients=['sandieo.2020@gmail.com'], body='Just testing')
-    #     mail.send(msg)
-    #     print("Message Sent Successfully")
-    # except Exception as e:
-    #     print(e)
+    with app.app_context():
+        print("Running every 5 seconds")
+        tickets = ticketInstance.get_tickets_for_alerts()
+        for ticket in tickets:
+            ticket_id = ticket[0]
+            ticket_assigned_to = ticket[1]
+            ticket_opening_time = ticket[2]
+            ticket_planned_visit_date = ticket[3]
+            ticket_priority = ticket[4]
+            print(ticket_assigned_to)
+            try:
+                
+                body = """
+                This email is to notify you that the call with ID of {} shall run out of schedule in the next six(6) hours. 
+                Engineer {} is responsible for this site. The ticket was opened on {} and expected to be attended to on {}.
+                The priority of this call is {}.""".format(ticket_id,ticket_assigned_to,ticket_opening_time,
+                ticket_planned_visit_date,ticket_priority)
+
+                theEmails = usersInstance.get_users_emails_for_alerts()
+
+                emails = theEmails[0]
+                recipients_list = []
+                for email in emails:
+                    email_list = email.split(',')
+                    for eachEmail in email_list:
+                        recipients_list.append(eachEmail)
+
+                msg = Message('Overdue Call Notification', sender='nyekowalter69@gmail.com', recipients=recipients_list,
+                body=body)
+                mail.send(msg)
+                print("Message Sent Successfully")
+                ticketInstance.update_notified_tickets(ticket_id)
+            except Exception as e:
+                print(e)
+
 
 
 # Shutdown your cron thread if the web process is stopped
-atexit.register(lambda: cron.shutdown(wait=False))
+# atexit.register(lambda: cron.shutdown(wait=False))
