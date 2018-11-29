@@ -559,8 +559,8 @@ class Tickets:
             cur.execute(sql)
             self.theUsers = cur.fetchall()
             return self.theUsers
-        except:
-            flash('Error retrieving users emails from database','danger')
+        except Exception as e:
+            raise(e)
 
     def update_notified_tickets(self, ticket_id):
         try:
