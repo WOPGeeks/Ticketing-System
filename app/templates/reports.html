@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Zubacx Account | Reports</title>
+    <title>Zubacx | Reports</title>
     <script src="../static/css/Chart.min.js"></script>
     <link rel="stylesheet" href="../static/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/css/styles.css">
@@ -171,11 +171,11 @@
         <!-- Page Content  -->
         <div id="content" class="mt-5">
 
-           <div class="row mb-4">
+            <div class="row mb-4">
                 <div class="col-md-12">
                     <h5><i class="fas fa-star"></i> Engineers Reports</h5>
                 </div>
-           </div>
+            </div>
             <div class="row">
                 <div class="col-md-12">
 
@@ -207,27 +207,27 @@
                                 <tbody>
                                     {% for eachTicket in allTheTickets%}
                                     <tr>
-                                            <td>{{eachTicket[0]}}</td>
-                                            <td>{{eachTicket[1]}}</td>
-                                            <td>{{eachTicket[2]}}</td>
-                                            <td>{{eachTicket[3]}}</td>
-                                            <td>{{eachTicket[4]}}</td>
-                                            <td>{{eachTicket[5]}}</td>
-                                            <td>{{eachTicket[6]}}</td>
-                                            <td>{{eachTicket[7]}}</td>
-                                            <td>{{eachTicket[8]}}</td>
-                                            <td>{{eachTicket[9]}}</td>
-                                            <td>{{eachTicket[10]}}</td>
-                                            <td>{{eachTicket[11]}}</td>
-                                            <td>{{eachTicket[12]}}</td>
-                                            <td>{{eachTicket[13]}}</td>
-                                            <td>{{eachTicket[14]}}</td>
-                                            <td>{{eachTicket[15]}}</td>
-                                            <td>{{eachTicket[16]}}</td>
-                                            <td>{{eachTicket[17]}}</td>
-                                        </tr>
-                                        {% endfor%}
-                                   
+                                        <td>{{eachTicket[0]}}</td>
+                                        <td>{{eachTicket[1]}}</td>
+                                        <td>{{eachTicket[2]}}</td>
+                                        <td>{{eachTicket[3]}}</td>
+                                        <td>{{eachTicket[4]}}</td>
+                                        <td>{{eachTicket[5]}}</td>
+                                        <td>{{eachTicket[6]}}</td>
+                                        <td>{{eachTicket[7]}}</td>
+                                        <td>{{eachTicket[8]}}</td>
+                                        <td>{{eachTicket[9]}}</td>
+                                        <td>{{eachTicket[10]}}</td>
+                                        <td>{{eachTicket[11]}}</td>
+                                        <td>{{eachTicket[12]}}</td>
+                                        <td>{{eachTicket[13]}}</td>
+                                        <td>{{eachTicket[14]}}</td>
+                                        <td>{{eachTicket[15]}}</td>
+                                        <td>{{eachTicket[16]}}</td>
+                                        <td>{{eachTicket[17]}}</td>
+                                    </tr>
+                                    {% endfor%}
+
                                 </tbody>
                             </table>
                         </div>
@@ -237,8 +237,8 @@
                 </div>
             </div>
 
-            </div>
         </div>
+    </div>
     </div>
 
     <!-- Modal -->
@@ -280,13 +280,13 @@
 
     <script>
         $(document).ready(function() {
-    $('#myTable').DataTable( {
-        dom: 'Bfrtip',
-        buttons: [
-            'excel', 'pdf', 'print'
-        ]
-    } );
-} );
+            $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf', 'print'
+                ]
+            });
+        });
     </script>
 </body>
 

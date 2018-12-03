@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Zoho Account | Clients</title>
+    <title>Zubacx | Clients</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -217,13 +217,13 @@
                     <p class="lead">Are you sure you want to delete?</p>
                 </div>
                 <div class="modal-footer">
-                        {% for eachClient in allTheClients%}
-                        <form method="POST" onsubmit="return getURL()">
-                            {% endfor%}   
-                            <button type="submit" class="btn btn-primary">Delete</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" formnovalidate>Close</button>
-                        </form>
-                        </div>
+                    {% for eachClient in allTheClients%}
+                    <form method="POST" onsubmit="return getURL()">
+                        {% endfor%}
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" formnovalidate>Close</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -232,12 +232,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script>
-    function getURL(){
-        var id = localStorage.getItem(id);
-        console.log(id)
-        var url = "/all_the_clients/"+id 
-        return url;
-    }
+        function getURL() {
+            var id = localStorage.getItem(id);
+            console.log(id)
+            var url = "/all_the_clients/" + id
+            return url;
+        }
     </script>
 </body>
 
